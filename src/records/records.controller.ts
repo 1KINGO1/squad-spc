@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Req } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Req } from "@nestjs/common";
 import { RecordsService } from "./records.service";
 import { Auth, AuthRoles } from "../auth/guards/auth.guard";
 import { User } from "../users/entity/User.entity";
@@ -39,6 +39,14 @@ export class RecordsController {
         ...body
       }
     );
+  }
+
+  @Delete(':recordId')
+  async deleteRecord(
+    @Req() req: Request & {user: User },
+    @Param('recordId', ParseIntPipe) recordId: number
+  ) {
+    return this.recordsService.deleteRecord(recordId, req.user);
   }
 
 }

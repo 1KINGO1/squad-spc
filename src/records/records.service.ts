@@ -6,6 +6,7 @@ import { GetRecordsOptionsInterface } from "./interfaces/get-records-options.int
 import { ClansService } from "../clans/clans.service";
 import { AuthRoles } from "../auth/guards/auth.guard";
 import { CreateRecordOptions } from "./interfaces/create-record-options.interface";
+import { User } from "../users/entity/User.entity";
 
 @Injectable()
 export class RecordsService {
@@ -99,6 +100,24 @@ export class RecordsService {
       },
       relations: ["group", "clan"]
     });
+  }
+
+  async deleteRecord(recordId: number, user: User) {
+    const record = await this.recordsRepository.findOne({ where: { id: recordId }, relations: ["clan", "clan.clan_leaders"] });
+    if (!record) {
+      throw new BadRequestException("Record not found");
+    }
+
+    const clan = record.clan;
+
+    const isAdmin = [AuthRoles.Admin, AuthRoles.Root].includes(user.permission);
+    const isClanLeader = clan.clan_leaders.find(leader => leader.id === user.id);
+    if ( !isClanLeader && !isAdmin ) {
+      throw new ForbiddenException("You do not have permission to delete records for this clan");
+    }
+
+    await this.recordsRepository.remove(record);
+    return record;
   }
 
 }
