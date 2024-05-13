@@ -14,6 +14,7 @@ import { DatabaseSeedModule } from './database-seed/database-seed.module';
 import { RecordsModule } from './records/records.module';
 import { Record } from "./records/entity/Record.entity";
 import { Limit } from "./clans/entity/Limit.entity";
+import { OutputModule } from './output/output.module';
 
 @Module({
   imports: [
@@ -33,7 +34,8 @@ import { Limit } from "./clans/entity/Limit.entity";
     PermissionsModule,
     ClansModule,
     DatabaseSeedModule,
-    RecordsModule
+    RecordsModule,
+    OutputModule
   ],
   controllers: [],
 })

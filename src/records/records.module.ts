@@ -15,7 +15,8 @@ import { ListsModule } from "../lists/lists.module";
     ListsModule
   ],
   providers: [RecordsService],
-  controllers: [RecordsController]
+  controllers: [RecordsController],
+  exports: [RecordsService]
 })
 export class RecordsModule {
 }

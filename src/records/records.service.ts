@@ -87,4 +87,18 @@ export class RecordsService {
     return this.recordsRepository.save(record);
   }
 
+  async getRecordsByListPath(listPath: string){
+    return this.recordsRepository.find({
+      where: {
+        list: { path: listPath }
+      },
+      order: {
+        clan: {
+          create_date: "DESC"
+        }
+      },
+      relations: ["group", "clan"]
+    });
+  }
+
 }
