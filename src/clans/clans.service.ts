@@ -38,14 +38,19 @@ export class ClansService {
     let allClans = await this.clansRepository.find(
       {
         where: listId ? { allowed_lists: { id: listId } } : {},
-        relations: include,
+        relations: ["clan_leaders", ...include],
         take: limit,
         skip: offset
       }
     );
 
     if ([AuthRoles.Admin, AuthRoles.Root].includes(user.permission)) {
-      return allClans;
+      return allClans.map(clan => {
+        if (!include?.includes("clan_leaders")) {
+          delete clan.clan_leaders;
+        }
+        return clan;
+      });
     }
 
     // Return clans where the user is a clan leader
@@ -54,7 +59,13 @@ export class ClansService {
         clan.clan_leaders.some(
           leader => leader.steam_id === user.steam_id
         )
-      );
+      )
+      .map(clan => {
+        if (!include?.includes("clan_leaders")) {
+          delete clan.clan_leaders;
+        }
+        return clan;
+      });
   }
 
   async getClansByIds(id: number[]) {
