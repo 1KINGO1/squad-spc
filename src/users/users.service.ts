@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable } from "@nestjs/common";
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "./entity/User.entity";
 import { Repository } from "typeorm";
@@ -65,6 +65,14 @@ export class UsersService {
     return query.getMany();
   }
 
+  async findById(id: number){
+    const user = await this.usersRepository.findOneBy({id});
+    if(!user){
+      throw new NotFoundException('User not found');
+    }
+    return user;
+  }
+
   async findBySteamId(steam_id: string){
     return this.usersRepository.findOneBy({steam_id});
   }
@@ -94,5 +102,20 @@ export class UsersService {
 
     await this.usersRepository.save(userToUpdate);
     return userToUpdate;
+  }
+
+  async deleteById(id: number, user: User){
+    const userToDelete = await this.findById(id);
+
+    if (user.id === id) {
+      throw new ForbiddenException('You cannot delete yourself');
+    }
+
+    if (userToDelete.permission === AuthRoles.Root) {
+      throw new ForbiddenException('You cannot delete root user');
+    }
+
+    await this.usersRepository.remove(userToDelete);
+    return userToDelete;
   }
 }

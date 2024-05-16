@@ -1,4 +1,15 @@
-import { Body, Controller, ForbiddenException, Get, Param, ParseIntPipe, Patch, Query, Req } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  ForbiddenException,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Query,
+  Req
+} from "@nestjs/common";
 import { Auth, AuthRoles } from "../auth/guards/auth.guard";
 import { UsersService } from "./users.service";
 import { UpdateUserDto } from "./dtos/update-user.dto";
@@ -46,5 +57,12 @@ export class UsersController {
     return this.usersService.update(id, req.user, body);
   }
 
-  // Todo: DELETE user
+  @Auth([AuthRoles.Root])
+  @Delete(":id")
+  async delete(
+    @Req() req: Request & {user: User},
+    @Param("id", ParseIntPipe) id: number
+  ){
+    return this.usersService.deleteById(id, req.user);
+  }
 }
