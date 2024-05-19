@@ -3,6 +3,17 @@ import * as path from "path";
 import { BaseLogger } from "./providers/base-logger";
 import { LoggerRequestBody } from "./types/logger-request-body.interface";
 
+/*
+
+  Logger syntax
+  <b><b> - bold
+  <code><code> - code
+
+
+
+ */
+
+
 class Logger {
 
   private loggers: BaseLogger[];
