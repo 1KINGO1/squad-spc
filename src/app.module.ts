@@ -18,8 +18,6 @@ import { OutputModule } from './output/output.module';
 
 @Module({
   imports: [
-    UsersModule,
-    AuthModule,
     TypeOrmModule.forRoot({
       type: "postgres",
       host: "localhost",
@@ -30,12 +28,14 @@ import { OutputModule } from './output/output.module';
       entities: [User, List, Permission, Group, Clan, Record, Limit],
       synchronize: process.env.NODE_ENV === 'development'
     }),
+    UsersModule,
+    AuthModule,
     ListsModule,
     PermissionsModule,
     ClansModule,
     DatabaseSeedModule,
     RecordsModule,
-    OutputModule
+    OutputModule,
   ],
   controllers: [],
 })
