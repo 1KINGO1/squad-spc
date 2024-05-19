@@ -16,7 +16,7 @@ import { LoggerRequestBody } from "./types/logger-request-body.interface";
 
 class Logger {
 
-  private loggers: BaseLogger[];
+  private loggers: BaseLogger[] = [];
 
   constructor() {
     async function getLoggers(): Promise<{default: typeof BaseLogger}[]> {

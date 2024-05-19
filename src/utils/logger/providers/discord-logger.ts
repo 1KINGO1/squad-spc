@@ -92,12 +92,12 @@ class DiscordLogger extends BaseLogger {
     return axios.post(this.url, {
         embeds: [
           {
+            ...body,
             description: body.description ?
               body.description
                 .replaceAll('<b>', '**')
                 .replaceAll('<code>', '`')
               : undefined,
-            ...body,
             color: parseInt(body.color.replaceAll('#', '0x')) || 0,
             footer: {
               text: body.footer?.text ? body.footer.text + " © SPC" : "© SPC",
