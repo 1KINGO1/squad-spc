@@ -88,8 +88,6 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
 
       const responseData = data as Record;
 
-      console.log(path, method);
-
       switch (method) {
         case 'POST':
           if (path.match(/clan\/\d+\/list\/\d+/)){
