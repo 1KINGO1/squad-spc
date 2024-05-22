@@ -53,7 +53,9 @@ export class RecordsService {
       throw new ForbiddenException("You do not have permission to create records for this clan");
     }
 
-    if (!clan.allowed_lists.find(list => list.id === listId)) {
+    const list = clan.allowed_lists.find(list => list.id === listId);
+
+    if (!list) {
       throw new BadRequestException("Clan does not have access to this list");
     }
 
@@ -76,9 +78,9 @@ export class RecordsService {
     }
 
     const record = this.recordsRepository.create({
-      clan: { id: clanId },
-      list: { id: listId },
-      group: { id: groupId },
+      clan: { id: clanId, name: clan.name },
+      list: { id: listId, name: list.name },
+      group: { id: groupId, name: limit.group.name },
       username,
       steam_id,
       expire_date: expire_date || null,

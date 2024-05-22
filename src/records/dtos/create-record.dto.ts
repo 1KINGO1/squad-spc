@@ -2,7 +2,7 @@ import {
   MinLength,
   MaxLength,
   Length,
-  isDate, IsDate, IsOptional, IsPositive, IsNumber
+  isDate, IsDate, IsOptional, IsPositive, IsNumber, IsDateString
 } from "class-validator";
 
 export class CreateRecordDto {
@@ -13,7 +13,7 @@ export class CreateRecordDto {
   @Length(17, 17)
   steam_id: string;
 
-  @IsDate()
+  @IsDateString()
   @IsOptional()
   expire_date?: Date;
 
