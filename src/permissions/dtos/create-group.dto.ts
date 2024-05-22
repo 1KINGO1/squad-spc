@@ -1,4 +1,4 @@
-import { MaxLength, MinLength, IsNumber, ArrayMaxSize } from "class-validator";
+import { MaxLength, MinLength, IsNumber, ArrayMaxSize, ArrayMinSize } from "class-validator";
 
 export class CreateGroupDto {
   @MinLength(3)
@@ -7,5 +7,6 @@ export class CreateGroupDto {
 
   @IsNumber({},{each: true})
   @ArrayMaxSize(25)
+  @ArrayMinSize(1)
   permissions: number[];
 }
