@@ -56,9 +56,10 @@ class DiscordLogger extends BaseLogger {
   private async logCreated(body: LoggerRequestBody) {
     const message: DiscordMessageBody = {
       title: body.title || undefined,
-      description: body.message,
+      description: body.message || undefined,
       color: "#00a22d",
-      timestamp: new Date()
+      timestamp: new Date(),
+      fields: body.fields?.map(field => ({name: field.name, value: field.value, inline: false}))
     };
 
     return this.sendToDiscord(message);
@@ -67,9 +68,10 @@ class DiscordLogger extends BaseLogger {
   private async logUpdated(body: LoggerRequestBody) {
     const message: DiscordMessageBody = {
       title: body.title || undefined,
-      description: body.message,
+      description: body.message || undefined,
       color: "#bb9900",
-      timestamp: new Date()
+      timestamp: new Date(),
+      fields: body.fields?.map(field => ({name: field.name, value: field.value, inline: false}))
     };
 
     return this.sendToDiscord(message);
@@ -78,9 +80,10 @@ class DiscordLogger extends BaseLogger {
   private async logDeleted(body: LoggerRequestBody) {
     const message: DiscordMessageBody = {
       title: body.title || undefined,
-      description: body.message,
+      description: body.message || undefined,
       color: "#980000",
-      timestamp: new Date()
+      timestamp: new Date(),
+      fields: body.fields?.map(field => ({name: field.name, value: field.value, inline: false}))
     };
 
     return this.sendToDiscord(message);
