@@ -15,6 +15,9 @@ import { RecordsModule } from './records/records.module';
 import { Record } from "./records/entity/Record.entity";
 import { Limit } from "./clans/entity/Limit.entity";
 import { OutputModule } from './output/output.module';
+import { LoggerModule } from './logger/logger.module';
+import { APP_INTERCEPTOR } from "@nestjs/core";
+import { LoggerInterceptor } from "./logger/logger.interceptor";
 
 @Module({
   imports: [
@@ -36,8 +39,15 @@ import { OutputModule } from './output/output.module';
     DatabaseSeedModule,
     RecordsModule,
     OutputModule,
+    LoggerModule,
   ],
   controllers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggerInterceptor,
+    },
+  ],
 })
 export class AppModule {
 }

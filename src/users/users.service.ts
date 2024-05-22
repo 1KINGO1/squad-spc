@@ -7,8 +7,8 @@ import { AuthRoles } from "../auth/guards/auth.guard";
 import { ClansService } from "../clans/clans.service";
 import { DatabaseSeedService } from "../database-seed/database-seed.service";
 
-import logger from "../utils/logger/logger";
-import { LoggerLevel } from "../utils/logger/types/logger-level.enum";
+import logger from "../logger/logger";
+import { LoggerLevel } from "../logger/types/logger-level.enum";
 
 type createUserObj =
   Required<Pick<User, 'steam_id'>> &
@@ -100,8 +100,6 @@ export class UsersService {
       throw new BadRequestException('User not found');
     }
 
-    const userToUpdatePermission = userToUpdate.permission;
-
     if (updateObj?.permission !== undefined) {
       if (user.permission <= updateObj.permission) {
         throw new ForbiddenException('You cannot update a user with a higher permission level than yourself');
@@ -113,17 +111,6 @@ export class UsersService {
       userToUpdate.clans = await this.clansService.getClansByIds(updateObj.clan_ids);
     }
     await this.usersRepository.save(userToUpdate);
-
-    if (updateObj.permission !== undefined || updateObj.clan_ids !== undefined) {
-      logger.log({
-        level: LoggerLevel.UPDATED,
-        image_url: userToUpdate.avatar_url,
-        message: `Updated user <b>${userToUpdate.username}<b> <code>${userToUpdate.steam_id}<code>
-By <b>${user.username}<b> <code>${user.steam_id}<code>
-${updateObj.permission !== undefined ? `Permission: ${AuthRoles[userToUpdatePermission]} -> <b>${AuthRoles[updateObj.permission]}<b>\n` : ''}${updateObj.clan_ids !== undefined ? `Clan ID's: <b>${updateObj.clan_ids.join(',')}<b>` : ''}`,
-        title: 'User updated',
-      })
-    }
 
     return userToUpdate;
   }
@@ -138,13 +125,6 @@ ${updateObj.permission !== undefined ? `Permission: ${AuthRoles[userToUpdatePerm
     if (userToDelete.permission === AuthRoles.Root) {
       throw new ForbiddenException('You cannot delete root user');
     }
-
-    logger.log({
-      level: LoggerLevel.DELETED,
-      title: 'User deleted',
-      image_url: userToDelete.avatar_url,
-      message: `Deleted user <b>${userToDelete.username}<b> <code>${userToDelete.steam_id}<code>\nBy <b>${user.username}<b> <code>${user.steam_id}<code>`,
-    });
 
     await this.usersRepository.remove(userToDelete);
     return userToDelete;

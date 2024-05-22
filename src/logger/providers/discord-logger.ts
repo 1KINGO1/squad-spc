@@ -1,4 +1,4 @@
-import config from "../../../config";
+import config from "../../config";
 import { BaseLogger } from "./base-logger";
 import axios from "axios";
 import { LoggerRequestBody } from "../types/logger-request-body.interface";
