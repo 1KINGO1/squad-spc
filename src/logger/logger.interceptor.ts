@@ -9,6 +9,7 @@ import { AuthRoles } from "../auth/guards/auth.guard";
 import { Record } from "../records/entity/Record.entity";
 import { Group } from "../permissions/entity/Group.entity";
 import { List } from "../lists/entity/List.entity";
+import { Clan } from "../clans/entity/Clan.entity";
 
 interface PathLog{
   method: string;
@@ -45,6 +46,9 @@ export class LoggerInterceptor implements NestInterceptor {
           }
           if (path.startsWith('lists')) {
             return this.listsLog(logData);
+          }
+          if (path.startsWith('clans')) {
+            return this.clansLog(logData);
           }
         }),
       );
@@ -349,6 +353,102 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
         break;
     }
   }
+  // Handler for clans module
+  private clansLog({ method, path, data, body, user }: PathLog) {
+    path = path.replace(/^\/?clans\/?/g, '');
 
+    let responseData = data as Clan;
+
+    switch (method) {
+      case 'POST':
+        if (path.match(/^/)){
+          return logger.log({
+            level: LoggerLevel.CREATED,
+            title: 'Clan created',
+            fields: [
+              {
+                name: 'Clan ID',
+                value: responseData.id + '',
+              },
+              {
+                name: 'Name',
+                value: responseData.name,
+              },
+              {
+                name: 'Clan Tag',
+                value: responseData.tag,
+              },
+              {
+                name: 'Allowed lists',
+                value: responseData.allowed_lists.map(l => l.name).join(', ')
+              },
+              {
+                name: 'Created by',
+                value: user.username + ` (${AuthRoles[user.permission]})`,
+              }
+            ]
+          })
+        }
+        break;
+      case 'PATCH':
+        if (path.match(/^\d+/)){
+          return logger.log({
+            level: LoggerLevel.UPDATED,
+            title: 'Clan updated',
+            fields: [
+              {
+                name: 'Clan ID',
+                value: responseData.id + '',
+              },
+              {
+                name: 'Name' + (body.name ? ' (updated)' : ''),
+                value: responseData.name,
+              },
+              {
+                name: 'Clan Tag' + (body.tag ? ' (updated)' : ''),
+                value: responseData.tag,
+              },
+              {
+                name: 'Allowed lists' + (body.allowed_lists ? ' (updated)' : ''),
+                value: responseData.allowed_lists.map(l => l.name).join(', ')
+              },
+              {
+                name: 'Updated by',
+                value: user.username + ` (${AuthRoles[user.permission]})`,
+              }
+            ]
+          })
+        }
+        break;
+      case 'DELETE':
+        if (path.match(/^\d+/)){
+          return logger.log({
+            level: LoggerLevel.DELETED,
+            title: 'Clan deleted',
+            fields: [
+              {
+                name: 'Clan ID',
+                value: responseData.id + '',
+              },
+              {
+                name: 'Name',
+                value: responseData.name,
+              },
+              {
+                name: 'Clan Tag',
+                value: responseData.tag,
+              },
+              {
+                name: 'Deleted by',
+                value: user.username + ` (${AuthRoles[user.permission]})`,
+              }
+            ]
+          })
+        }
+        break;
+      default:
+        break;
+    }
+  }
 
 }
