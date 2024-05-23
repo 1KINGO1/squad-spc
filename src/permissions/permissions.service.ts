@@ -42,7 +42,9 @@ export class PermissionsService {
     if (!group) {
       throw new NotFoundException(`Group with id ${id} not found`);
     }
-    return this.groupsRepository.remove(group);
+    await this.groupsRepository.remove(group);
+    group.id = id;
+    return group;
   }
 
   async createGroup(createGroupDto: CreateGroupDto) {
