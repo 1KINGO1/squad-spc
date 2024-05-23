@@ -7,6 +7,7 @@ import { LoggerLevel } from "./types/logger-level.enum";
 import { AuthRoles } from "../auth/guards/auth.guard";
 
 import { Record } from "../records/entity/Record.entity";
+import { Group } from "../permissions/entity/Group.entity";
 
 interface PathLog{
   method: string;
@@ -37,6 +38,9 @@ export class LoggerInterceptor implements NestInterceptor {
           }
           if (path.startsWith('records')) {
             return this.recordsLog(logData);
+          }
+          if (path.startsWith('permissions')) {
+            return this.permissionsLog(logData);
           }
         }),
       );
@@ -167,5 +171,91 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
           break
       }
   }
+  //Handler for permissions module
+  private permissionsLog({ method, path, data, body, user }: PathLog) {
+    path = path.replace(/^\/?permissions\/?/g, '');
+
+    let responseData = data as Group;
+
+    switch (method) {
+      case 'POST':
+        if (path.match(/^groups/)){
+          return logger.log({
+            level: LoggerLevel.CREATED,
+            title: 'Group created',
+            fields: [
+              {
+                name: 'Group ID',
+                value: responseData.id + '',
+              },
+              {
+                name: 'Name',
+                value: responseData.name,
+              },
+              {
+                name: 'Permissions',
+                value: responseData.permissions.map(p => p.name).join(', '),
+              },
+              {
+                name: 'Created by',
+                value: user.username + ` (${AuthRoles[user.permission]})`,
+              }
+            ]
+          })
+        }
+        break;
+      case 'PATCH':
+        if (path.match(/^groups\/\d+/)){
+          return logger.log({
+            level: LoggerLevel.UPDATED,
+            title: 'Group updated',
+            fields: [
+              {
+                name: 'Group ID',
+                value: responseData.id + '',
+              },
+              {
+                name: 'Name' + (body.name ? ' (updated)' : ''),
+                value: responseData.name,
+              },
+              {
+                name: 'Permissions' + (body.permissions ? ' (updated)' : ''),
+                value: responseData.permissions.map(p => p.name).join(', '),
+              },
+              {
+                name: 'Updated by',
+                value: user.username + ` (${AuthRoles[user.permission]})`,
+              }
+            ]
+          })
+        }
+        break;
+      case 'DELETE':
+        if (path.match(/^groups\/\d+/)){
+          return logger.log({
+            level: LoggerLevel.DELETED,
+            title: 'Group deleted',
+            fields: [
+              {
+                name: 'Group ID',
+                value: responseData.id + '',
+              },
+              {
+                name: 'Name' + (body.name ? ' (updated)' : ''),
+                value: responseData.name,
+              },
+              {
+                name: 'Deleted by',
+                value: user.username + ` (${AuthRoles[user.permission]})`,
+              }
+            ]
+          })
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
 
 }
