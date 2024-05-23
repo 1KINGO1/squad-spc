@@ -102,6 +102,7 @@ export class ClansService {
   async deleteClan(id: number) {
     const clan = await this.getClanById(id);
     await this.clansRepository.remove(clan);
+    clan.id = id;
     return clan;
   }
 
