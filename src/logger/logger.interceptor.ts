@@ -8,6 +8,7 @@ import { AuthRoles } from "../auth/guards/auth.guard";
 
 import { Record } from "../records/entity/Record.entity";
 import { Group } from "../permissions/entity/Group.entity";
+import { List } from "../lists/entity/List.entity";
 
 interface PathLog{
   method: string;
@@ -41,6 +42,9 @@ export class LoggerInterceptor implements NestInterceptor {
           }
           if (path.startsWith('permissions')) {
             return this.permissionsLog(logData);
+          }
+          if (path.startsWith('lists')) {
+            return this.listsLog(logData);
           }
         }),
       );
@@ -171,7 +175,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
           break
       }
   }
-  //Handler for permissions module
+  // Handler for permissions module
   private permissionsLog({ method, path, data, body, user }: PathLog) {
     path = path.replace(/^\/?permissions\/?/g, '');
 
@@ -243,6 +247,95 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
               {
                 name: 'Name' + (body.name ? ' (updated)' : ''),
                 value: responseData.name,
+              },
+              {
+                name: 'Deleted by',
+                value: user.username + ` (${AuthRoles[user.permission]})`,
+              }
+            ]
+          })
+        }
+        break;
+      default:
+        break;
+    }
+  }
+  // Handler for lists module
+  private listsLog({ method, path, data, body, user }: PathLog) {
+    path = path.replace(/^\/?lists\/?/g, '');
+
+    let responseData = data as List;
+
+    switch (method) {
+      case 'POST':
+        if (path.match(/^/)){
+          return logger.log({
+            level: LoggerLevel.CREATED,
+            title: 'List created',
+            fields: [
+              {
+                name: 'List ID',
+                value: responseData.id + '',
+              },
+              {
+                name: 'Name',
+                value: responseData.name,
+              },
+              {
+                name: 'Path',
+                value: responseData.path,
+              },
+              {
+                name: 'Created by',
+                value: user.username + ` (${AuthRoles[user.permission]})`,
+              }
+            ]
+          })
+        }
+        break;
+      case 'PATCH':
+        if (path.match(/^\d+/)){
+          return logger.log({
+            level: LoggerLevel.UPDATED,
+            title: 'List updated',
+            fields: [
+              {
+                name: 'List ID',
+                value: responseData.id + '',
+              },
+              {
+                name: 'Name' + (body.name ? ' (updated)' : ''),
+                value: responseData.name,
+              },
+              {
+                name: 'Path' + (body.path ? ' (updated)' : ''),
+                value: responseData.path,
+              },
+              {
+                name: 'Updated by',
+                value: user.username + ` (${AuthRoles[user.permission]})`,
+              }
+            ]
+          })
+        }
+        break;
+      case 'DELETE':
+        if (path.match(/^\d+/)){
+          return logger.log({
+            level: LoggerLevel.DELETED,
+            title: 'List deleted',
+            fields: [
+              {
+                name: 'List ID',
+                value: responseData.id + '',
+              },
+              {
+                name: 'Name',
+                value: responseData.name,
+              },
+              {
+                name: 'Path',
+                value: responseData.path,
               },
               {
                 name: 'Deleted by',
