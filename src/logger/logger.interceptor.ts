@@ -10,6 +10,7 @@ import { Record } from "../records/entity/Record.entity";
 import { Group } from "../permissions/entity/Group.entity";
 import { List } from "../lists/entity/List.entity";
 import { Clan } from "../clans/entity/Clan.entity";
+import { Limit } from "../clans/entity/Limit.entity";
 
 interface PathLog{
   method: string;
@@ -46,6 +47,9 @@ export class LoggerInterceptor implements NestInterceptor {
           }
           if (path.startsWith('lists')) {
             return this.listsLog(logData);
+          }
+          if (path.match(/clans\/\d+\/limits/)) {
+            return this.limitsLog(logData);
           }
           if (path.startsWith('clans')) {
             return this.clansLog(logData);
@@ -437,6 +441,119 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
               {
                 name: 'Clan Tag',
                 value: responseData.tag,
+              },
+              {
+                name: 'Deleted by',
+                value: user.username + ` (${AuthRoles[user.permission]})`,
+              }
+            ]
+          })
+        }
+        break;
+      default:
+        break;
+    }
+  }
+  // Handler for clans/limits module
+  private limitsLog({ method, path, data, body, user }: PathLog) {
+    path = path.replace(/^\/?clans\/\d+\/limits\/?/g, '');
+
+    let responseData = data as Limit;
+
+    switch (method) {
+      case 'POST':
+        if (path.match(/^/)){
+          return logger.log({
+            level: LoggerLevel.CREATED,
+            title: 'Clan limit created',
+            fields: [
+              {
+                name: 'Limit ID',
+                value: responseData.id + '',
+              },
+              {
+                name: 'Clan ID',
+                value: responseData.clan.id + '',
+              },
+              {
+                name: 'Clan name',
+                value: responseData.clan.name,
+              },
+              {
+                name: 'Limit group',
+                value: responseData.group.name + '',
+              },
+              {
+                name: 'Limit Count',
+                value: responseData.limit + '' || 'Unlimited',
+              },
+              {
+                name: 'Created by',
+                value: user.username + ` (${AuthRoles[user.permission]})`,
+              }
+            ]
+          })
+        }
+        break;
+      case 'PATCH':
+        if (path.match(/^\d+/)){
+          return logger.log({
+            level: LoggerLevel.UPDATED,
+            title: 'Clan limit updated',
+            fields: [
+              {
+                name: 'Limit ID',
+                value: responseData.id + '',
+              },
+              {
+                name: 'Clan ID',
+                value: responseData.id + '',
+              },
+              {
+                name: 'Clan name',
+                value: responseData.clan.name,
+              },
+              {
+                name: 'Limit group',
+                value: responseData.group.name + '',
+              },
+              {
+                name: 'Limit Count' + (body.limit ? ' (updated)' : ''),
+                value: responseData.limit + '' || 'Unlimited',
+              },
+              {
+                name: 'Updated by',
+                value: user.username + ` (${AuthRoles[user.permission]})`,
+              }
+            ]
+          })
+        }
+        break;
+      case 'DELETE':
+        if (path.match(/^\d+/)){
+          return logger.log({
+            level: LoggerLevel.DELETED,
+            title: 'Clan limit deleted',
+            fields: [
+              {
+                name: 'Limit ID',
+                value: responseData.id + '',
+              },
+              {
+                name: 'Clan ID',
+                value: responseData.clan.id + '',
+              },
+              {
+                name: 'Clan name',
+                value: responseData.clan.name,
+              },
+              {
+                name: 'Limit group',
+                value: responseData.group.name + '',
+              },
+              {
+                name: 'Limit Count',
+                value: responseData.limit + '' || 'Unlimited',
               },
               {
                 name: 'Deleted by',
