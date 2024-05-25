@@ -18,9 +18,14 @@ import { OutputModule } from './output/output.module';
 import { LoggerModule } from './logger/logger.module';
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { LoggerInterceptor } from "./logger/logger.interceptor";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import * as path from "path";
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: path.join(__dirname, '..', 'client', 'build'),
+    }),
     TypeOrmModule.forRoot({
       type: "postgres",
       host: "localhost",

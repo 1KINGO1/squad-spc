@@ -567,5 +567,4 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
         break;
     }
   }
-
 }
