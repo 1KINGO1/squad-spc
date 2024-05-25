@@ -25,7 +25,7 @@ export class LimitsService {
   }
 
   async getLimitById(limitId: number) {
-    const limit = await this.limitsRepository.findOne({where: {id: limitId}});
+    const limit = await this.limitsRepository.findOne({where: {id: limitId}, relations: ["group", "clan"]});
     if (!limit) {
       throw new BadRequestException("Limit does not exist");
     }
@@ -54,13 +54,16 @@ export class LimitsService {
 
   async deleteLimit(limitId: number) {
     const limit = await this.getLimitById(limitId);
-    return this.limitsRepository.remove(limit);
+    await this.limitsRepository.remove(limit);
+    limit.id = limitId;
+    return limit;
   }
 
   async updateLimit(limitId: number, updateObj: UpdateLimitDto) {
     const limit = await this.getLimitById(limitId);
     limit.limit = updateObj.limit || null;
-    return this.limitsRepository.save(limit);
+    await this.limitsRepository.save(limit);
+    return limit;
   }
 
 }
