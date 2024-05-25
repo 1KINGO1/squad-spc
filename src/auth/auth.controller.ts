@@ -27,7 +27,7 @@ export class AuthController {
 
   @Get('me')
   @Auth([AuthRoles.Guest, AuthRoles.ClanLeader, AuthRoles.Admin, AuthRoles.Root])
-  async me(@Res() req: Response & {user: User}) {
+  async me(@Req() req: Response & {user: User}) {
     return req.user;
   }
 }
