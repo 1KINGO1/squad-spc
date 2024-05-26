@@ -7,4 +7,5 @@ export default {
   STEAM_API_KEY: process.env.STEAM_API_KEY,
   JWT_SECRET: process.env.JWT_SECRET,
   DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
+  API_PREFIX: process.env.API_PREFIX || '/api',
 }

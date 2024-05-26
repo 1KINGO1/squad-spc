@@ -8,7 +8,7 @@ export class SteamStrategy extends PassportStrategy(Strategy) {
 
   constructor() {
     super({
-      returnURL: `http://${config.HOST}:${config.PORT}/auth/return`,
+      returnURL: `http://${config.HOST}:${config.PORT}${config.API_PREFIX}/auth/return`,
       realm: `http://${config.HOST}:${config.PORT}/`,
       apiKey: config.STEAM_API_KEY,
     });
