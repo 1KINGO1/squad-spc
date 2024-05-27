@@ -1,0 +1,23 @@
+#appBar {
+  width: 250px;
+  height: 100%;
+}
+.listWrapper {
+  background-color: var(--color-black-soft);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.divider {
+  background-color: var(--color-black);
+}
+
+.listItem {
+  .listItemIcon {
+    fill: var(--color-white);
+  }
+  &:hover .listItemIcon {
+    fill: var(--color-secondary);
+  }
+}
