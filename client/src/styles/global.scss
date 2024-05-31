@@ -1,5 +1,4 @@
-@import "variables.scss";
-@import "ui.scss";
+@import "./variables.scss";
 
 * {
   box-sizing: border-box;
@@ -14,5 +13,5 @@ body {
 
 #root {
   height: 100%;
-  background-color: var(--color-black-mute);
+  background-color: #282828;
 }
