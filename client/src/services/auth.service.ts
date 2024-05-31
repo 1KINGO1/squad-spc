@@ -5,7 +5,7 @@ export default {
   async getUserInfo(){
 
     return new Promise<{user: User | null, status: number}>( (resolve, reject) => {
-      axiosWithAuth.get("/api/auth/me")
+      axiosWithAuth.get("http://localhost:3000/api/auth/me")
         .then( (response) => {
           resolve({ user: response.data, status: response.status });
         })
