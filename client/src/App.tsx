@@ -1,32 +1,16 @@
 import React, { useEffect } from "react";
-import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router";
 import authService from "./services/auth.service";
-import NavBar from "./elements/NavBar/NavBar";
-import { Box } from "@mui/material";
-import './styles/global.scss';
-import Users from "./screens/users/Users";
-import Clans from "./screens/clans/Clans";
 import useCurrentUser from "./store/useCurrentUser";
 import User from "./types/User";
+import "./styles/global.scss";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <h1>Home</h1>,
-  },
-  {
-    path: '/clans',
-    element: <Clans/>
-  },
-  {
-    path: '/users',
-    element: <Users />
-  }
-]);
+import { ConfigProvider, theme } from "antd";
+import router from "./routes/router";
 
 function App() {
-  const {setUser} = useCurrentUser();
+  const { darkAlgorithm } = theme;
+  const { setUser } = useCurrentUser();
 
   useEffect(() => {
     authService.getUserInfo()
@@ -35,7 +19,7 @@ function App() {
           setUser(data.user as User);
         }
       })
-      .catch(({status}) => {
+      .catch(({ status }) => {
         // If status is Forbidden
         if (status === 403) {
           window.location.replace("/api/auth/login");
@@ -45,12 +29,13 @@ function App() {
   }, []);
 
   return (
-    <Box display="flex" height='100%'>
-      <NavBar />
-      <Box flexGrow={1}>
-        <RouterProvider router={router} />
-      </Box>
-    </Box>
+    <ConfigProvider
+      theme={{
+        algorithm: darkAlgorithm
+      }}
+    >
+      <RouterProvider router={router} />
+    </ConfigProvider>
   );
 }
 

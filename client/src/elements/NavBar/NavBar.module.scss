@@ -1,60 +1,65 @@
-#appBar{
-  width: 250px;
-  height: 100%;
-}
-
-.listWrapper {
+.wrapper {
   background-color: var(--color-black-soft);
-  width: 100%;
+  padding: 10px 20px 0;
+}
+
+.top, .bottom {
   display: flex;
-  flex-direction: column;
-  height: 100%;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.divider {
-  background-color: var(--color-black);
-}
-
-.listItem {
-  .listItemIcon {
-    fill: var(--color-white);
-  }
-  &:hover .listItemIcon {
-    fill: var(--color-secondary);
-  }
-}
-
-.userInfoWrapper {
-  position: relative;
-  margin: auto 5px 5px;
+.user {
   display: flex;
   align-items: center;
-  padding: 12px;
   gap: 10px;
-  background-color: var(--color-black);
-  border-radius: 10px;
 }
 
-#username {
-  display: block;
-}
-#userRole{
-  display: block;
-  font-size: 0.8rem;
-  line-height: 0.8rem;
+.userAvatar {
+
 }
 
-.loading{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.userName {
+  color: var(--color-white);
+  font-size: 26px;
+}
 
-  > span {
-    color: var(--color-white);
+.userRole {
+
+}
+
+.userControls {
+
+}
+
+.loading {
+  background-color: transparent;
+}
+
+.linksWrapper {
+  margin: 15px 0 0;
+
+  ul {
+    display: flex;
+    gap: 10px;
+    list-style: none;
   }
+}
+
+.link {
+  width: 200px;
+}
+.link a {
+  display: block;
+  text-decoration: none;
+  font-size: 17px;
+  text-align: center;
+  color: var(--color-smoke);
+  padding: 10px 15px;
+  background-color: var(--color-black-mute);
+  border-radius: 5px 5px 0 0;
+}
+
+.linkActive a{
+  background-color: var(--color-black);
 }
