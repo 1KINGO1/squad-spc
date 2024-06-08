@@ -13,8 +13,8 @@ const NavBar: FC = () => {
   const isLoading = user == null;
 
   return (
-    <Spin spinning={isLoading} className={styles.loading} delay={200}>
-      <div className={styles.wrapper}>
+    <div className={styles.wrapper}>
+      <Spin spinning={isLoading} className={styles.loading} delay={200}>
         <div className={styles.top}>
           <div className={styles.user}>
             <Avatar size={60} src={user?.avatar_url} className={styles.userAvatar}>
@@ -55,8 +55,8 @@ const NavBar: FC = () => {
             </ul>
           </nav>
         </div>
-      </div>
-    </Spin>
+      </Spin>
+    </div>
   );
 };
 
