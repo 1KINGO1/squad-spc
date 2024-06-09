@@ -1,0 +1,76 @@
+.wrapper {
+
+}
+
+.clansWrapper {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+
+.clanItemWrapper {
+    width: 280px;
+    height: 280px;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: var(--color-black);
+    display: flex;
+    flex-direction: column;
+
+    border: 2px solid var(--color-black-soft);
+    cursor: pointer;
+
+    transition: .1s ease-in-out all;
+
+    &:hover {
+        transform: scale(1.01);
+        z-index: 1;
+    }
+}
+
+.clanItemTop {
+    background-color: var(--color-indigo);
+    border-radius: inherit;
+    padding: 10px;
+}
+.clanItemTop p {
+    width: 100%;
+    white-space: nowrap;
+    color: var(--color-smoke);
+    text-align: center;
+}
+
+.clanItemBottom {
+    opacity: 0;
+    transition: .3s ease-in-out all;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    button {
+        width: 90%;
+        border: none;
+        cursor: pointer;
+        transition: .1s ease-in-out all;
+    }
+}
+
+.clanItemWrapper:hover .clanItemBottom {
+    opacity: 1;
+}
+
+.pinnedClansWrapper {
+
+    border-bottom: 4px solid var(--color-black-soft);
+
+    > p {
+        font-size: 32px;
+        text-align: center;
+        color: var(--color-white);
+    }
+}

@@ -34,11 +34,11 @@ const NavBar: FC = () => {
         <div className={styles.bottom}>
           <nav className={styles.linksWrapper}>
             <ul>
-              <NavLink to="/">
-                Home
-              </NavLink>
               <NavLink to="/clans">
                 Clans
+              </NavLink>
+              <NavLink to="/records">
+                Records
               </NavLink>
               <NavLink to="/users">
                 Users
