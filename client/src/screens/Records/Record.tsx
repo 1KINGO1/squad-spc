@@ -17,12 +17,12 @@ interface RecordProps {
 
 const Record: FC<RecordProps> = ({userName, steamId, authorName, group, expirationDate}) => {
 
-  const nickColor = parseTextToColor(parseSteamIdToHash(steamId), 'id');
+  const nickColor = parseTextToColor(steamId, 'id');
   const groupColor = parseTextToColor(group, 'groups');
 
   return (
     <div className={styles.record}>
-      <p className={styles.recordName} style={{backgroundColor: nickColor[0]}}>{userName}</p>
+      <p className={styles.recordName} style={{border: `1px solid ${nickColor[1]}`}}>{userName}</p>
       <p className={styles.recordGroup} style={{backgroundColor: groupColor[0], borderColor: groupColor[1]}}>{group}</p>
       <p className={styles.recordSteamId}>
         <Copyable text={steamId}/>
