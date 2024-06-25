@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import styles from './Clans.module.scss';
-import textToHexColor from "../../utils/textToHexColor";
+import textToHexColor from "../../utils/textToRGBAColor";
 import { Button } from "antd";
 import { EditOutlined, FileOutlined, PushpinOutlined, TeamOutlined, UnlockOutlined } from "@ant-design/icons";
 import ClanEditModal from "./ClanEditModal";

@@ -11,9 +11,7 @@ const NavLink: FC<PropsWithChildren<NavLinkProps>> = ({to, children}) => {
 
   let location = useLocation();
 
-  const isCurrentPage = location.pathname === '/' + to.replace(/^\//, "");
-
-  console.log(to, location.pathname, isCurrentPage);
+  const isCurrentPage = location.pathname.startsWith('/' + to.replace(/^\//, ""));
 
   return (
     <li className={classNames(styles.link, {[styles.linkActive]: isCurrentPage})}>

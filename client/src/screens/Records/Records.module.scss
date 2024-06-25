@@ -1,0 +1,104 @@
+.wrapper {
+
+}
+
+.selectRecordsLocationWrapper {
+  display: flex;
+  gap: 6px;
+  flex-direction: column;
+}
+
+.selectInput {
+  width: 100%;
+}
+
+.listsSelect, .clansSelect {
+  display: flex;
+}
+
+.listsSelectButtonWrapper, .clansSelectInfoWrapper {
+  margin-left: 6px;
+  display: flex;
+  gap: 3px;
+}
+
+.clansSelect {
+
+}
+.clansSelectInfoWrapper {
+
+}
+
+
+.recordsWrapper {
+  display: grid;
+  margin: 10px 0 0 0;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  gap: 6px;
+}
+
+.record {
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 12px;
+  background-color: var(--color-black-soft);
+  border-radius: 4px;
+  border: 2px solid var(--color-black);
+
+  font-size: 18px;
+}
+
+.recordName {
+  font-size: 1em;
+  background-color: var( --color-indigo);
+  border-radius: inherit;
+  border: 1px solid var(--color-smoke-dark-1);
+  padding: 0.3em;
+}
+.recordExpirationDate {
+  background-color: var(--color-black-2);
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  border-radius: 5px;
+  color: var(--color-smoke);
+  border: 1px solid var(--color-smoke-dark);
+}
+.recordGroup {
+  font-size: 0.85em;
+  background-color: var(--color-secondary-dark);
+  border: 1px solid var(--color-black);
+  border-radius: inherit;
+  padding: 0.25em;
+}
+
+.recordSteamId{
+  font-size: 0.9em;
+  color: var(--color-smoke);
+}
+
+.recordShowMoreButton {
+  margin: 0 0 0 auto;
+}
+
+.createRecord {
+  grid-column: span 2;
+  background-color: var(--color-black);
+  border-radius: 4px;
+  border: 2px solid var(--color-indigo);
+  display: flex;
+  padding: 15px;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+
+  svg {
+    color: var(--color-white);
+  }
+}
+
+.createRecord:hover {
+  transform: scale(1.003);
+}

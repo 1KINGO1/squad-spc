@@ -1,5 +1,5 @@
-export default function textToRGBAColor(text: string): [string, string] {
-  const hash = text.split('').reduce((acc, char) => {
+export default function textToRGBAColor(text: string, salt: string = ""): [string, string] {
+  const hash = (salt + text).split('').reduce((acc, char) => {
     return char.charCodeAt(0) + ((acc << 5) - acc);
   }, 0);
 

@@ -5,6 +5,7 @@ import DefaultLayout from "../layouts/DefaultLayout/DefaultLayout";
 
 import ClansRoute from "./Clans.route";
 import HomeRoute from "./Home.route";
+import RecordsRoute from "./Records.route";
 
 const router = createBrowserRouter([
   {
@@ -12,7 +13,8 @@ const router = createBrowserRouter([
     element: <DefaultLayout />,
     children: [
       HomeRoute,
-      ClansRoute
+      ClansRoute,
+      RecordsRoute,
     ]
   },
 ]);

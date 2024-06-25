@@ -22,7 +22,7 @@ function App() {
       .catch(({ status }) => {
         // If status is Forbidden
         if (status === 403) {
-          window.location.replace("/api/auth/login");
+          window.location.replace("http://localhost:3000/api/auth/login");
           return;
         }
       });
