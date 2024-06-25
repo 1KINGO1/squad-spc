@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import styles from './Clans.module.scss';
-import textToHexColor from "../../utils/textToRGBAColor";
+import parseTextToColor from "../../utils/parseTextToColor";
 import { Button } from "antd";
 import { EditOutlined, FileOutlined, PushpinOutlined, TeamOutlined, UnlockOutlined } from "@ant-design/icons";
 import ClanEditModal from "./ClanEditModal";
@@ -11,10 +11,9 @@ interface ClanItemProps {
 }
 
 const ClanItem: FC<ClanItemProps> = ({name, tag}) => {
-
   const [isEditing, setIsEditing] = useState(false);
 
-  const color = textToHexColor(name + tag);
+  const color = parseTextToColor(name + tag, 'clan');
 
   return (
     <>

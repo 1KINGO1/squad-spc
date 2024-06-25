@@ -1,6 +1,6 @@
 import styles from './Records.module.scss';
 import { FC } from "react";
-import textToRGBAColor from "../../utils/textToRGBAColor";
+import parseTextToColor from "../../utils/parseTextToColor";
 import DateCountdown from "../../components/DateCountdown";
 import { MoreOutlined } from '@ant-design/icons';
 import { Button } from "antd";
@@ -17,8 +17,8 @@ interface RecordProps {
 
 const Record: FC<RecordProps> = ({userName, steamId, authorName, group, expirationDate}) => {
 
-  const nickColor = textToRGBAColor(parseSteamIdToHash(steamId), 'id');
-  const groupColor = textToRGBAColor(group, 'groups');
+  const nickColor = parseTextToColor(parseSteamIdToHash(steamId), 'id');
+  const groupColor = parseTextToColor(group, 'groups');
 
   return (
     <div className={styles.record}>
