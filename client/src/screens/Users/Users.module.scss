@@ -1,0 +1,83 @@
+.navigationWrapper {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.navigationSearchWrapper{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.totalUsersCount {
+  color: var(--color-white);
+  margin: 0 auto 0 0;
+}
+
+.navigationFilterWrapper{
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 15px 0 0 0;
+}
+
+.userWrapper {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-black-soft);
+  padding: 20px;
+  border-radius: 5px;
+  font-size: 20px;
+  border: 1px solid var(--color-smoke-dark-1);
+  color: var(--color-white);
+}
+
+.userInfoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  font-size: inherit;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.userName {
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.userAvatar {
+  width: 3.2em;
+  height: 3.2em;
+
+  font-size: 1em;
+
+  border: 1px solid var(--color-smoke-dark-1);
+}
+
+.userSteamId{
+  font-size: 0.8em;
+  display: block;
+  color: var(--color-smoke);
+}
+
+.usersControlsWrapper{
+  margin: 0 0 0 auto;
+  display: flex;
+  gap: 5px;
+}
