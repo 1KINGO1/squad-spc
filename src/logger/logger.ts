@@ -19,15 +19,8 @@ class Logger {
   private loggers: BaseLogger[] = [];
 
   constructor() {
-    async function getLoggers(): Promise<{default: typeof BaseLogger}[]> {
-      const loggersPaths = fs.readdirSync(path.join(__dirname, "providers"))
-        .filter(file => file.match(/^.*-logger\.[tj]s$/) && !file.startsWith('base-logger'));
-      return Promise.all(loggersPaths.map(async logger => {
-        return await import(`./providers/${logger}`);
-      }));
-    }
 
-    getLoggers().then(loggers => {
+    this.getLoggers().then(loggers => {
       for (let Logger of loggers){
 
         if (!Logger?.default) continue;
@@ -48,6 +41,15 @@ class Logger {
       logger.log(body);
     }
   }
+
+  private async getLoggers(): Promise<{default: typeof BaseLogger}[]> {
+    const loggersPaths = fs.readdirSync(path.join(__dirname, "providers"))
+      .filter(file => file.match(/^.*-logger\.[tj]s$/) && !file.startsWith('base-logger'));
+    return Promise.all(loggersPaths.map(async logger => {
+      return await import(`./providers/${logger}`);
+    }));
+  }
+
 }
 
 export default new Logger();
