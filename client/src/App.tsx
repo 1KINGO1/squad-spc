@@ -1,20 +1,23 @@
 import React, { useEffect } from "react";
 import { RouterProvider } from "react-router";
-import authService from "./services/auth.service";
+import {getUserInfo} from "./services/auth.service";
 import useCurrentUser from "./store/useCurrentUser";
 import User from "./types/User";
 import "./styles/global.scss";
 
 import { ConfigProvider, theme } from "antd";
 import router from "./routes/router";
+import config from "./config";
+import useClans from "./hooks/useClans";
 
 function App() {
   const { darkAlgorithm } = theme;
   const { setUser } = useCurrentUser();
+  useClans();
 
   useEffect(() => {
-    authService.getUserInfo()
-      .then(data => {
+    getUserInfo()
+      .then((data) => {
         if (data.user) {
           setUser(data.user as User);
         }
@@ -22,7 +25,7 @@ function App() {
       .catch(({ status }) => {
         // If status is Forbidden
         if (status === 403) {
-          window.location.replace("http://localhost:3000/api/auth/login");
+          window.location.replace(config.apiBaseUrl + config.paths.auth.login);
           return;
         }
       });
