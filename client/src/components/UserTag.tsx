@@ -4,9 +4,10 @@ import { Roles } from "../types/Roles";
 
 interface UserTagProps {
   role: Roles | null;
+  [key: string]: any;
 }
 
-const UserTag: FC<UserTagProps> = ({role}) => {
+const UserTag: FC<UserTagProps> = ({role, ...rest}) => {
 
   let color;
 
@@ -28,8 +29,8 @@ const UserTag: FC<UserTagProps> = ({role}) => {
   }
 
   return (
-    <Tag color={color}>
-      {role ? Roles[role] : "Loading"}
+    <Tag color={color} {...rest}>
+      {role !== null ? Roles[role] : "Loading"}
     </Tag>
   )
 }
