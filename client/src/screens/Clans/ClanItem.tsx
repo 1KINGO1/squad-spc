@@ -5,6 +5,7 @@ import { Button } from "antd";
 import { EditOutlined, FileOutlined, PushpinOutlined, TeamOutlined, UnlockOutlined } from "@ant-design/icons";
 import ClanEditModal from "./ClanEditModal";
 import Clan from "../../types/Clans";
+import usePinnedClans from "../../store/usePinnedClans";
 
 interface ClanItemProps {
   clan: Clan
@@ -12,8 +13,19 @@ interface ClanItemProps {
 
 const ClanItem: FC<ClanItemProps> = ({clan}) => {
   const [isEditing, setIsEditing] = useState(false);
-
+  const {pinClan, unpinClan, pinnedClanIds} = usePinnedClans();
   const color = parseTextToColor(clan.name + clan.tag, 'clan');
+
+  const isClanPinned = pinnedClanIds.includes(clan.id);
+
+  const pinHandler = () => {
+    if (isClanPinned) {
+      unpinClan(clan);
+    }
+    else {
+      pinClan(clan);
+    }
+  }
 
   return (
     <>
@@ -36,8 +48,8 @@ const ClanItem: FC<ClanItemProps> = ({clan}) => {
           <Button type="primary" className={styles.managersButton}>
             <FileOutlined /> Records
           </Button>
-          <Button type="primary" className={styles.managersButton}>
-            <PushpinOutlined /> Pin
+          <Button type="primary" className={styles.managersButton} onClick={pinHandler}>
+            <PushpinOutlined /> {isClanPinned ? 'Unpin' : 'Pin'}
           </Button>
         </div>
       </div>
