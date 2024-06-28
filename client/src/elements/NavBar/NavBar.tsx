@@ -5,6 +5,7 @@ import { Avatar, Button, Spin } from "antd";
 import styles from "./NavBar.module.scss";
 import NavLink from "./NavLink";
 import UserTag from "../../components/UserTag";
+import config from "../../config";
 import useCurrentUser from "../../store/useCurrentUser";
 
 const NavBar: FC = () => {
@@ -13,6 +14,10 @@ const NavBar: FC = () => {
 
   const isLoading = user == null;
 
+  const changeAccountHandler = () => {
+    window.location.replace(config.apiBaseUrl + config.paths.auth.login);
+  }
+  
   return (
     <div className={styles.wrapper}>
       <Spin spinning={isLoading} className={styles.loading} delay={200}>
@@ -29,7 +34,7 @@ const NavBar: FC = () => {
             </div>
           </div>
           <div className={styles.userControls}>
-            <Button type="primary">Change account</Button>
+            <Button type="primary" onClick={changeAccountHandler}>Change account</Button>
           </div>
         </div>
         <div className={styles.bottom}>
