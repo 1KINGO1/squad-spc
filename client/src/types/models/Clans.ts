@@ -1,3 +1,5 @@
+import Limit from "./Limit";
+import List from "./List";
 import User from "./User";
 
 export default interface Clan {
@@ -5,7 +7,7 @@ export default interface Clan {
   name: string;
   tag: string;
   created_date: Date;
-  allowed_lists?: null[],
-  limits?: null[],
+  allowed_lists?: List[],
+  limits?: Limit[],
   clan_leaders?: User[]
 }

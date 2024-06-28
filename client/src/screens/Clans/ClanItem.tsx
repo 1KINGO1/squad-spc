@@ -6,7 +6,7 @@ import { Button } from "antd";
 import styles from "./Clans.module.scss";
 import ClanEditModal from "./modals/ClanEditModal/ClanEditModal";
 import usePinnedClans from "../../store/usePinnedClans";
-import Clan from "../../types/Clans";
+import Clan from "../../types/models/Clans";
 import parseTextToColor from "../../utils/parseTextToColor";
 
 interface ClanItemProps {

@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { Button, Form, Input, message, Modal } from "antd";
 
 import useUpdateClan from "../../../../hooks/useUpdateClan";
-import Clan from "../../../../types/Clans";
+import Clan from "../../../../types/models/Clans";
 
 interface ClanEditModalProps {
   isOpen: boolean;
@@ -40,6 +40,7 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
     if (isLoading) return;
 
     props.setIsOpen(false);
+    form.resetFields();
   };
 
   useEffect(() => {
@@ -81,7 +82,7 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
           label="Clan Name"
           name="name"
           initialValue={props.clan.name}
-          rules={[{ max: 50, min: 4 }]}
+          rules={[{ max: 50, min: 4, required: true }]}
           labelCol={{ span: 24 }}
           wrapperCol={{ span: 24 }}
         >
@@ -92,7 +93,7 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
           label="Clan Tag"
           name="tag"
           initialValue={props.clan.tag}
-          rules={[{ max: 10, min: 1 }]}
+          rules={[{ max: 10, min: 1, required: true }]}
           labelCol={{ span: 24 }}
           wrapperCol={{ span: 24 }}
         >

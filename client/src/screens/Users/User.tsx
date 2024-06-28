@@ -5,7 +5,7 @@ import { Avatar } from "antd";
 import ManageUser from "./components/ManageUser";
 import styles from "./Users.module.scss";
 import UserTag from "../../components/UserTag";
-import { default as IUser } from "../../types/User";
+import { default as IUser } from "../../types/models/User";
 
 interface UserProps {
   user: IUser

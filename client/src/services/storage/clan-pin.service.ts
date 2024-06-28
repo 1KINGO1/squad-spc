@@ -1,4 +1,4 @@
-import Clan from "../../types/Clans";
+import Clan from "../../types/models/Clans";
 
 const localStorageKey = "pinnedClans";
 

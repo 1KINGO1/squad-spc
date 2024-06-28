@@ -1,6 +1,6 @@
 import { create } from "zustand"
 
-import User from "../types/User";
+import User from "../types/models/User";
 
 interface CurrentUserState {
   user: User | null;

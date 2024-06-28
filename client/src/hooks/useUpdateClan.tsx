@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { updateClan } from "../services/clans.service";
-import Clan from "../types/Clans";
+import Clan from "../types/models/Clans";
 import { QueryKeys } from "../types/QueryKeys";
 
 interface UpdateClanParams {

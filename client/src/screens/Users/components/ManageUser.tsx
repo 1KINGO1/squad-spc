@@ -4,7 +4,7 @@ import { CrownOutlined, DeleteOutlined, DownOutlined, UnlockOutlined } from "@an
 import { Button, Dropdown, Space } from "antd";
 
 import { Roles } from "../../../types/Roles";
-import User from "../../../types/User";
+import User from "../../../types/models/User";
 import roleFilterOptions from "../data/roleFilterOptions";
 import ClansModal from "../modals/ClansModal/ClansModal";
 import UserRemoveModal from "../modals/UserRemoveModal/UserRemoveModal";

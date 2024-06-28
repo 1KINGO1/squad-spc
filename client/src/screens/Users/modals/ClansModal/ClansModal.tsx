@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import { Button, Modal } from "antd";
 
-import User from "../../../../types/User";
+import User from "../../../../types/models/User";
 
 interface ClansModalProps {
   user: User;

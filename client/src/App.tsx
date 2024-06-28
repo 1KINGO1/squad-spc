@@ -10,7 +10,7 @@ import useClans from "./hooks/useClans";
 import router from "./routes/router";
 import {getUserInfo} from "./services/auth.service";
 import useCurrentUser from "./store/useCurrentUser";
-import User from "./types/User";
+import User from "./types/models/User";
 
 
 function App() {

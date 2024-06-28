@@ -4,7 +4,7 @@ import {
 
 import { getClans } from "../services/clans.service";
 import useCurrentUser from "../store/useCurrentUser";
-import Clan from "../types/Clans";
+import Clan from "../types/models/Clans";
 import { QueryKeys } from "../types/QueryKeys";
 
 const useClans = () => {
