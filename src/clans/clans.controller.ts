@@ -14,15 +14,15 @@ export class ClansController {
   @Auth([AuthRoles.ClanLeader, AuthRoles.Admin, AuthRoles.Root])
   async getAllClans(
     @Req() req: Request & { user: User },
-    @Query("limit") limit: string = "30",
-    @Query("offset") offset: string = "0",
+    @Query("limit") limit: string,
+    @Query("offset") offset: string,
     @Query("include") include: string = "",
-    @Query("list_id") listId: string = ""
+    @Query("list_id") listId: string
   ) {
     return await this.clansService.getAvailableClans(
       {
         user: req.user,
-        limit: parseInt(limit),
+        limit: limit !== undefined ? parseInt(limit) : undefined,
         offset: parseInt(offset),
         listId: parseInt(listId) || undefined,
         include: include

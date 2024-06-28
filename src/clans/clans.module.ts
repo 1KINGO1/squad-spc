@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from "@nestjs/common";
 import { ClansService } from './clans.service';
 import { ClansController } from './clans.controller';
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -10,7 +10,7 @@ import { LimitsService } from './limits/limits.service';
 import { LimitsController } from './limits/limits.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Clan, Limit]), PermissionsModule, ListsModule],
+  imports: [TypeOrmModule.forFeature([Clan, Limit]), PermissionsModule, forwardRef(() => ListsModule)],
   providers: [ClansService, LimitsService],
   controllers: [ClansController, LimitsController],
   exports: [ClansService]

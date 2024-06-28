@@ -1,13 +1,11 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Repository } from "typeorm";
 import { Clan } from "./entity/Clan.entity";
 import { AuthRoles } from "../auth/guards/auth.guard";
 import { User } from "../users/entity/User.entity";
 import { CreateClanDto } from "./dtos/create-clan.dto";
-import { PermissionsService } from "../permissions/permissions.service";
 import { ListsService } from "../lists/lists.service";
-import { Limit } from "./entity/Limit.entity";
 import { UpdateClanDto } from "./dtos/update-clan.dto";
 
 interface GetAvailableClansOptions {
@@ -22,13 +20,14 @@ interface GetAvailableClansOptions {
 export class ClansService {
   constructor(
     @InjectRepository(Clan) private clansRepository: Repository<Clan>,
+    @Inject(forwardRef(() => ListsService))
     private listsService: ListsService
   ) {
   }
 
-  async getAvailableClans({ user, limit, offset, include, listId }: GetAvailableClansOptions) {
-    if (Number.isNaN(limit) || limit <= 0 || limit >= 30) {
-      limit = 30;
+  async getAvailableClans({ user, limit, offset, include = [], listId }: GetAvailableClansOptions) {
+    if (Number.isNaN(limit) || limit <= 0) {
+      limit = 100;
     }
 
     if (Number.isNaN(offset) || offset <= 0) {
@@ -37,7 +36,7 @@ export class ClansService {
 
     let allClans = await this.clansRepository.find(
       {
-        where: listId ? { allowed_lists: { id: listId } } : {},
+        where: listId !== undefined ? { allowed_lists: { id: listId } } : {},
         relations: ["clan_leaders", ...include],
         take: limit,
         skip: offset

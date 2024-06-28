@@ -1,35 +1,40 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Repository } from "typeorm";
 import { List } from "./entity/List.entity";
 import { UpdateListDto } from "./dtos/update-list.dto";
 import { CreateListDto } from "./dtos/create-list.dto";
+import { ClansService } from "../clans/clans.service";
+import { User } from "../users/entity/User.entity";
 
 @Injectable()
 export class ListsService {
 
-  constructor(@InjectRepository(List) private listsRepository: Repository<List>) {}
+  constructor(
+    @InjectRepository(List) private listsRepository: Repository<List>,
+    @Inject(forwardRef(() => ClansService))
+    private clansService: ClansService
+  ) {}
 
-  async create(createListDto: CreateListDto){
+  async create(createListDto: CreateListDto) {
 
     await this.checkAvailability(createListDto);
 
     try {
       const list = this.listsRepository.create(createListDto);
       return await this.listsRepository.save(list);
-    }
-    catch (e) {
-      throw new BadRequestException('Something went wrong!')
+    } catch (e) {
+      throw new BadRequestException("Something went wrong!");
     }
   }
 
-  async getAll(){
+  async getAll() {
     return this.listsRepository.findBy({});
   }
 
-  async getById(id: number){
-    const list = await this.listsRepository.findOneBy({id});
-    if (!list) throw new NotFoundException('List with id ' + id + " not found");
+  async getById(id: number) {
+    const list = await this.listsRepository.findOneBy({ id });
+    if (!list) throw new NotFoundException("List with id " + id + " not found");
 
     return list;
   }
@@ -57,14 +62,21 @@ export class ListsService {
     return this.listsRepository.findBy({ id: In(id) });
   }
 
-  private async checkAvailability(updateListDto: UpdateListDto){
+  async getListClans(id: number, user: User) {
+    return this.clansService.getAvailableClans({
+      user,
+      listId: id
+    });
+  }
+
+  private async checkAvailability(updateListDto: UpdateListDto) {
     if (updateListDto?.name) {
-      let list = await this.listsRepository.findOneBy({name: updateListDto.name});
-      if (list) throw new BadRequestException('List with this name already exist');
+      let list = await this.listsRepository.findOneBy({ name: updateListDto.name });
+      if (list) throw new BadRequestException("List with this name already exist");
     }
     if (updateListDto?.path) {
-      let list = await this.listsRepository.findOneBy({path: updateListDto.path});
-      if (list) throw new BadRequestException('List with this path already exist');
+      let list = await this.listsRepository.findOneBy({ path: updateListDto.path });
+      if (list) throw new BadRequestException("List with this path already exist");
     }
   }
 }
