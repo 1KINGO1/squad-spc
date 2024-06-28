@@ -1,8 +1,12 @@
-export default {
+const queryKeys: {
+  [key: string]: () => (string | number)[];
+} = {
   clans(){
-    return "clans";
+    return ["clans"];
   },
   lists(){
-    return "lists";
+    return ["lists"];
   }
 }
+
+export default queryKeys;

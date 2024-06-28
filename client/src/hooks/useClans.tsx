@@ -9,7 +9,7 @@ import Clan from "../types/models/Clan";
 
 const useClans = () => {
   const {user} = useCurrentUser();
-  const query = useQuery({ queryKey: [queryKeys.clans()], queryFn: getClans, enabled: user !== null });
+  const query = useQuery({ queryKey: queryKeys.clans(), queryFn: getClans, enabled: user !== null });
 
   return {
     clans: (query.data || []) as Clan[],

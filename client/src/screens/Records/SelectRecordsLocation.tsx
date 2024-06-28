@@ -4,36 +4,26 @@ import { DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined } from "@ant
 import { Button, Select } from "antd";
 
 import styles from "./Records.module.scss";
-
-const lists = [
-  {
-    value: "1",
-    label: "Main"
-  },
-  {
-    value: "2",
-    label: "Server2"
-  },
-  {
-    value: "3",
-    label: "Server3"
-  }
-];
+import useLists from "../../hooks/useLists";
 
 const SelectRecordsLocation: FC = () => {
+
+  const {lists} = useLists();
+  const listsOptions = lists.map(list => ({value: list.id, label: list.name}));
+
   return (
     <div className={styles.selectRecordsLocationWrapper}>
       <div className={styles.listsSelect}>
         <Select
           className={styles.selectInput}
           showSearch
-          defaultValue={"1"}
+          defaultValue={1}
           placeholder="Search to Select"
           optionFilterProp="label"
           filterSort={(optionA, optionB) =>
             (optionA?.label ?? "").toLowerCase().localeCompare((optionB?.label ?? "").toLowerCase())
           }
-          options={lists}
+          options={listsOptions}
         />
 
         <div className={styles.listsSelectButtonWrapper}>
@@ -47,13 +37,13 @@ const SelectRecordsLocation: FC = () => {
         <Select
           className={styles.selectInput}
           showSearch
-          defaultValue={"1"}
+          defaultValue={1}
           placeholder="Search to Select"
           optionFilterProp="label"
           filterSort={(optionA, optionB) =>
             (optionA?.label ?? "").toLowerCase().localeCompare((optionB?.label ?? "").toLowerCase())
           }
-          options={lists}
+          options={listsOptions}
         />
         <div className={styles.clansSelectInfoWrapper}>
           <Button disabled block>

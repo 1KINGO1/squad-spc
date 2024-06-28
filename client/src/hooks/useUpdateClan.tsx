@@ -15,7 +15,7 @@ const useUpdateClan = ({onSuccess, onError}: UpdateClanParams) => {
   return useMutation({
     mutationFn: updateClan,
     onSuccess: (changedClan) => {
-      queryClient.setQueryData([queryKeys.clans()], (previous : Clan[]) => {
+      queryClient.setQueryData(queryKeys.clans(), (previous : Clan[]) => {
         if (!previous) return [];
 
         return previous.map((clan) => {
