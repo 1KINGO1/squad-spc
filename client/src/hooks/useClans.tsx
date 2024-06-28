@@ -2,14 +2,14 @@ import {
   useQuery,
 } from "@tanstack/react-query"
 
+import queryKeys from "../query-keys";
 import { getClans } from "../services/clans.service";
 import useCurrentUser from "../store/useCurrentUser";
 import Clan from "../types/models/Clan";
-import { QueryKeys } from "../types/QueryKeys";
 
 const useClans = () => {
   const {user} = useCurrentUser();
-  const query = useQuery({ queryKey: [QueryKeys.Clans], queryFn: getClans, enabled: user !== null });
+  const query = useQuery({ queryKey: [queryKeys.clans()], queryFn: getClans, enabled: user !== null });
 
   return {
     clans: query.data || [] as Clan[],

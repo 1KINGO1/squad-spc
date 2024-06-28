@@ -7,6 +7,7 @@ import "./styles/global.scss";
 
 import config from "./config";
 import useClans from "./hooks/useClans";
+import useLists from "./hooks/useLists";
 import router from "./routes/router";
 import {getUserInfo} from "./services/auth.service";
 import useCurrentUser from "./store/useCurrentUser";
@@ -16,7 +17,10 @@ import User from "./types/models/User";
 function App() {
   const { darkAlgorithm } = theme;
   const { setUser } = useCurrentUser();
+
+  // Fetch data
   useClans();
+  useLists();
 
   useEffect(() => {
     getUserInfo()

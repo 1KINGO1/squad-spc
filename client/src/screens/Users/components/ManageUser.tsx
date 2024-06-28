@@ -3,8 +3,8 @@ import { FC, useMemo, useState } from "react";
 import { CrownOutlined, DeleteOutlined, DownOutlined, UnlockOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Space } from "antd";
 
-import { Roles } from "../../../types/Roles";
 import User from "../../../types/models/User";
+import { Roles } from "../../../types/Roles";
 import roleFilterOptions from "../data/roleFilterOptions";
 import ClansModal from "../modals/ClansModal/ClansModal";
 import UserRemoveModal from "../modals/UserRemoveModal/UserRemoveModal";

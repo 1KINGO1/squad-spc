@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import queryKeys from "../query-keys";
 import { updateClan } from "../services/clans.service";
 import Clan from "../types/models/Clan";
-import { QueryKeys } from "../types/QueryKeys";
 
 interface UpdateClanParams {
   onSuccess?: (changedClan: Clan) => void;
@@ -15,7 +15,7 @@ const useUpdateClan = ({onSuccess, onError}: UpdateClanParams) => {
   return useMutation({
     mutationFn: updateClan,
     onSuccess: (changedClan) => {
-      queryClient.setQueryData([QueryKeys.Clans], (previous : Clan[]) => {
+      queryClient.setQueryData([queryKeys.clans()], (previous : Clan[]) => {
         if (!previous) return [];
 
         return previous.map((clan) => {

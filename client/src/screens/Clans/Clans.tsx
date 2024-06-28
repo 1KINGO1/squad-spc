@@ -1,15 +1,15 @@
 import { FC, useState } from "react";
 
+import { PlusOutlined } from "@ant-design/icons";
 import { FloatButton, Spin } from "antd";
 
 import ClanItem from "./ClanItem";
 import styles from "./Clans.module.scss";
 import ClansWrapper from "./ClansWrapper";
+import AddClanModal from "./modals/AddClanModal";
 import PinnedClansWrapper from "./PinnedClansWrapper";
 import useClans from "../../hooks/useClans";
 import usePinnedClans from "../../store/usePinnedClans";
-import { PlusOutlined } from "@ant-design/icons";
-import AddClanModal from "./modals/AddClanModal";
 
 const Clans: FC = () => {
 

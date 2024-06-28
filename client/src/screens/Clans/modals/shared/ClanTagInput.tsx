@@ -1,5 +1,6 @@
-import { Form, Input } from "antd";
 import { FC } from "react";
+
+import { Form, Input } from "antd";
 
 interface ClanTagInputProps {
   initialValue?: string;

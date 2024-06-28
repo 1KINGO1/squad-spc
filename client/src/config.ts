@@ -19,6 +19,9 @@ export default {
       create: "/users",
       update: "/users/:id",
       delete: "/users/:id"
+    },
+    lists: {
+      index: "/lists"
     }
   }
 }
