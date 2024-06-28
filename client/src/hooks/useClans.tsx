@@ -12,7 +12,7 @@ const useClans = () => {
   const query = useQuery({ queryKey: [queryKeys.clans()], queryFn: getClans, enabled: user !== null });
 
   return {
-    clans: query.data || [] as Clan[],
+    clans: (query.data || []) as Clan[],
     isPending: query.isPending,
     isError: query.isError,
     isSuccess: query.isSuccess,

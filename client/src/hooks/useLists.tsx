@@ -10,7 +10,7 @@ const useLists = () => {
   const query = useQuery({ queryKey: [queryKeys.lists()], queryFn: getLists, enabled: user !== null });
 
   return {
-    lists: query.data || [] as List[],
+    lists: (query.data || []) as List[],
     isPending: query.isPending,
     isError: query.isError,
     isSuccess: query.isSuccess,
