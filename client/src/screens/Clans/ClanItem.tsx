@@ -4,23 +4,23 @@ import parseTextToColor from "../../utils/parseTextToColor";
 import { Button } from "antd";
 import { EditOutlined, FileOutlined, PushpinOutlined, TeamOutlined, UnlockOutlined } from "@ant-design/icons";
 import ClanEditModal from "./ClanEditModal";
+import Clan from "../../types/Clans";
 
 interface ClanItemProps {
-  name: string;
-  tag: string;
+  clan: Clan
 }
 
-const ClanItem: FC<ClanItemProps> = ({name, tag}) => {
+const ClanItem: FC<ClanItemProps> = ({clan}) => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const color = parseTextToColor(name + tag, 'clan');
+  const color = parseTextToColor(clan.name + clan.tag, 'clan');
 
   return (
     <>
       <div className={styles.clanItemWrapper} style={{ border: `1px solid ${color[1]}` }}>
         <div className={styles.clanItemTop} style={{ backgroundColor: color[0], border: `1px solid ${color[1]}` }}>
           <p>
-            {name}
+            {clan.name}
           </p>
         </div>
         <div className={styles.clanItemBottom}>
@@ -42,10 +42,8 @@ const ClanItem: FC<ClanItemProps> = ({name, tag}) => {
         </div>
       </div>
       <ClanEditModal isOpen={isEditing}
-                     handleOk={() => false}
-                     handleCancel={() => setIsEditing(false)}
-                     clanName={name}
-                     tag={tag}
+                     setIsOpen={setIsEditing}
+                     clan={clan}
       />
     </>
   )

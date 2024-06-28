@@ -22,7 +22,7 @@ const Clans: FC = () => {
 
         <ClansWrapper>
           {isPending ? null : clans.map(clan => (
-            <ClanItem name={clan.name} tag={clan.tag} />
+            <ClanItem clan={clan} />
           ))}
         </ClansWrapper>
 

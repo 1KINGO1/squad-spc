@@ -1,39 +1,76 @@
-import { FC, useState } from "react";
-import { Button, Form, Input, Modal } from "antd";
+import { FC, useEffect, useState } from "react";
+import { Button, Form, Input, message, Modal } from "antd";
+import Clan from "../../types/Clans";
+import useUpdateClan from "../../hooks/useUpdateClan";
 
 interface ClanEditModalProps {
   isOpen: boolean;
-  handleOk: () => void;
-  handleCancel: () => void;
-  clanName: string;
-  tag: string
+  setIsOpen: (isOpen: boolean) => void;
+  clan: Clan;
 }
 
 const ClanEditModal: FC<ClanEditModalProps> = (props) => {
-  const handleOk = () => {
-    props.handleOk();
-  }
+  const [form] = Form.useForm();
+  const [submittable, setSubmittable] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const values = Form.useWatch([], form);
 
+  const mutation = useUpdateClan(
+    {
+      onSuccess: () => {
+        setIsLoading(false);
+        props.setIsOpen(false);
+      },
+      onError: (errorMessage) => {
+        message.error(errorMessage);
+        setIsLoading(false);
+      }
+    }
+  );
+
+  const handleOk = () => {
+    if (isLoading) return;
+
+    mutation.mutate({ id: props.clan.id, name: values.name || props.clan.name, tag: values.tag || props.clan.tag });
+    setIsLoading(true);
+  };
   const handleCancel = () => {
-    props.handleCancel();
-  }
+    if (isLoading) return;
+
+    props.setIsOpen(false);
+  };
+
+  useEffect(() => {
+    form
+      .validateFields({ validateOnly: true })
+      .then((values) => {
+        if (values.name === props.clan.name && values.tag === props.clan.tag) setSubmittable(false);
+        else setSubmittable(true);
+      })
+      .catch(() => setSubmittable(false));
+  }, [values, props, form]);
 
   return (
     <Modal
       open={props.isOpen}
-      title={"Edit " + props.clanName}
+      title={"Edit " + props.clan.name}
       onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>
           Cancel
         </Button>,
-        <Button key="submit" type="primary" onClick={handleOk}>
+        <Button key="submit"
+                type="primary"
+                onClick={handleOk}
+                loading={isLoading}
+                disabled={!submittable}>
           Submit
-        </Button>,
-
+        </Button
+        >
       ]}
     >
       <Form
+        form={form}
         layout="vertical"
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 20 }}
@@ -41,8 +78,8 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
         <Form.Item
           layout="vertical"
           label="Clan Name"
-          name="clan-name"
-          initialValue={props.clanName}
+          name="name"
+          initialValue={props.clan.name}
           rules={[{ max: 50, min: 4 }]}
           labelCol={{ span: 24 }}
           wrapperCol={{ span: 24 }}
@@ -52,8 +89,8 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
         <Form.Item
           layout="vertical"
           label="Clan Tag"
-          name="clan-tag"
-          initialValue={props.tag}
+          name="tag"
+          initialValue={props.clan.tag}
           rules={[{ max: 10, min: 1 }]}
           labelCol={{ span: 24 }}
           wrapperCol={{ span: 24 }}
@@ -63,6 +100,6 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
       </Form>
     </Modal>
   );
-}
+};
 
 export default ClanEditModal;

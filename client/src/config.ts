@@ -10,7 +10,7 @@ export default {
       index: "/clans",
       show: "/clans/:id",
       create: "/clans",
-      update: "/clans/:id",
+      update: (id: number) => "/clans/" + id,
       delete: "/clans/:id"
     },
     users: {

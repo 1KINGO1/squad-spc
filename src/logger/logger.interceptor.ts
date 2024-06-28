@@ -414,7 +414,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
               },
               {
                 name: 'Allowed lists' + (body.allowed_lists ? ' (updated)' : ''),
-                value: responseData.allowed_lists.map(l => l.name).join(', ')
+                value: responseData?.allowed_lists?.map(l => l.name)?.join(', ') || 'No info :('
               },
               {
                 name: 'Updated by',
