@@ -1,4 +1,5 @@
-import { FC, PropsWithChildren, useState } from "react";
+import { FC, useState } from "react";
+
 import { message } from "antd";
 
 interface CopyableProps {
@@ -14,7 +15,7 @@ const Copyable: FC<CopyableProps> = ({ text }) => {
     if (isCopied) return;
     navigator.clipboard.writeText(text);
 
-    messageApi.info('Copied ' + text, 3);
+    messageApi.info("Copied " + text, 3);
 
     setCopied(true);
     setTimeout(() => setCopied(false), 3000);

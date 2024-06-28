@@ -1,3 +1,3 @@
 export enum QueryKeys {
-  Clans = 'clans',
+  Clans = "clans",
 }

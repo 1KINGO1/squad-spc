@@ -1,6 +1,6 @@
-import SelectRecordsLocation from "./SelectRecordsLocation";
-import RecordsWrapper from "./RecordsWrapper";
 import Record from "./Record";
+import RecordsWrapper from "./RecordsWrapper";
+import SelectRecordsLocation from "./SelectRecordsLocation";
 
 const Records = () => {
   return (

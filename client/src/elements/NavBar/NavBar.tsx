@@ -1,10 +1,11 @@
 import { FC } from "react";
+
 import { Avatar, Button, Spin } from "antd";
 
 import styles from "./NavBar.module.scss";
 import NavLink from "./NavLink";
-import useCurrentUser from "../../store/useCurrentUser";
 import UserTag from "../../components/UserTag";
+import useCurrentUser from "../../store/useCurrentUser";
 
 const NavBar: FC = () => {
 

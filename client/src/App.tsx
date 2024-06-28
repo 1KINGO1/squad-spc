@@ -1,14 +1,17 @@
 import React, { useEffect } from "react";
+
+import { ConfigProvider, theme } from "antd";
 import { RouterProvider } from "react-router";
+
+import "./styles/global.scss";
+
+import config from "./config";
+import useClans from "./hooks/useClans";
+import router from "./routes/router";
 import {getUserInfo} from "./services/auth.service";
 import useCurrentUser from "./store/useCurrentUser";
 import User from "./types/User";
-import "./styles/global.scss";
 
-import { ConfigProvider, theme } from "antd";
-import router from "./routes/router";
-import config from "./config";
-import useClans from "./hooks/useClans";
 
 function App() {
   const { darkAlgorithm } = theme;

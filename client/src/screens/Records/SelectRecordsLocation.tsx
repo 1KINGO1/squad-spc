@@ -1,7 +1,9 @@
 import { FC } from "react";
-import styles from "./Records.module.scss";
-import { Button, Select } from "antd";
+
 import { DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Select } from "antd";
+
+import styles from "./Records.module.scss";
 
 const lists = [
   {

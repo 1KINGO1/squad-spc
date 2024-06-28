@@ -1,10 +1,10 @@
 import Clan from "../../types/Clans";
 
-const localStorageKey = 'pinnedClans';
+const localStorageKey = "pinnedClans";
 
 // returns id of clans
 export function getPinnedClans(): number[] {
-  const pinnedClans = localStorage.getItem(localStorageKey) || '[]';
+  const pinnedClans = localStorage.getItem(localStorageKey) || "[]";
 
   try {
     return JSON.parse(pinnedClans);

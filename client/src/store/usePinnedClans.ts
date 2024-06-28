@@ -1,5 +1,6 @@
-import { create } from 'zustand'
-import * as pinnedClanService from '../services/storage/clan-pin.service';
+import { create } from "zustand"
+
+import * as pinnedClanService from "../services/storage/clan-pin.service";
 import Clan from "../types/Clans";
 
 interface PinnedClansState {

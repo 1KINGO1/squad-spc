@@ -1,9 +1,11 @@
 import { FC } from "react";
-import styles from "./Users.module.scss";
-import { default as IUser } from "../../types/User";
+
 import { Avatar } from "antd";
+
 import ManageUser from "./components/ManageUser";
+import styles from "./Users.module.scss";
 import UserTag from "../../components/UserTag";
+import { default as IUser } from "../../types/User";
 
 interface UserProps {
   user: IUser

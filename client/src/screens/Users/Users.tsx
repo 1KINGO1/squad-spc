@@ -1,8 +1,9 @@
 import { FC } from "react";
-import UsersWrapper from "./UsersWrapper";
+
 import NavigationBar from "./NavigationBar";
-import useCurrentUser from "../../store/useCurrentUser";
 import User from "./User";
+import UsersWrapper from "./UsersWrapper";
+import useCurrentUser from "../../store/useCurrentUser";
 
 const Users: FC = () => {
 

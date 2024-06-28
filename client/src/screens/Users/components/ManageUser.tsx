@@ -1,11 +1,13 @@
 import { FC, useMemo, useState } from "react";
-import { Button, Dropdown, Space } from "antd";
+
 import { CrownOutlined, DeleteOutlined, DownOutlined, UnlockOutlined } from "@ant-design/icons";
-import User from "../../../types/User";
-import UserRemoveModal from "../modals/UserRemoveModal/UserRemoveModal";
-import roleFilterOptions from "../data/roleFilterOptions";
+import { Button, Dropdown, Space } from "antd";
+
 import { Roles } from "../../../types/Roles";
+import User from "../../../types/User";
+import roleFilterOptions from "../data/roleFilterOptions";
 import ClansModal from "../modals/ClansModal/ClansModal";
+import UserRemoveModal from "../modals/UserRemoveModal/UserRemoveModal";
 
 interface ManageUserProps {
   user: User;

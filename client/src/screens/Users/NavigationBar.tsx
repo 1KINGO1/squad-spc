@@ -1,7 +1,9 @@
 import { FC } from "react";
+
 import { Button, Input } from "antd";
-import styles from "./Users.module.scss";
+
 import SelectRolesFilter from "./components/SelectRolesFilter";
+import styles from "./Users.module.scss";
 
 const NavigationBar: FC = () => {
   return (

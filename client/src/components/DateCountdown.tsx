@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+
 import millisecondsToRelativeTimeString from "../utils/millisecondsToRelativeTimeString";
 
 interface DateCountdownProps {
@@ -8,12 +9,12 @@ interface DateCountdownProps {
 
 const DateCountdown: FC<DateCountdownProps> = ({date, onEnd}) => {
 
-  let timeLeft = date.getTime() - Date.now();
+  const timeLeft = date.getTime() - Date.now();
   const [time, setTime] = useState(millisecondsToRelativeTimeString(timeLeft));
 
   useEffect(() => {
     const interval = setInterval(() => {
-      let timeLeft = date.getTime() - Date.now();
+      const timeLeft = date.getTime() - Date.now();
       if (timeLeft <= 0) {
         clearInterval(interval);
         if (onEnd) {

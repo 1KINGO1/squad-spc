@@ -1,11 +1,12 @@
-import styles from './Records.module.scss';
 import { FC } from "react";
-import parseTextToColor from "../../utils/parseTextToColor";
-import DateCountdown from "../../components/DateCountdown";
-import { MoreOutlined } from '@ant-design/icons';
+
+import { MoreOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+
+import styles from "./Records.module.scss";
 import Copyable from "../../components/Copyable";
-import parseSteamIdToHash from "../../utils/parseSteamIdToHash";
+import DateCountdown from "../../components/DateCountdown";
+import parseTextToColor from "../../utils/parseTextToColor";
 
 interface RecordProps {
   userName: string;
@@ -15,10 +16,10 @@ interface RecordProps {
   expirationDate?: Date;
 }
 
-const Record: FC<RecordProps> = ({userName, steamId, authorName, group, expirationDate}) => {
+const Record: FC<RecordProps> = ({userName, steamId, group, expirationDate}) => {
 
-  const nickColor = parseTextToColor(steamId, 'id');
-  const groupColor = parseTextToColor(group, 'groups');
+  const nickColor = parseTextToColor(steamId, "id");
+  const groupColor = parseTextToColor(group, "groups");
 
   return (
     <div className={styles.record}>

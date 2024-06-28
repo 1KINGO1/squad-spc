@@ -1,7 +1,9 @@
 import { FC, PropsWithChildren } from "react";
-import { Link, useLocation } from "react-router-dom";
-import styles from "./NavBar.module.scss";
+
 import classNames from "classnames";
+import { Link, useLocation } from "react-router-dom";
+
+import styles from "./NavBar.module.scss";
 
 interface NavLinkProps {
   to: string;
@@ -9,9 +11,9 @@ interface NavLinkProps {
 
 const NavLink: FC<PropsWithChildren<NavLinkProps>> = ({to, children}) => {
 
-  let location = useLocation();
+  const location = useLocation();
 
-  const isCurrentPage = location.pathname.startsWith('/' + to.replace(/^\//, ""));
+  const isCurrentPage = location.pathname.startsWith("/" + to.replace(/^\//, ""));
 
   return (
     <li className={classNames(styles.link, {[styles.linkActive]: isCurrentPage})}>

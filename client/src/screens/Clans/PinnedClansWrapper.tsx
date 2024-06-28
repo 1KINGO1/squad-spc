@@ -1,6 +1,8 @@
 import { FC, PropsWithChildren } from "react";
-import styles from "./Clans.module.scss";
+
 import { PushpinOutlined } from "@ant-design/icons";
+
+import styles from "./Clans.module.scss";
 
 const PinnedClansWrapper: FC<PropsWithChildren> = ({children}) => {
   return (

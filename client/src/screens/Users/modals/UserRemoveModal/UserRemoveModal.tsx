@@ -1,6 +1,8 @@
 import { FC } from "react";
-import User from "../../../../types/User";
+
 import { Button, Modal } from "antd";
+
+import User from "../../../../types/User";
 
 interface UserRemoveModalProps {
   user: User,
@@ -23,7 +25,7 @@ const UserRemoveModal: FC<UserRemoveModalProps> = ({user, isOpen, setOpen}) => {
       open={isOpen}
       onOk={handleOk}
       onCancel={handleCancel}
-      footer={(_, { OkBtn, CancelBtn }) => (
+      footer={() => (
         <>
           <Button onClick={handleCancel}>
             Cancel

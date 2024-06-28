@@ -1,6 +1,6 @@
-import axiosWithAuth from "../utils/axiosWithAuth";
-import User from "../types/User";
 import config from "../config";
+import User from "../types/User";
+import axiosWithAuth from "../utils/axiosWithAuth";
 
 export async function getUserInfo() {
 

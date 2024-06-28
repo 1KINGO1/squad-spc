@@ -1,10 +1,12 @@
 import { FC } from "react";
-import styles from "./Clans.module.scss";
-import ClanItem from "./ClanItem";
-import ClansWrapper from "./ClansWrapper";
-import useClans from "../../hooks/useClans";
+
 import { Spin } from "antd";
+
+import ClanItem from "./ClanItem";
+import styles from "./Clans.module.scss";
+import ClansWrapper from "./ClansWrapper";
 import PinnedClansWrapper from "./PinnedClansWrapper";
+import useClans from "../../hooks/useClans";
 import usePinnedClans from "../../store/usePinnedClans";
 
 const Clans: FC = () => {

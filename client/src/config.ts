@@ -1,5 +1,5 @@
 export default {
-  apiBaseUrl: "http://localhost:3000/api",
+  apiBaseUrl: `http://${process.env.HOST || "localhost"}:${process.env.PORT || "3000"}${process.env.API_PREFIX || "/api"}`,
   paths: {
     auth: {
       login: "/auth/login",

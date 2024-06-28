@@ -1,5 +1,7 @@
-import { Button, Modal, Table } from "antd";
 import { FC } from "react";
+
+import { Button, Modal } from "antd";
+
 import User from "../../../../types/User";
 
 interface ClansModalProps {
@@ -8,7 +10,7 @@ interface ClansModalProps {
   setIsOpen: (isOpen: boolean) => void;
 }
 
-const ClansModal: FC<ClansModalProps> = ({user, isOpen, setIsOpen}) => {
+const ClansModal: FC<ClansModalProps> = ({isOpen, setIsOpen}) => {
 
   const handleOk = () => setIsOpen(false);
   const handleCancel = () => setIsOpen(false);

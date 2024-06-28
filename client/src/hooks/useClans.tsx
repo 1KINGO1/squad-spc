@@ -1,10 +1,11 @@
 import {
   useQuery,
-} from '@tanstack/react-query'
-import { QueryKeys } from "../types/QueryKeys";
+} from "@tanstack/react-query"
+
 import { getClans } from "../services/clans.service";
 import useCurrentUser from "../store/useCurrentUser";
-import Clan from '../types/Clans';
+import Clan from "../types/Clans";
+import { QueryKeys } from "../types/QueryKeys";
 
 const useClans = () => {
   const {user} = useCurrentUser();

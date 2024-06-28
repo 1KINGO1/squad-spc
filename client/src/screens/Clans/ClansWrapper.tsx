@@ -1,4 +1,5 @@
 import { FC, PropsWithChildren } from "react";
+
 import styles from "./Clans.module.scss";
 
 const ClansWrapper: FC<PropsWithChildren> = ({children}) => {

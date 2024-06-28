@@ -1,12 +1,13 @@
-import { createBrowserRouter } from "react-router-dom";
 import React from "react";
 
-import DefaultLayout from "../layouts/DefaultLayout/DefaultLayout";
+import { createBrowserRouter } from "react-router-dom";
+
 
 import ClansRoute from "./Clans.route";
 import HomeRoute from "./Home.route";
 import RecordsRoute from "./Records.route";
 import UsersRoute from "./Users.route";
+import DefaultLayout from "../layouts/DefaultLayout/DefaultLayout";
 
 const router = createBrowserRouter([
   {

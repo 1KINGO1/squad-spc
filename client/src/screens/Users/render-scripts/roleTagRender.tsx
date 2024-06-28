@@ -1,5 +1,7 @@
-import type { SelectProps } from "antd";
 import { MouseEvent } from "react";
+
+import type { SelectProps } from "antd";
+
 import UserTag from "../../../components/UserTag";
 
 type TagRender = SelectProps["tagRender"];

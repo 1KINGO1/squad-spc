@@ -1,4 +1,4 @@
-type Salt = 'id' | 'groups' | 'clan' | 'unknown';
+type Salt = "id" | "groups" | "clan" | "unknown";
 
 function hashCode(str: string): number {
   let hash = 0;
@@ -11,11 +11,11 @@ function hashCode(str: string): number {
 }
 
 function hexColorFromHash(hash: number): string {
-  let color = (hash & 0x00FFFFFF)
+  const color = (hash & 0x00FFFFFF)
     .toString(16)
     .toUpperCase();
 
-  return '00000'.substring(0, 6 - color.length) + color;
+  return "00000".substring(0, 6 - color.length) + color;
 }
 
 function adjustColorBrightness(color: string): string {
@@ -42,9 +42,9 @@ function adjustColorBrightness(color: string): string {
   g = Math.min(255, g);
   b = Math.min(255, b);
 
-  const rHex = r.toString(16).padStart(2, '0');
-  const gHex = g.toString(16).padStart(2, '0');
-  const bHex = b.toString(16).padStart(2, '0');
+  const rHex = r.toString(16).padStart(2, "0");
+  const gHex = g.toString(16).padStart(2, "0");
+  const bHex = b.toString(16).padStart(2, "0");
 
   return rHex + gHex + bHex;
 }

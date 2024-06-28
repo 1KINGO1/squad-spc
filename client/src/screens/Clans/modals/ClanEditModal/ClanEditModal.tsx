@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from "react";
+
 import { Button, Form, Input, message, Modal } from "antd";
-import Clan from "../../types/Clans";
-import useUpdateClan from "../../hooks/useUpdateClan";
+
+import useUpdateClan from "../../../../hooks/useUpdateClan";
+import Clan from "../../../../types/Clans";
 
 interface ClanEditModalProps {
   isOpen: boolean;
@@ -65,8 +67,7 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
                 loading={isLoading}
                 disabled={!submittable}>
           Submit
-        </Button
-        >
+        </Button>
       ]}
     >
       <Form
