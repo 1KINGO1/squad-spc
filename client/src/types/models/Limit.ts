@@ -1,4 +1,4 @@
-import Clan from "./Clans";
+import Clan from "./Clan";
 import Group from "./Group";
 
 export default interface Limit {

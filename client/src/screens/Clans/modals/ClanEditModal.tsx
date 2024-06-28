@@ -1,9 +1,12 @@
 import { FC, useEffect, useState } from "react";
 
-import { Button, Form, Input, message, Modal } from "antd";
+import { Button, Form, message, Modal } from "antd";
 
-import useUpdateClan from "../../../../hooks/useUpdateClan";
-import Clan from "../../../../types/models/Clans";
+import ClanNameInput from "./shared/ClanNameInput";
+import ClanTagInput from "./shared/ClanTagInput";
+import SelectAllowedLists from "./shared/SelectAllowedLists";
+import useUpdateClan from "../../../hooks/useUpdateClan";
+import Clan from "../../../types/models/Clan";
 
 interface ClanEditModalProps {
   isOpen: boolean;
@@ -33,7 +36,12 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
   const handleOk = () => {
     if (isLoading) return;
 
-    mutation.mutate({ id: props.clan.id, name: values.name || props.clan.name, tag: values.tag || props.clan.tag });
+    mutation.mutate({
+      id: props.clan.id,
+      name: values.name || props.clan.name,
+      tag: values.tag || props.clan,
+      allowed_lists: values.allowed_lists
+    });
     setIsLoading(true);
   };
   const handleCancel = () => {
@@ -47,7 +55,11 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
     form
       .validateFields({ validateOnly: true })
       .then((values) => {
-        if (values.name === props.clan.name && values.tag === props.clan.tag) setSubmittable(false);
+        if (
+          values.name === props.clan.name &&
+          values.tag === props.clan.tag &&
+          values.allowed_lists + "" === props.clan.allowed_lists.map(list => list.id) + ""
+        ) setSubmittable(false);
         else setSubmittable(true);
       })
       .catch(() => setSubmittable(false));
@@ -77,28 +89,9 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 20 }}
       >
-        <Form.Item
-          layout="vertical"
-          label="Clan Name"
-          name="name"
-          initialValue={props.clan.name}
-          rules={[{ max: 50, min: 4, required: true }]}
-          labelCol={{ span: 24 }}
-          wrapperCol={{ span: 24 }}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          layout="vertical"
-          label="Clan Tag"
-          name="tag"
-          initialValue={props.clan.tag}
-          rules={[{ max: 10, min: 1, required: true }]}
-          labelCol={{ span: 24 }}
-          wrapperCol={{ span: 24 }}
-        >
-          <Input />
-        </Form.Item>
+        <ClanNameInput initialValue={props.clan.name} />
+        <ClanTagInput initialValue={props.clan.tag} />
+        <SelectAllowedLists initialValue={props.clan.allowed_lists.map(list => list.id)} />
       </Form>
     </Modal>
   );

@@ -4,9 +4,9 @@ import { EditOutlined, FileOutlined, PushpinOutlined, TeamOutlined, UnlockOutlin
 import { Button } from "antd";
 
 import styles from "./Clans.module.scss";
-import ClanEditModal from "./modals/ClanEditModal/ClanEditModal";
+import ClanEditModal from "./modals/ClanEditModal";
 import usePinnedClans from "../../store/usePinnedClans";
-import Clan from "../../types/models/Clans";
+import Clan from "../../types/models/Clan";
 import parseTextToColor from "../../utils/parseTextToColor";
 
 interface ClanItemProps {

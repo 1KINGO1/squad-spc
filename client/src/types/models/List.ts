@@ -1,4 +1,4 @@
-import Clan from "./Clans";
+import Clan from "./Clan";
 
 export default interface List {
   id: number,

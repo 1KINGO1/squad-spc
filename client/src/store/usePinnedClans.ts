@@ -1,7 +1,7 @@
 import { create } from "zustand"
 
 import * as pinnedClanService from "../services/storage/clan-pin.service";
-import Clan from "../types/models/Clans";
+import Clan from "../types/models/Clan";
 
 interface PinnedClansState {
   pinnedClanIds: number[];
