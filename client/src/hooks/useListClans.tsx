@@ -19,7 +19,7 @@ const useListClans = (listId: number) => {
       queryKey: queryKeys.listClans(listId),
       queryFn,
       enabled: user !== null && !isDisabled,
-      placeholderData: [{ id: 0, name: "Loading..." }]
+      placeholderData: [{ id: 0, name: "Loading...", tag: "" }]
     }
   );
 
