@@ -4,9 +4,11 @@ import RecordsWrapper from "./RecordsWrapper";
 import useRecordsLocation from "../../store/useRecordsLocation";
 import useRecords from "../../hooks/useRecords";
 import { useEffect } from "react";
+import useGroups from "../../hooks/useGroups";
 
 const Records = () => {
   const {listId, clanId} = useRecordsLocation();
+  const {groups} = useGroups();
   const {records, enable} = useRecords(listId, clanId);
 
   useEffect(() => {
@@ -24,7 +26,7 @@ const Records = () => {
             key={record.id}
             userName={record.username}
             steamId={record.steam_id}
-            group={record.group.name}
+            group={groups.find(group => group.id === record.group.id)?.name ?? record.group.name}
             authorName={record.author.username}
             expirationDate={record.expiration_date ? new Date( record.expiration_date ) : undefined}
           />

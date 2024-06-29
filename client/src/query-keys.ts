@@ -13,6 +13,9 @@ const queryKeys: {
   },
   records(listId: number, clanId: number){
     return ["records", "listId" + listId, "clanId" + clanId];
+  },
+  groups(){
+    return ["groups"];
   }
 }
 

@@ -26,6 +26,9 @@ export default {
     },
     records: {
       index: (listId: number, clanId: number) => `/records/clan/${clanId}/list/${listId}`,
+    },
+    groups: {
+      index: "/permissions/groups"
     }
   }
 }
