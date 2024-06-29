@@ -20,7 +20,7 @@ const UserTag: FC<UserTagProps> = ({role, ...rest}) => {
     case Roles.Admin:
       color = "gold";
       break;
-    case Roles.ClanLeaders:
+    case Roles.ClanLeader:
       color = "blue";
       break;
     case Roles.Guest:

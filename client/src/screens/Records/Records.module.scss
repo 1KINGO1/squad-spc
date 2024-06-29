@@ -101,3 +101,8 @@
 .createRecord:hover {
   transform: scale(1.003);
 }
+
+.createRecordDisabled {
+  cursor: no-drop;
+  opacity: 0.4;
+}

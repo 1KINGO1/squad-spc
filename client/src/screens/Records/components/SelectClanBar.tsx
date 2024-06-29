@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Button, Select } from "antd";
 
@@ -8,8 +8,14 @@ import useRecordsLocation from "../../../store/useRecordsLocation";
 import styles from "../Records.module.scss";
 
 const SelectClanBar = () => {
-
-  const {listId, clanId, setClanId} = useRecordsLocation();
+  const {
+    listId,
+    clanId,
+    setClanId,
+    listsNotFoundError,
+    clansNotFoundError,
+    setClansNotFoundError
+  } = useRecordsLocation();
 
   const { clans, isLoading: isClansLoading, enableClanFetch } = useListClans(listId ?? 0);
   const clansOptions = useMemo(
@@ -22,6 +28,12 @@ const SelectClanBar = () => {
 
   // Set default clan on load
   useEffect(() => {
+
+    if (clans.length === 0 && !isClansLoading){
+      setClansNotFoundError(true);
+      return;
+    }
+
     if (!isClansLoading){
 
       const clanId = getRecordLocation().clanId;
@@ -36,8 +48,12 @@ const SelectClanBar = () => {
   }, [clans]);
 
   useEffect(() => {
+    if (listsNotFoundError) {
+      setClansNotFoundError(true);
+      return;
+    }
     if (listId) enableClanFetch();
-  }, [listId])
+  }, [listId, listsNotFoundError])
 
   return (
     <div className={styles.clansSelect}>
@@ -48,7 +64,8 @@ const SelectClanBar = () => {
         onChange={setClanId}
         placeholder="Search to Select"
         optionFilterProp="label"
-        options={clansOptions}
+        disabled={clansNotFoundError}
+        options={clansNotFoundError ? [{value: 0, label: "You don't have accessible clans"}] : clansOptions}
       />
       <div className={styles.clansSelectInfoWrapper}>
         <Button disabled block>

@@ -1,6 +1,6 @@
 export enum Roles {
   Guest = 0,
-  ClanLeaders = 1,
+  ClanLeader = 1,
   Admin = 2,
   Root = 3
 }

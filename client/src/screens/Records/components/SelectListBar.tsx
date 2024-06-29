@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Select } from "antd";
@@ -9,7 +9,7 @@ import useRecordsLocation from "../../../store/useRecordsLocation";
 import styles from "../Records.module.scss";
 
 const SelectListBar = () => {
-  const {listId, setListId} = useRecordsLocation();
+  const {listId, setListId, listsNotFoundError, setListsNotFoundError} = useRecordsLocation();
 
   const { lists, isLoading: isListsLoading } = useLists();
   const listsOptions = useMemo(
@@ -18,6 +18,12 @@ const SelectListBar = () => {
 
   // Set default list on load
   useEffect(() => {
+
+    if (lists.length === 0 && !isListsLoading) {
+      setListsNotFoundError(true);
+      return;
+    }
+
     if (!isListsLoading) {
 
       const listId = getRecordLocation().listId;
@@ -38,17 +44,18 @@ const SelectListBar = () => {
         className={styles.selectInput}
         showSearch
         value={isListsLoading ? 0 : listId}
+        disabled={listsNotFoundError}
         onChange={setListId}
         placeholder="Search to Select"
         optionFilterProp="label"
-        options={listsOptions}
+        options={listsNotFoundError ? [{value: 0, label: "You don't have accessible lists"}] : listsOptions}
       />
 
       <div className={styles.listsSelectButtonWrapper}>
-        <Button icon={<PlusOutlined />} />
-        <Button icon={<EditOutlined />} />
-        <Button icon={<ExportOutlined />} />
-        <Button icon={<DeleteOutlined />} />
+        <Button icon={<PlusOutlined />} disabled={listsNotFoundError}/>
+        <Button icon={<EditOutlined />} disabled={listsNotFoundError}/>
+        <Button icon={<ExportOutlined />} disabled={listsNotFoundError}/>
+        <Button icon={<DeleteOutlined />} disabled={listsNotFoundError}/>
       </div>
     </div>
   )
