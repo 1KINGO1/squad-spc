@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 
 import queryKeys from "../query-keys";
 import { getGroups } from "../services/groups.service";
-import Group from "../types/models/Group";
 import useCurrentUser from "../store/useCurrentUser";
+import Group from "../types/models/Group";
 import { Roles } from "../types/Roles";
 
 

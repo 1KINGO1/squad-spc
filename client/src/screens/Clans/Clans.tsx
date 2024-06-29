@@ -9,8 +9,8 @@ import ClansWrapper from "./ClansWrapper";
 import AddClanModal from "./modals/AddClanModal";
 import PinnedClansWrapper from "./PinnedClansWrapper";
 import useClans from "../../hooks/useClans";
-import usePinnedClans from "../../store/usePinnedClans";
 import useCurrentUser from "../../store/useCurrentUser";
+import usePinnedClans from "../../store/usePinnedClans";
 import { Roles } from "../../types/Roles";
 
 const Clans: FC = () => {

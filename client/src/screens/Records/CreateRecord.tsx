@@ -1,10 +1,10 @@
 import { FC } from "react";
 
 import { PlusOutlined } from "@ant-design/icons";
+import classNames from "classnames";
 
 import styles from "./Records.module.scss";
 import useRecordsLocation from "../../store/useRecordsLocation";
-import classNames from "classnames";
 
 const CreateRecord: FC = () => {
 

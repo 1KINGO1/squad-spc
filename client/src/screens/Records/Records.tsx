@@ -1,10 +1,11 @@
+import { useEffect } from "react";
+
 import SelectRecordsLocation from "./components/SelectRecordsLocation";
 import Record from "./Record";
 import RecordsWrapper from "./RecordsWrapper";
-import useRecordsLocation from "../../store/useRecordsLocation";
-import useRecords from "../../hooks/useRecords";
-import { useEffect } from "react";
 import useGroups from "../../hooks/useGroups";
+import useRecords from "../../hooks/useRecords";
+import useRecordsLocation from "../../store/useRecordsLocation";
 
 const Records = () => {
   const {listId, clanId} = useRecordsLocation();

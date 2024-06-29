@@ -1,10 +1,11 @@
+import { useState } from "react";
+
 import { useQuery } from "@tanstack/react-query";
 
 import queryKeys from "../query-keys";
+import { getRecords } from "../services/records.service";
 import useCurrentUser from "../store/useCurrentUser";
 import Record from "../types/models/Record";
-import { useState } from "react";
-import { getRecords } from "../services/records.service";
 
 const useRecords = (listId: number, clanId: number) => {
   const [isDisabled, setIsDisabled] = useState(true);
