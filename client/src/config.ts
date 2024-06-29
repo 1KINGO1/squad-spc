@@ -21,7 +21,8 @@ export default {
       delete: "/users/:id"
     },
     lists: {
-      index: "/lists"
+      index: "/lists",
+      clans: (id: number) => "/lists/" + id + "/clans",
     }
   }
 }

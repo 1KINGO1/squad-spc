@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import queryKeys from "../query-keys";
-import { updateClan } from "../services/clans.service";
+import { createClan } from "../services/clans.service";
 import Clan from "../types/models/Clan";
 
 interface UpdateClanParams {
@@ -9,32 +9,27 @@ interface UpdateClanParams {
   onError?: (errorMessage: string) => void;
 }
 
-const useUpdateClan = ({onSuccess, onError}: UpdateClanParams) => {
+const useCreateClan = ({onSuccess, onError}: UpdateClanParams) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: updateClan,
-    onSuccess: (changedClan) => {
+    mutationFn: createClan,
+    onSuccess: (createdClan) => {
+
+      // Invalidate the list of clans query
       queryClient.removeQueries({queryKey: queryKeys.listClans() });
       queryClient.setQueryData(queryKeys.clans(), (previous : Clan[]) => {
-        if (!previous) return [];
+        if (!previous) return [createdClan];
 
-        return previous.map((clan) => {
-          if (clan.id === changedClan.id) return {
-            ...clan,
-            ...changedClan
-          };
-          return clan;
-        });
+        return [...previous, createdClan];
       });
 
-      if (onSuccess) onSuccess(changedClan);
+      if (onSuccess) onSuccess(createdClan);
     },
     onError: (error: any) => {
-      console.error(error);
       if (onError) onError(error.message);
     }
   })
 }
 
-export default useUpdateClan;
+export default useCreateClan;

@@ -1,6 +1,6 @@
+import SelectRecordsLocation from "./components/SelectRecordsLocation";
 import Record from "./Record";
 import RecordsWrapper from "./RecordsWrapper";
-import SelectRecordsLocation from "./SelectRecordsLocation";
 
 const Records = () => {
   return (

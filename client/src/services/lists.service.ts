@@ -6,3 +6,7 @@ export async function getLists() {
   return data
 }
 
+export async function getListClans(listId: number) {
+  const { data } = await axiosWithAuth(config.paths.lists.clans(listId));
+  return data
+}

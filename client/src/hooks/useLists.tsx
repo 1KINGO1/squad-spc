@@ -7,7 +7,13 @@ import List from "../types/models/List";
 
 const useLists = () => {
   const {user} = useCurrentUser();
-  const query = useQuery({ queryKey: queryKeys.lists(), queryFn: getLists, enabled: user !== null });
+  const query = useQuery(
+    {
+      queryKey: queryKeys.lists(),
+      queryFn: getLists,
+      enabled: user !== null,
+      placeholderData: [{ id: 0, name: "Loading..." }],
+    });
 
   return {
     lists: (query.data || []) as List[],

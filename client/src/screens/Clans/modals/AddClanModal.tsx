@@ -1,10 +1,11 @@
 import { FC, useEffect, useState } from "react";
 
-import { Button, Form, Modal } from "antd";
+import { Button, Form, message, Modal } from "antd";
 
 import ClanNameInput from "./shared/ClanNameInput";
 import ClanTagInput from "./shared/ClanTagInput";
 import SelectAllowedLists from "./shared/SelectAllowedLists";
+import useCreateClan from "../../../hooks/useCreateClan";
 
 interface AddClanModalProps {
   isOpen: boolean;
@@ -17,8 +18,21 @@ const AddClanModal: FC<AddClanModalProps> = (props) => {
   const values = Form.useWatch([], form);
 
 
+  const mutation = useCreateClan({
+    onSuccess: () => {
+      form.resetFields();
+      setIsLoading(false);
+      props.setIsOpen(false);
+    },
+    onError: (errorMessage) => {
+      setIsLoading(false);
+      message.error(errorMessage);
+    }
+  });
+
   const handleOk = () => {
-    props.setIsOpen(false);
+    setIsLoading(true);
+    mutation.mutate(values);
   };
   const handleCancel = () => {
     props.setIsOpen(false);
@@ -29,7 +43,6 @@ const AddClanModal: FC<AddClanModalProps> = (props) => {
       .validateFields({ validateOnly: true })
       .then(() => {
         setSubmittable(true);
-        console.log(values);
       })
       .catch(() => setSubmittable(false));
   }, [values, props, form]);
