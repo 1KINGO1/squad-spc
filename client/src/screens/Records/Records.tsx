@@ -1,17 +1,34 @@
 import SelectRecordsLocation from "./components/SelectRecordsLocation";
 import Record from "./Record";
 import RecordsWrapper from "./RecordsWrapper";
+import useRecordsLocation from "../../store/useRecordsLocation";
+import useRecords from "../../hooks/useRecords";
+import { useEffect } from "react";
 
 const Records = () => {
+  const {listId, clanId} = useRecordsLocation();
+  const {records, enable} = useRecords(listId, clanId);
+
+  useEffect(() => {
+    if (listId && clanId) {
+      enable();
+    }
+  }, [listId, clanId]);
+
   return (
     <div>
       <SelectRecordsLocation />
       <RecordsWrapper>
-        <Record userName="KINGO" steamId="76561198990669262" group={"Whitelist"} authorName="author1" expirationDate={new Date(Date.now() + 1000 * 60 * 60 * 25 * 1.023 )}/>
-        <Record userName="aboba" steamId="76561198061788436" group={"Moderator"} authorName="author3" />
-        <Record userName="aboba" steamId="76561198088834273" group={"GameMaster"} authorName="author3" />
-        <Record userName="aboba" steamId="76561198201646397" group={"Guest"} authorName="author3" />
-        <Record userName="aboba" steamId="76561198888290148" group={"ClanWhitelist"} authorName="author3" />
+        {records.map((record) => (
+          <Record
+            key={record.id}
+            userName={record.username}
+            steamId={record.steam_id}
+            group={record.group.name}
+            authorName={record.author.username}
+            expirationDate={record.expiration_date ? new Date( record.expiration_date ) : undefined}
+          />
+        ))}
       </RecordsWrapper>
     </div>
   )

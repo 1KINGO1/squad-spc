@@ -10,6 +10,9 @@ const queryKeys: {
   listClans(listId?: number){
     if (listId === undefined) return ["lists", "clans"];
     return ["lists", "clans", listId];
+  },
+  records(listId: number, clanId: number){
+    return ["records", "listId" + listId, "clanId" + clanId];
   }
 }
 

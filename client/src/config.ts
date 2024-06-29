@@ -23,6 +23,9 @@ export default {
     lists: {
       index: "/lists",
       clans: (id: number) => "/lists/" + id + "/clans",
+    },
+    records: {
+      index: (listId: number, clanId: number) => `/records/clan/${clanId}/list/${listId}`,
     }
   }
 }
