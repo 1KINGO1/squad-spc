@@ -25,7 +25,7 @@ const useListClans = (listId: number) => {
 
   return {
     clans: (query.data || []) as Clan[],
-    isPending: query.isPending,
+    isLoading: query.isLoading,
     isError: query.isError,
     isSuccess: query.isSuccess,
     enableClanFetch: () => {

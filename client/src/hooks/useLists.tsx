@@ -17,7 +17,7 @@ const useLists = () => {
 
   return {
     lists: (query.data || []) as List[],
-    isPending: query.isPending,
+    isLoading: query.isLoading,
     isError: query.isError,
     isSuccess: query.isSuccess,
   }

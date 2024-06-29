@@ -1,24 +1,34 @@
+import { useEffect, useMemo } from "react";
+
+import { DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Select } from "antd";
+
+import useLists from "../../../hooks/useLists";
+import { getRecordLocation } from "../../../services/storage/record-location.service";
+import useRecordsLocation from "../../../store/useRecordsLocation";
 import styles from "../Records.module.scss";
 
-import { Button, Select } from "antd";
-import { DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined } from "@ant-design/icons";
-import useLists from "../../../hooks/useLists";
-import { useEffect, useMemo } from "react";
-import useRecordsLocation from "../../../store/useRecordsLocation";
-
 const SelectListBar = () => {
-
   const {listId, setListId} = useRecordsLocation();
 
-  const { lists, isPending: isListsPending } = useLists();
+  const { lists, isLoading: isListsLoading } = useLists();
   const listsOptions = useMemo(
-    () => !isListsPending ? lists.map(list => ({ value: list.id, label: list.name })) : [],
+    () => !isListsLoading ? lists.map(list => ({ value: list.id, label: list.name })) : [],
     [lists]);
 
   // Set default list on load
   useEffect(() => {
-    if (!isListsPending && lists[0]?.id !== undefined) {
-      setListId(lists[0].id);
+    if (!isListsLoading) {
+
+      const listId = getRecordLocation().listId;
+
+      if (lists.find(list => list.id === listId) === undefined){
+        setListId(lists[0].id ?? 0);
+        return;
+      }
+
+      setListId(listId ?? 0);
+
     }
   }, [lists]);
 
@@ -27,7 +37,7 @@ const SelectListBar = () => {
       <Select
         className={styles.selectInput}
         showSearch
-        value={listId ?? 0}
+        value={isListsLoading ? 0 : listId}
         onChange={setListId}
         placeholder="Search to Select"
         optionFilterProp="label"

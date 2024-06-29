@@ -1,19 +1,19 @@
 import { create } from "zustand"
 
 interface RecordsLocationState {
-  listId: number | null,
+  listId: number,
   setListId: (listId: number) => void
-  clanId: number | null,
+  clanId: number,
   setClanId: (clanId: number) => void,
   clear: () => void
 }
 
 const useRecordsLocation = create<RecordsLocationState>((set) => ({
-  listId: null,
+  listId: 0,
   setListId: (listId: number) => set({ listId }),
-  clanId: null,
+  clanId: 0,
   setClanId: (clanId: number) => set({ clanId }),
-  clear: () => set({ listId: null, clanId: null })
+  clear: () => set({ listId: 0, clanId: 0 })
 }))
 
 export default useRecordsLocation;
