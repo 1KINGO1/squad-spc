@@ -34,22 +34,15 @@ export class LimitsService {
 
 
   async createLimit(clanId: number, createObj: CreateLimitDto) {
-    const group = await this.permissionsService.getGroupById(createObj.group_id);
-    const clan = await this.clansService.getClanById(clanId);
+    const limitToCreate = await this.createLimitEntity(clanId, createObj);
 
-    const existingLimit = await this.limitsRepository.findOne({where: {clan: {id: clan.id}, group: {id: group.id}}});
+    const existingLimit = await this.limitsRepository.findOne({where: {clan: {id: limitToCreate.clan.id}, group: {id: limitToCreate.group.id}}});
 
     if (existingLimit) {
       throw new BadRequestException("Limit already exists");
     }
 
-    const limit = this.limitsRepository.create({
-      limit: createObj.limit || null,
-    });
-    limit.clan = clan;
-    limit.group = group;
-
-    return this.limitsRepository.save(limit);
+    return this.limitsRepository.save(limitToCreate);
   }
 
   async deleteLimit(limitId: number) {
@@ -78,15 +71,22 @@ export class LimitsService {
     }
 
     const newLimits = await Promise.all(limits.map(async limit => {
-      const group = await this.permissionsService.getGroupById(limit.group_id);
-
-      return this.limitsRepository.create({
-        limit: limit.limit || null,
-        clan: clan,
-        group
-      });
+      return this.createLimitEntity(clanId, limit);
     }));
     return this.limitsRepository.save(newLimits);
+  }
+
+  private async createLimitEntity(clanId: number, createObj: CreateLimitDto) {
+    if (createObj.limit && createObj.limit <= 0) throw new BadRequestException("Limit must be greater than 0");
+
+    const group = await this.permissionsService.getGroupById(createObj.group_id);
+    const clan = await this.clansService.getClanById(clanId);
+
+    return this.limitsRepository.create({
+      clan,
+      group,
+      limit: createObj.limit || null,
+    });
   }
 
 }
