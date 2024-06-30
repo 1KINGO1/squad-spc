@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Clan } from "../entity/Clan.entity";
 import { Repository } from "typeorm";
 import { Limit } from "../entity/Limit.entity";
 import { PermissionsService } from "../../permissions/permissions.service";

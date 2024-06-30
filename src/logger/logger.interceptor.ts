@@ -470,9 +470,17 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
 
           return logger.log({
             level: LoggerLevel.UPDATED,
-            title: `${clan.name} [${clan.id}] Limits Update`,
+            title: `Limits Update`,
             message: `${responseData.map(l => `Group: <code>${l.group.name}<code> Limit: <code>${l.limit || 'Unlimited'}<code>`).join('\n')}`,
             fields: [
+              {
+                name: 'Clan ID',
+                value: clan.id + '',
+              },
+              {
+                name: 'Clan Name',
+                value: clan.name + '',
+              },
               {
                 name: 'Updated by',
                 value: user.username + ` (${AuthRoles[user.permission]})`,
