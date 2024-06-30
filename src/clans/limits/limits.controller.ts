@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseArrayPipe, ParseIntPipe, Patch, Post } from "@nestjs/common";
 import { LimitsService } from "./limits.service";
 import { CreateLimitDto } from "../dtos/create-limit.dto";
 import { Auth, AuthRoles } from "../../auth/guards/auth.guard";
@@ -20,6 +20,14 @@ export class LimitsController {
     @Body() body: CreateLimitDto
   ) {
     return this.limitsService.createLimit(clanId, body);
+  }
+
+  @Post("replace")
+  async replaceClanLimits(
+    @Param("id", ParseIntPipe) clanId: number,
+    @Body(new ParseArrayPipe({items: CreateLimitDto, separator: ","})) body: CreateLimitDto[]
+  ) {
+    return this.limitsService.replaceLimits(clanId, body);
   }
 
   @Delete(":limitId")

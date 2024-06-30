@@ -19,6 +19,6 @@ export class CreateRecordDto {
 
   @IsPositive()
   @IsNumber()
-  groupId: number;
+  group_id: number;
 
 }

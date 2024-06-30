@@ -456,12 +456,30 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
   }
   // Handler for clans/limits module
   private limitsLog({ method, path, data, body, user }: PathLog) {
+    const matches = path.match(/^\/?clans\/(\d+)\/limits\/?/);
     path = path.replace(/^\/?clans\/\d+\/limits\/?/g, '');
 
     let responseData = data as Limit;
 
     switch (method) {
       case 'POST':
+        if (path.match(/^replace/)){
+          let responseData = data as Limit[];
+
+          const clan = responseData.length ? responseData[0].clan : {id: matches[1], name: 'Unknown'};
+
+          return logger.log({
+            level: LoggerLevel.UPDATED,
+            title: `${clan.name} [${clan.id}] Limits Update`,
+            message: `${responseData.map(l => `Group: <code>${l.group.name}<code> Limit: <code>${l.limit || 'Unlimited'}<code>`).join('\n')}`,
+            fields: [
+              {
+                name: 'Updated by',
+                value: user.username + ` (${AuthRoles[user.permission]})`,
+              }
+            ]
+          })
+        }
         if (path.match(/^/)){
           return logger.log({
             level: LoggerLevel.CREATED,

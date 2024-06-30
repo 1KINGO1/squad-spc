@@ -33,17 +33,25 @@ export class RecordsService {
       throw new BadRequestException("Clan does not have access to this list");
     }
 
-    return this.recordsRepository.find({
+    const records = await this.recordsRepository.find({
       where: {
         list: { id: listId },
         clan: { id: clanId }
       },
-      relations: ["group", "clan"]
+      relations: ["group", "clan", "author"]
     });
+
+    return records.map(record => ({
+      ...record,
+      author: {
+        id: record.author.id,
+        username: record.author.username
+      },
+    }));
   }
 
   async createRecord(
-    { user, clanId, listId, username, groupId, steam_id, expire_date }: CreateRecordOptions
+    { user, clanId, listId, username, group_id, steam_id, expire_date }: CreateRecordOptions
   ) {
     const clan = await this.clansService.getClanById(clanId, ["allowed_lists", "clan_leaders", "limits", "limits.group"]);
 
@@ -59,7 +67,7 @@ export class RecordsService {
       throw new BadRequestException("Clan does not have access to this list");
     }
 
-    const limit = clan.limits.find(limit => limit.group.id === groupId);
+    const limit = clan.limits.find(limit => limit.group.id === group_id);
 
     if (!limit) {
       throw new ForbiddenException("Clan does not have access to this group");
@@ -69,18 +77,18 @@ export class RecordsService {
       {
         clan: { id: clanId },
         list: { id: listId },
-        group: { id: groupId }
+        group: { id: group_id }
       }
     );
 
-    if (limit.limit <= recordsCount) {
+    if (limit.limit && limit.limit <= recordsCount) {
       throw new ForbiddenException("Clan has reached the limit for this group");
     }
 
     const record = this.recordsRepository.create({
       clan: { id: clanId, name: clan.name },
       list: { id: listId, name: list.name },
-      group: { id: groupId, name: limit.group.name },
+      group: { id: group_id, name: limit.group.name },
       username,
       steam_id,
       expire_date: expire_date || null,

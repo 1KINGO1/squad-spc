@@ -11,7 +11,7 @@ export class Limit {
   @JoinColumn()
   clan: Clan;
 
-  @OneToOne(() => Group, {onDelete: 'CASCADE'})
+  @ManyToOne(() => Group, {onDelete: 'CASCADE'})
   @JoinColumn()
   group: Group;
 

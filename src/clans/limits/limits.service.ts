@@ -66,4 +66,27 @@ export class LimitsService {
     return limit;
   }
 
+  async replaceLimits(clanId: number, limits: CreateLimitDto[]) {
+    const clan = await this.clansService.getClanById(clanId);
+    const existingLimits = await this.limitsRepository.find({where: {clan: {id: clan.id}}});
+    await this.limitsRepository.remove(existingLimits);
+
+    const groupIds = limits.map(limit => limit.group_id);
+    const uniqueGroupIds = new Set(groupIds);
+    if (groupIds.length !== uniqueGroupIds.size) {
+      throw new BadRequestException("Group ids must be unique");
+    }
+
+    const newLimits = await Promise.all(limits.map(async limit => {
+      const group = await this.permissionsService.getGroupById(limit.group_id);
+
+      return this.limitsRepository.create({
+        limit: limit.limit || null,
+        clan: clan,
+        group
+      });
+    }));
+    return this.limitsRepository.save(newLimits);
+  }
+
 }

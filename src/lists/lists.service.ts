@@ -6,6 +6,7 @@ import { UpdateListDto } from "./dtos/update-list.dto";
 import { CreateListDto } from "./dtos/create-list.dto";
 import { ClansService } from "../clans/clans.service";
 import { User } from "../users/entity/User.entity";
+import { Roles } from "../../client/src/types/Roles";
 
 @Injectable()
 export class ListsService {
@@ -14,7 +15,8 @@ export class ListsService {
     @InjectRepository(List) private listsRepository: Repository<List>,
     @Inject(forwardRef(() => ClansService))
     private clansService: ClansService
-  ) {}
+  ) {
+  }
 
   async create(createListDto: CreateListDto) {
 
@@ -28,8 +30,13 @@ export class ListsService {
     }
   }
 
-  async getAll() {
-    return this.listsRepository.findBy({});
+  async getAll(user: User) {
+
+    const lists = await this.listsRepository.findBy({});
+
+    if ([Roles.Admin, Roles.Root].includes(user.permission)) return lists;
+
+    return (await Promise.all(lists.map(list => this.checkListAccessibility(list, user)))).filter(list => list);
   }
 
   async getById(id: number) {
@@ -78,5 +85,20 @@ export class ListsService {
       let list = await this.listsRepository.findOneBy({ path: updateListDto.path });
       if (list) throw new BadRequestException("List with this path already exist");
     }
+  }
+
+  private async checkListAccessibility(list: List, user: User): Promise<List | false> {
+    if ([Roles.Admin, Roles.Root].includes(user.permission)) return list;
+
+    const listWithRelations = await this.listsRepository.findOne(
+      {
+        where: { id: list.id },
+        relations: ["clans.clan_leaders"]
+      }
+    );
+
+    const isAccessible = listWithRelations.clans.some(clan => clan.clan_leaders.some(clanLeader => clanLeader.id === user.id));
+
+    return isAccessible ? list : false;
   }
 }

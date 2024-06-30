@@ -12,8 +12,8 @@ export class ListsController {
 
   @Get('')
   @Auth([AuthRoles.ClanLeader, AuthRoles.Admin, AuthRoles.Root])
-  async getLists() {
-    return this.listsService.getAll();
+  async getLists(@Req() req: {user: User}) {
+    return this.listsService.getAll(req.user);
   }
 
   @Get(':id')
