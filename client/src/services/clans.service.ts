@@ -1,6 +1,7 @@
 import config from "../config";
 import Clan from "../types/models/Clan";
 import axiosWithAuth from "../utils/axiosWithAuth";
+import Limit from "../types/models/Limit";
 
 export async function getClans(): Promise<Clan[]> {
     const {data} = await axiosWithAuth.get(config.paths.clans.index + `?include=allowed_lists`);
@@ -33,4 +34,17 @@ export async function createClan(body: CreateClanArgs): Promise<Clan> {
       allowed_lists: body.allowed_lists || []
     });
     return data as Clan;
+}
+
+interface GetClanLimitsArgs {
+  clanId: number;
+}
+export async function getClanLimits({clanId}: GetClanLimitsArgs) {
+  const {data} = await axiosWithAuth.get(config.paths.clans.limits(clanId));
+  return data;
+}
+
+export async function replaceClanLimits(clanId: number, limits: {group_id: number, limit: number | null}[]): Promise<Limit[]> {
+  const {data} = await axiosWithAuth.post(config.paths.clans.limitsReplace(clanId), limits);
+  return data as Limit[];
 }

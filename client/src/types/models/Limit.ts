@@ -1,9 +1,8 @@
-import Clan from "./Clan";
 import Group from "./Group";
 
 export default interface Limit {
   id: number;
-  clan: Clan;
+  clanId: number;
   group: Group;
   limit: number | null;
 }

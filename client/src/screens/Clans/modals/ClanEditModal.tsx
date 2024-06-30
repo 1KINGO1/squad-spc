@@ -7,6 +7,11 @@ import ClanTagInput from "./shared/ClanTagInput";
 import SelectAllowedLists from "./shared/SelectAllowedLists";
 import useUpdateClan from "../../../hooks/useUpdateClan";
 import Clan from "../../../types/models/Clan";
+import EditLimits from "./shared/EditLimits";
+import useClanLimits from "../../../hooks/useClanLimits";
+import useUpdateClanLimits from "../../../hooks/useUpdateClanLimits";
+import IFormValues from "./shared/IFormValues";
+import ClanForm from "./shared/ClanForm";
 
 interface ClanEditModalProps {
   isOpen: boolean;
@@ -15,12 +20,13 @@ interface ClanEditModalProps {
 }
 
 const ClanEditModal: FC<ClanEditModalProps> = (props) => {
-  const [form] = Form.useForm();
+  const { limits } = useClanLimits(props.clan.id);
+  const [form] = Form.useForm<IFormValues>();
   const [submittable, setSubmittable] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const values = Form.useWatch([], form);
 
-  const mutation = useUpdateClan(
+  const clanMutation = useUpdateClan(
     {
       onSuccess: () => {
         setIsLoading(false);
@@ -32,15 +38,24 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
       }
     }
   );
+  const limitsMutation = useUpdateClanLimits(props.clan.id)
 
   const handleOk = () => {
     if (isLoading) return;
 
-    mutation.mutate({
+    clanMutation.mutate({
       id: props.clan.id,
       name: values.name || props.clan.name,
-      tag: values.tag || props.clan,
+      tag: values.tag || props.clan.tag,
       allowed_lists: values.allowed_lists
+    });
+    limitsMutation.mutate({
+      limits: values.limits.map((limit: {group: number, limit: number | undefined}) => {
+        return {
+          group_id: limit.group,
+          limit: limit.limit ?? null
+        }
+      }) ?? []
     });
     setIsLoading(true);
   };
@@ -50,20 +65,6 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
     props.setIsOpen(false);
     form.resetFields();
   };
-
-  useEffect(() => {
-    form
-      .validateFields({ validateOnly: true })
-      .then((values) => {
-        if (
-          values.name === props.clan.name &&
-          values.tag === props.clan.tag &&
-          values.allowed_lists + "" === props.clan.allowed_lists.map(list => list.id) + ""
-        ) setSubmittable(false);
-        else setSubmittable(true);
-      })
-      .catch(() => setSubmittable(false));
-  }, [values, props, form]);
 
   return (
     <Modal
@@ -83,16 +84,12 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
         </Button>
       ]}
     >
-      <Form
-        form={form}
-        layout="vertical"
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 20 }}
-      >
-        <ClanNameInput initialValue={props.clan.name} />
-        <ClanTagInput initialValue={props.clan.tag} />
-        <SelectAllowedLists initialValue={props.clan.allowed_lists.map(list => list.id)} />
-      </Form>
+      <ClanForm form={form} setSubmittable={setSubmittable} initialValues={{
+        name: props.clan.name,
+        tag: props.clan.tag,
+        allowed_lists: props.clan.allowed_lists.map(list => list.id),
+        limits: limits.map(limits => ({group: limits.group.id, limit: limits.limit ?? undefined}))
+      }}/>
     </Modal>
   );
 };

@@ -14,6 +14,7 @@ const useGroups = () => {
     queryKey: queryKeys.groups(),
     queryFn: getGroups,
     enabled: !!user && [Roles.Root, Roles.Admin].includes(user.permission),
+    placeholderData: [{id: 0, name: "Loading...", permissions: []}],
   });
   
   return {

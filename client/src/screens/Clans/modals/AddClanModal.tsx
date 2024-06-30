@@ -6,22 +6,29 @@ import ClanNameInput from "./shared/ClanNameInput";
 import ClanTagInput from "./shared/ClanTagInput";
 import SelectAllowedLists from "./shared/SelectAllowedLists";
 import useCreateClan from "../../../hooks/useCreateClan";
+import EditLimits from "./shared/EditLimits";
+import IFormValues from "./shared/IFormValues";
+import ClanForm from "./shared/ClanForm";
+import useUpdateClanLimits from "../../../hooks/useUpdateClanLimits";
 
 interface AddClanModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
+
 const AddClanModal: FC<AddClanModalProps> = (props) => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<IFormValues>();
+  const [createdClanId, setCreatedClanId] = useState<number | null>(null);
   const [submittable, setSubmittable] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const values = Form.useWatch([], form);
 
+  const limitsMutation = useUpdateClanLimits(createdClanId ?? 0);
 
   const mutation = useCreateClan({
-    onSuccess: () => {
-      form.resetFields();
+    onSuccess: (data) => {
       setIsLoading(false);
+      setCreatedClanId(data.id);
       props.setIsOpen(false);
     },
     onError: (errorMessage) => {
@@ -39,13 +46,16 @@ const AddClanModal: FC<AddClanModalProps> = (props) => {
   };
 
   useEffect(() => {
-    form
-      .validateFields({ validateOnly: true })
-      .then(() => {
-        setSubmittable(true);
-      })
-      .catch(() => setSubmittable(false));
-  }, [values, props, form]);
+    if (!createdClanId || !values?.limits?.length) return;
+    limitsMutation.mutate(
+      {
+        limits: values.limits.map(limit => (
+          { group_id: limit.group, limit: limit.limit ?? null }
+        ))
+      }
+    );
+    form.resetFields();
+  }, [createdClanId]);
 
   return (
     <Modal
@@ -65,16 +75,7 @@ const AddClanModal: FC<AddClanModalProps> = (props) => {
         </Button>
       ]}
     >
-      <Form
-        form={form}
-        layout="vertical"
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 20 }}
-      >
-        <ClanNameInput />
-        <ClanTagInput />
-        <SelectAllowedLists />
-      </Form>
+      <ClanForm form={form} setSubmittable={setSubmittable} />
     </Modal>
   );
 };

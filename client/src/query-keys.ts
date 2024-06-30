@@ -4,6 +4,9 @@ const queryKeys: {
   clans(){
     return ["clans"];
   },
+  clanLimits(clanId: number){
+    return ["clans", "limits", clanId];
+  },
   lists(){
     return ["lists"];
   },
