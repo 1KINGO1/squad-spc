@@ -1,7 +1,7 @@
 import config from "../config";
 import Clan from "../types/models/Clan";
-import axiosWithAuth from "../utils/axiosWithAuth";
 import Limit from "../types/models/Limit";
+import axiosWithAuth from "../utils/axiosWithAuth";
 
 export async function getClans(): Promise<Clan[]> {
     const {data} = await axiosWithAuth.get(config.paths.clans.index + `?include=allowed_lists`);

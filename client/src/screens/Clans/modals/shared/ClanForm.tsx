@@ -1,10 +1,12 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
+
+import { Form, FormInstance } from "antd";
+
 import ClanNameInput from "./ClanNameInput";
 import ClanTagInput from "./ClanTagInput";
-import SelectAllowedLists from "./SelectAllowedLists";
 import EditLimits from "./EditLimits";
-import { Form, FormInstance } from "antd";
 import IFormValues from "./IFormValues";
+import SelectAllowedLists from "./SelectAllowedLists";
 
 interface ClanFormProps {
   initialValues?: IFormValues,

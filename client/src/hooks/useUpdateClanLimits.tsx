@@ -2,8 +2,8 @@ import {
   useMutation, useQueryClient
 } from "@tanstack/react-query";
 
-import { replaceClanLimits } from "../services/clans.service";
 import queryKeys from "../query-keys";
+import { replaceClanLimits } from "../services/clans.service";
 
 const useUpdateClanLimits = (clanId: number) => {
   const queryClient = useQueryClient();

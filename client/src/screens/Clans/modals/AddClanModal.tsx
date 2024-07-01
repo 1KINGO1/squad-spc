@@ -2,13 +2,9 @@ import { FC, useEffect, useState } from "react";
 
 import { Button, Form, message, Modal } from "antd";
 
-import ClanNameInput from "./shared/ClanNameInput";
-import ClanTagInput from "./shared/ClanTagInput";
-import SelectAllowedLists from "./shared/SelectAllowedLists";
-import useCreateClan from "../../../hooks/useCreateClan";
-import EditLimits from "./shared/EditLimits";
-import IFormValues from "./shared/IFormValues";
 import ClanForm from "./shared/ClanForm";
+import IFormValues from "./shared/IFormValues";
+import useCreateClan from "../../../hooks/useCreateClan";
 import useUpdateClanLimits from "../../../hooks/useUpdateClanLimits";
 
 interface AddClanModalProps {

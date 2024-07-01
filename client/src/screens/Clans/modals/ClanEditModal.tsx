@@ -1,17 +1,13 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 
 import { Button, Form, message, Modal } from "antd";
 
-import ClanNameInput from "./shared/ClanNameInput";
-import ClanTagInput from "./shared/ClanTagInput";
-import SelectAllowedLists from "./shared/SelectAllowedLists";
-import useUpdateClan from "../../../hooks/useUpdateClan";
-import Clan from "../../../types/models/Clan";
-import EditLimits from "./shared/EditLimits";
-import useClanLimits from "../../../hooks/useClanLimits";
-import useUpdateClanLimits from "../../../hooks/useUpdateClanLimits";
-import IFormValues from "./shared/IFormValues";
 import ClanForm from "./shared/ClanForm";
+import IFormValues from "./shared/IFormValues";
+import useClanLimits from "../../../hooks/useClanLimits";
+import useUpdateClan from "../../../hooks/useUpdateClan";
+import useUpdateClanLimits from "../../../hooks/useUpdateClanLimits";
+import Clan from "../../../types/models/Clan";
 
 interface ClanEditModalProps {
   isOpen: boolean;

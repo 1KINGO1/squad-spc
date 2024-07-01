@@ -34,6 +34,8 @@ const SelectClanBar = () => {
       return;
     }
 
+    setClansNotFoundError(false);
+
     if (!isClansLoading){
 
       const clanId = getRecordLocation().clanId;

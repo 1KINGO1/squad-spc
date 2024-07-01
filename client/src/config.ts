@@ -1,6 +1,10 @@
 export default {
   apiBaseUrl: `http://${process.env.HOST || "localhost"}:${process.env.PORT || "3000"}${process.env.API_PREFIX || "/api"}`,
   paths: {
+    output: {
+      index: "/output",
+      id: (id: number) => "/output/" + id,
+    },
     auth: {
       login: "/auth/login",
       register: "/auth/register",
@@ -25,6 +29,7 @@ export default {
     lists: {
       index: "/lists",
       clans: (id: number) => "/lists/" + id + "/clans",
+      create: "/lists",
     },
     records: {
       index: (listId: number, clanId: number) => `/records/clan/${clanId}/list/${listId}`,
