@@ -3,7 +3,7 @@ export default {
   paths: {
     output: {
       index: "/output",
-      id: (id: number) => "/output/" + id,
+      path: (path: string) => "/output/" + path,
     },
     auth: {
       login: "/auth/login",
