@@ -1,3 +1,10 @@
+.topWrapper {
+    min-height: 100vh;
+    background-color: var(--color-black);
+    display: flex;
+    flex-direction: column;
+}
+
 .contentWrapper {
     margin: 20px;
     padding: 10px;

@@ -14,13 +14,6 @@ body {
   overflow-x: hidden;
 }
 
-#root {
-  min-height: 100vh;
-  background-color: var(--color-black);
-  display: flex;
-  flex-direction: column;
-}
-
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -30,7 +23,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-white);
+  background: var(--color-smoke-dark);
   border-radius: 10px;
 }
 

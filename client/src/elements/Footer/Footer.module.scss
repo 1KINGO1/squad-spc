@@ -1,0 +1,43 @@
+.wrapper {
+  color: white;
+  text-align: center;
+  margin: auto 0 0 0;
+  font-size: 16px;
+  padding: 1.8em 0 2.2em;
+  background-color: var(--color-black);
+
+  line-height: 1.4em;
+
+  a {
+    color: var(--color-smoke);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.title {
+  font-size: 1.3em;
+}
+
+.developedBy {
+  font-size: 0.8em;
+  opacity: .7;
+}
+
+.sponsoredBy {
+  font-size: 0.95em;
+  opacity: .9;
+  margin: 0.15em 0 0 0;
+}
+
+.inspiredBy {
+  font-size: 0.8em;
+  opacity: .7;
+}
+
+.bottomText {
+  margin-top: 1em;
+}
