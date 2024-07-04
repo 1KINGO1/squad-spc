@@ -19,3 +19,8 @@ export async function createList(createParams: CreateListParams) {
   const { data } = await axiosWithAuth.post(config.paths.lists.create, createParams);
   return data
 }
+
+export async function deleteList(listId: number) {
+  const { data } = await axiosWithAuth.delete(config.paths.lists.delete(listId));
+  return data
+}

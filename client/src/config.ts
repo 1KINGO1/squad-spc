@@ -30,6 +30,7 @@ export default {
       index: "/lists",
       clans: (id: number) => "/lists/" + id + "/clans",
       create: "/lists",
+      delete: (id: number) => "/lists/" + id
     },
     records: {
       index: (listId: number, clanId: number) => `/records/clan/${clanId}/list/${listId}`,

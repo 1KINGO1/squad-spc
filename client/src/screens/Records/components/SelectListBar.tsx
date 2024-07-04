@@ -9,9 +9,11 @@ import useRecordsLocation from "../../../store/useRecordsLocation";
 import { AddListModal } from "../modals/AddListModal";
 import styles from "../Records.module.scss";
 import config from "../../../config";
+import { DeleteListModal } from "../modals/DeleteListModal";
 
 const SelectListBar = () => {
   const [isAddListModalOpen, setIsAddListModalOpen] = useState(false);
+  const [isDeleteListModalOpen, setIsDeleteListModalOpen] = useState(false);
 
   const {listId, setListId, listsNotFoundError, setListsNotFoundError} = useRecordsLocation();
 
@@ -74,10 +76,12 @@ const SelectListBar = () => {
           <Button
             icon={<DeleteOutlined />}
             disabled={listsNotFoundError}
+            onClick={() => setIsDeleteListModalOpen(true)}
           />
         </div>
       </div>
       <AddListModal isOpen={isAddListModalOpen} setIsOpen={setIsAddListModalOpen} />
+      <DeleteListModal isOpen={isDeleteListModalOpen} setIsOpen={setIsDeleteListModalOpen} listId={listId} />
     </>
   )
 }
