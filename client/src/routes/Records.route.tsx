@@ -1,14 +1,13 @@
-import React from "react";
-
 import Records from "../screens/Records/Records";
+import WithAuth from "../utils/WithAuth";
 
 export default {
   path: "/records",
-  element: <Records />,
+  element: <WithAuth><Records /></WithAuth>,
   children: [
     {
       path: ":id",
-      element: <Records />
+      element: <WithAuth><Records /></WithAuth>
     }
   ],
 }

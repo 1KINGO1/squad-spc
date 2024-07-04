@@ -7,6 +7,7 @@ import NavLink from "./NavLink";
 import UserTag from "../../components/UserTag";
 import config from "../../config";
 import useCurrentUser from "../../store/useCurrentUser";
+import { Roles } from "../../types/Roles";
 
 const NavBar: FC = () => {
 
@@ -30,7 +31,7 @@ const NavBar: FC = () => {
               <p className={styles.userName}>
                 {isLoading ? "Loading" : user?.username}
               </p>
-              <UserTag role={user?.permission || null} />
+              <UserTag role={user?.permission ?? null} />
             </div>
           </div>
           <div className={styles.userControls}>
@@ -38,7 +39,7 @@ const NavBar: FC = () => {
           </div>
         </div>
         <div className={styles.bottom}>
-          <nav className={styles.linksWrapper}>
+          <nav className={styles.linksWrapper} style={{display: !isLoading && ![Roles.Guest].includes(user?.permission) ? "block" : "none"}}>
             <ul>
               <NavLink to="/clans">
                 Clans

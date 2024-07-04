@@ -14,6 +14,10 @@
   align-items: center;
 }
 
+.top {
+  margin: 0 0 15px 0;
+}
+
 .user {
   display: flex;
   align-items: center;
@@ -42,8 +46,6 @@
 }
 
 .linksWrapper {
-  margin: 15px 0 0;
-
   ul {
     display: flex;
     gap: 10px;
