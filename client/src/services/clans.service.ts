@@ -48,3 +48,8 @@ export async function replaceClanLimits(clanId: number, limits: {group_id: numbe
   const {data} = await axiosWithAuth.post(config.paths.clans.limitsReplace(clanId), limits);
   return data as Limit[];
 }
+
+export async function deleteClan(clanId: number) {
+  const {data} = await axiosWithAuth.delete(config.paths.clans.delete(clanId));
+  return data;
+}

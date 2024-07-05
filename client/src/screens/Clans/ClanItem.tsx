@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 
-import { EditOutlined, FileOutlined, PushpinOutlined, TeamOutlined, UnlockOutlined } from "@ant-design/icons";
+import { CloseCircleOutlined, EditOutlined, PushpinOutlined, TeamOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
 import styles from "./Clans.module.scss";
@@ -8,26 +8,27 @@ import ClanEditModal from "./modals/ClanEditModal";
 import usePinnedClans from "../../store/usePinnedClans";
 import Clan from "../../types/models/Clan";
 import parseTextToColor from "../../utils/parseTextToColor";
+import useDeleteClan from "../../hooks/useDeleteClan";
+import { DeleteClanModal } from "./modals/DeleteClanModal";
 
 interface ClanItemProps {
-  clan: Clan
+  clan: Clan;
 }
 
-const ClanItem: FC<ClanItemProps> = ({clan}) => {
+const ClanItem: FC<ClanItemProps> = ({ clan }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const {pinClan, unpinClan, pinnedClanIds} = usePinnedClans();
+  const { pinClan, unpinClan, pinnedClanIds } = usePinnedClans();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const color = parseTextToColor(clan.name + clan.tag, "clan");
-
   const isClanPinned = pinnedClanIds.includes(clan.id);
 
   const pinHandler = () => {
     if (isClanPinned) {
       unpinClan(clan);
-    }
-    else {
+    } else {
       pinClan(clan);
     }
-  }
+  };
 
   return (
     <>
@@ -41,17 +42,18 @@ const ClanItem: FC<ClanItemProps> = ({clan}) => {
           <Button type="primary" className={styles.editButton} onClick={() => setIsEditing(true)}>
             <EditOutlined /> Edit
           </Button>
-          <Button type="primary" className={styles.limitsButton}>
-            <UnlockOutlined /> Limits
-          </Button>
           <Button type="primary" className={styles.managersButton}>
             <TeamOutlined /> Managers
           </Button>
-          <Button type="primary" className={styles.managersButton}>
-            <FileOutlined /> Records
-          </Button>
           <Button type="primary" className={styles.managersButton} onClick={pinHandler}>
             <PushpinOutlined /> {isClanPinned ? "Unpin" : "Pin"}
+          </Button>
+          <Button type="primary"
+                  danger
+                  className={styles.managersButton}
+                  onClick={() => setIsDeleteModalOpen(true)}
+                  loading={isDeleteModalOpen}>
+            <CloseCircleOutlined /> Delete
           </Button>
         </div>
       </div>
@@ -59,8 +61,12 @@ const ClanItem: FC<ClanItemProps> = ({clan}) => {
                      setIsOpen={setIsEditing}
                      clan={clan}
       />
+      <DeleteClanModal isOpen={isDeleteModalOpen}
+                       setIsOpen={setIsDeleteModalOpen}
+                       clanId={clan.id}
+      />
     </>
-  )
-}
+  );
+};
 
 export default ClanItem;

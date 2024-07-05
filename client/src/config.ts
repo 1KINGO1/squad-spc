@@ -15,7 +15,7 @@ export default {
       show: "/clans/:id",
       create: "/clans",
       update: (id: number) => "/clans/" + id,
-      delete: "/clans/:id",
+      delete: (id: number) => "/clans/" + id,
       limits: (id: number) => "/clans/" + id + "/limits",
       limitsReplace: (id: number) => "/clans/" + id + "/limits/replace",
     },

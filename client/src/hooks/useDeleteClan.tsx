@@ -1,24 +1,24 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import queryKeys from "../query-keys";
-import { deleteList } from "../services/lists.service";
-import List from "../types/models/List";
 import { AxiosError } from "axios";
+import { deleteClan } from "../services/clans.service";
+import Clan from "../types/models/Clan";
 
-interface DeleteListParams {
+interface UpdateClanParams {
   onSuccess?: () => void;
   onError?: (errorMessage: string) => void;
 }
 
-const useDeleteList = ({ onError, onSuccess }: DeleteListParams) => {
+const useDeleteClan = ({ onError, onSuccess }: UpdateClanParams) => {
 
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: deleteList,
-    onSuccess: (deletedList) => {
-      queryClient.setQueryData(queryKeys.lists(), (previous : List[]) => {
-        return [...previous].filter((list) => list.id !== deletedList.id);
+    mutationFn: deleteClan,
+    onSuccess: (deletedClan) => {
+      queryClient.setQueryData(queryKeys.clans(), (previous : Clan[]) => {
+        return [...previous].filter((clan) => clan.id !== deletedClan.id);
       });
 
       if (onSuccess) onSuccess();
@@ -30,4 +30,4 @@ const useDeleteList = ({ onError, onSuccess }: DeleteListParams) => {
   })
 }
 
-export default useDeleteList;
+export default useDeleteClan;
