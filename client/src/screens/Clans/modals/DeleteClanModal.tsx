@@ -1,5 +1,7 @@
 import { FC, useState } from "react";
+
 import { Button, message, Modal, Space, Typography } from "antd";
+
 import useDeleteClan from "../../../hooks/useDeleteClan";
 
 const { Text } = Typography;

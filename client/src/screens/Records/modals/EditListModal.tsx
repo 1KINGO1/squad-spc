@@ -2,10 +2,10 @@ import { FC, useEffect, useState } from "react";
 
 import { Button, Form, message, Modal } from "antd";
 
-import ListForm from "./shared/ListForm";
 import { IFormValues } from "./shared/IFormValues";
-import List from "../../../types/models/List";
+import ListForm from "./shared/ListForm";
 import useUpdateList from "../../../hooks/useUpdateList";
+import List from "../../../types/models/List";
 
 interface EditListModalProps {
   isOpen: boolean;

@@ -3,15 +3,15 @@ import { useEffect, useMemo, useState } from "react";
 import { DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Select } from "antd";
 
+import config from "../../../config";
 import useLists from "../../../hooks/useLists";
 import { getRecordLocation } from "../../../services/storage/record-location.service";
 import useRecordsLocation from "../../../store/useRecordsLocation";
+import List from "../../../types/models/List";
 import { AddListModal } from "../modals/AddListModal";
-import styles from "../Records.module.scss";
-import config from "../../../config";
 import { DeleteListModal } from "../modals/DeleteListModal";
 import { EditListModal } from "../modals/EditListModal";
-import List from "../../../types/models/List";
+import styles from "../Records.module.scss";
 
 const SelectListBar = () => {
   const [isAddListModalOpen, setIsAddListModalOpen] = useState(false);

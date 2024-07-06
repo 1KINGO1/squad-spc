@@ -2,9 +2,9 @@ import { FC, useEffect, useState } from "react";
 
 import { Button, Form, message, Modal } from "antd";
 
-import useCreateList from "../../../hooks/useCreateList";
-import ListForm from "./shared/ListForm";
 import { IFormValues } from "./shared/IFormValues";
+import ListForm from "./shared/ListForm";
+import useCreateList from "../../../hooks/useCreateList";
 
 interface AddListModalProps {
   isOpen: boolean;

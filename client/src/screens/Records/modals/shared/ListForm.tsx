@@ -1,8 +1,10 @@
-import { Form, FormInstance, Input } from "antd";
-import config from "../../../../config";
 import { FC } from "react";
-import useLists from "../../../../hooks/useLists";
+
+import { Form, FormInstance, Input } from "antd";
+
 import { IFormValues } from "./IFormValues";
+import config from "../../../../config";
+import useLists from "../../../../hooks/useLists";
 
 interface ListFormProps {
   form: FormInstance<IFormValues>,

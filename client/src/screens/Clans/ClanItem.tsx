@@ -5,11 +5,11 @@ import { Button } from "antd";
 
 import styles from "./Clans.module.scss";
 import ClanEditModal from "./modals/ClanEditModal";
+import { DeleteClanModal } from "./modals/DeleteClanModal";
+import useDeleteClan from "../../hooks/useDeleteClan";
 import usePinnedClans from "../../store/usePinnedClans";
 import Clan from "../../types/models/Clan";
 import parseTextToColor from "../../utils/parseTextToColor";
-import useDeleteClan from "../../hooks/useDeleteClan";
-import { DeleteClanModal } from "./modals/DeleteClanModal";
 
 interface ClanItemProps {
   clan: Clan;

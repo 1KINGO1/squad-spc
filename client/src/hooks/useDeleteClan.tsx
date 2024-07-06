@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 import queryKeys from "../query-keys";
-import { AxiosError } from "axios";
 import { deleteClan } from "../services/clans.service";
 import Clan from "../types/models/Clan";
 

@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import queryKeys from "../query-keys";
-import List from "../types/models/List";
 import { updateList } from "../services/lists.service";
+import List from "../types/models/List";
 
 interface UpdateListParams {
   onSuccess?: (changedList: List) => void;

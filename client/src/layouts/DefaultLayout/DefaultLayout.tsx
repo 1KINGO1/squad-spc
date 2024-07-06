@@ -3,8 +3,8 @@ import { FC } from "react";
 import { Outlet } from "react-router";
 
 import styles from "./DefaultLayout.module.scss";
-import NavBar from "../../elements/NavBar/NavBar";
 import Footer from "../../elements/Footer/Footer";
+import NavBar from "../../elements/NavBar/NavBar";
 
 const DefaultLayout: FC = () => {
   return (
