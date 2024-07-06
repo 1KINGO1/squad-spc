@@ -10,10 +10,13 @@ import { AddListModal } from "../modals/AddListModal";
 import styles from "../Records.module.scss";
 import config from "../../../config";
 import { DeleteListModal } from "../modals/DeleteListModal";
+import { EditListModal } from "../modals/EditListModal";
+import List from "../../../types/models/List";
 
 const SelectListBar = () => {
   const [isAddListModalOpen, setIsAddListModalOpen] = useState(false);
   const [isDeleteListModalOpen, setIsDeleteListModalOpen] = useState(false);
+  const [isEditListModalOpen, setIsEditListModalOpen] = useState(false);
 
   const {listId, setListId, listsNotFoundError, setListsNotFoundError} = useRecordsLocation();
 
@@ -67,6 +70,7 @@ const SelectListBar = () => {
           <Button
             icon={<EditOutlined />}
             disabled={listsNotFoundError}
+            onClick={() => setIsEditListModalOpen(true)}
           />
           <Button
             icon={<ExportOutlined />}
@@ -81,7 +85,14 @@ const SelectListBar = () => {
         </div>
       </div>
       <AddListModal isOpen={isAddListModalOpen} setIsOpen={setIsAddListModalOpen} />
-      <DeleteListModal isOpen={isDeleteListModalOpen} setIsOpen={setIsDeleteListModalOpen} listId={listId} />
+      {
+        listId ? (
+          <>
+            <DeleteListModal isOpen={isDeleteListModalOpen} setIsOpen={setIsDeleteListModalOpen} listId={listId} />
+            <EditListModal isOpen={isEditListModalOpen} setIsOpen={setIsEditListModalOpen} list={lists.find(list => list.id === listId) as List} />
+          </>
+        ) : null
+      }
     </>
   )
 }

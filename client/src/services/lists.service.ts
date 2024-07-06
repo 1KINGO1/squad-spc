@@ -1,5 +1,6 @@
 import config from "../config";
 import axiosWithAuth from "../utils/axiosWithAuth";
+import List from "../types/models/List";
 
 export async function getLists() {
   const { data } = await axiosWithAuth(config.paths.lists.index);
@@ -22,5 +23,15 @@ export async function createList(createParams: CreateListParams) {
 
 export async function deleteList(listId: number) {
   const { data } = await axiosWithAuth.delete(config.paths.lists.delete(listId));
+  return data
+}
+
+interface UpdateListParams{
+  listId: number;
+  body: Partial<CreateListParams>
+}
+
+export async function updateList(params: UpdateListParams): Promise<List> {
+  const { data } = await axiosWithAuth.patch(config.paths.lists.update(params.listId), params.body);
   return data
 }

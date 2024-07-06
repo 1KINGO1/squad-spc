@@ -2,16 +2,18 @@ import { FC, useEffect, useState } from "react";
 
 import { Button, Form, message, Modal } from "antd";
 
-import useCreateList from "../../../hooks/useCreateList";
 import ListForm from "./shared/ListForm";
 import { IFormValues } from "./shared/IFormValues";
+import List from "../../../types/models/List";
+import useUpdateList from "../../../hooks/useUpdateList";
 
-interface AddListModalProps {
+interface EditListModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  list: List
 }
 
-export const AddListModal: FC<AddListModalProps> = (props) => {
+export const EditListModal: FC<EditListModalProps> = (props) => {
   const [form] = Form.useForm<IFormValues>();
   const values = Form.useWatch([], form);
 
@@ -19,7 +21,7 @@ export const AddListModal: FC<AddListModalProps> = (props) => {
   const [submittable, setSubmittable] = useState(false);
   const [requestError] = useState<string | null>(null);
 
-  const listMutation = useCreateList({
+  const listMutation = useUpdateList({
     onSuccess: () => {
       setIsLoading(false);
       form.resetFields();
@@ -38,6 +40,10 @@ export const AddListModal: FC<AddListModalProps> = (props) => {
       .validateFields({ validateOnly: true })
       .then(() => {
 
+        if (values.name === props.list.name && values.path === props.list.path) {
+          return setSubmittable(false)
+        }
+
         setSubmittable(true);
 
       })
@@ -46,7 +52,13 @@ export const AddListModal: FC<AddListModalProps> = (props) => {
 
   const handleOk = () => {
     setIsLoading(true);
-    listMutation.mutate(form.getFieldsValue() as IFormValues);
+    listMutation.mutate({
+      listId: props.list.id,
+      body: {
+        name: values.name === props.list.name ? undefined : values.name,
+        path: values.path === props.list.path ? undefined : values.path
+      }
+    });
   }
 
   const handleCancel = () => {
@@ -71,9 +83,7 @@ export const AddListModal: FC<AddListModalProps> = (props) => {
         </Button>
       ]}
     >
-
-      <ListForm form={form}/>
-
+      <ListForm form={form} initialValues={{name: props.list.name, path: props.list.path}}/>
     </Modal>
   );
 };
