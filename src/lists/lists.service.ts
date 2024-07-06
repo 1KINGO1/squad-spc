@@ -62,7 +62,7 @@ export class ListsService {
     await this.checkAvailability(updateListDto);
     await this.listsRepository.update(list, updateListDto);
 
-    return list;
+    return {...list, ...updateListDto};
   }
 
   async getListsByIds(id: number[]) {
