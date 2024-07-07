@@ -130,4 +130,15 @@ export class RecordsService {
     return record;
   }
 
+  async deleteExpiredRecords() {
+    const currentDate = new Date();
+
+    return await this.recordsRepository
+      .createQueryBuilder()
+      .delete()
+      .from(Record)
+      .where("expire_date <= :currentDate", { currentDate: currentDate })
+      .execute();
+  }
+
 }

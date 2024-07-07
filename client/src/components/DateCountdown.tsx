@@ -31,7 +31,7 @@ const DateCountdown: FC<DateCountdownProps> = ({date, onEnd}) => {
   }, [date, onEnd])
 
   return (
-    <>{time}</>
+    <>{timeLeft <= 0 ? "Deleted" : time}</>
   )
 }
 

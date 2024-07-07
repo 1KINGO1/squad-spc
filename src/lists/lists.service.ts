@@ -6,7 +6,7 @@ import { UpdateListDto } from "./dtos/update-list.dto";
 import { CreateListDto } from "./dtos/create-list.dto";
 import { ClansService } from "../clans/clans.service";
 import { User } from "../users/entity/User.entity";
-import { Roles } from "../../client/src/types/Roles";
+import { AuthRoles } from "../auth/guards/auth.guard";
 
 @Injectable()
 export class ListsService {
@@ -34,7 +34,7 @@ export class ListsService {
 
     const lists = await this.listsRepository.findBy({});
 
-    if ([Roles.Admin, Roles.Root].includes(user.permission)) return lists;
+    if ([AuthRoles.Admin, AuthRoles.Root].includes(user.permission)) return lists;
 
     return (await Promise.all(lists.map(list => this.checkListAccessibility(list, user)))).filter(list => list);
   }
@@ -88,7 +88,7 @@ export class ListsService {
   }
 
   private async checkListAccessibility(list: List, user: User): Promise<List | false> {
-    if ([Roles.Admin, Roles.Root].includes(user.permission)) return list;
+    if ([AuthRoles.Admin, AuthRoles.Root].includes(user.permission)) return list;
 
     const listWithRelations = await this.listsRepository.findOne(
       {
