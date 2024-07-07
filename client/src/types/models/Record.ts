@@ -11,5 +11,5 @@ export default interface Record {
     username: string;
   }
   created_date: string;
-  expiration_date: string | null;
+  expire_date: string | null;
 }

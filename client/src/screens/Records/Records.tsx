@@ -29,7 +29,7 @@ const Records = () => {
             steamId={record.steam_id}
             group={groups.find(group => group.id === record.group.id)?.name ?? record.group.name}
             authorName={record.author.username}
-            expirationDate={record.expiration_date ? new Date( record.expiration_date ) : undefined}
+            expirationDate={record.expire_date ? new Date( record.expire_date ) : undefined}
           />
         ))}
       </RecordsWrapper>
