@@ -1,11 +1,13 @@
 import { FC, useEffect, useState } from "react";
+
 import { Button, Form, Input, message, Modal, Select } from "antd";
+
+import DurationInput from "./shared/DurationInput";
+import useClanLimits from "../../../hooks/useClanLimits";
+import useCreateRecord from "../../../hooks/useCreateRecord";
+import useRecords from "../../../hooks/useRecords";
 import useRecordsLocation from "../../../store/useRecordsLocation";
 import styles from "../Records.module.scss";
-import useClanLimits from "../../../hooks/useClanLimits";
-import useRecords from "../../../hooks/useRecords";
-import useCreateRecord from "../../../hooks/useCreateRecord";
-import DurationInput from "./shared/DurationInput";
 
 interface CreateRecordModalProps {
   isOpen: boolean;

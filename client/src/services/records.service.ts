@@ -1,6 +1,6 @@
 import config from "../config";
-import axiosWithAuth from "../utils/axiosWithAuth";
 import Record from "../types/models/Record";
+import axiosWithAuth from "../utils/axiosWithAuth";
 
 interface GetRecordsArgs {
   listId: number;
