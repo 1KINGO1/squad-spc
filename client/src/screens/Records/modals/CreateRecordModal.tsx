@@ -69,7 +69,6 @@ const CreateRecordModal: FC<CreateRecordModalProps> = ({ isOpen, setIsOpen }) =>
     form
       .validateFields({ validateOnly: true })
       .then(() => {
-        console.log(values);
         setSubmittable(true);
       })
       .catch(() => setSubmittable(false));

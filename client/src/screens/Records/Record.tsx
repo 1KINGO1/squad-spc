@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { MoreOutlined } from "@ant-design/icons";
+import { DeleteOutlined, MoreOutlined, UserOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
 import styles from "./Records.module.scss";
@@ -16,7 +16,7 @@ interface RecordProps {
   expirationDate?: Date;
 }
 
-const Record: FC<RecordProps> = ({userName, steamId, group, expirationDate}) => {
+const Record: FC<RecordProps> = ({userName, steamId, group, expirationDate, authorName}) => {
 
   const nickColor = parseTextToColor(steamId, "id");
   const groupColor = parseTextToColor(group, "groups");
@@ -36,8 +36,12 @@ const Record: FC<RecordProps> = ({userName, steamId, group, expirationDate}) => 
           </p>
         )
       }
-
-      <Button icon={<MoreOutlined />} className={styles.recordShowMoreButton}/>
+      <div className={styles.recordRightSideBar}>
+        <Button icon={<UserOutlined />} disabled>
+          {authorName}
+        </Button>
+        <Button icon={<DeleteOutlined />} danger/>
+      </div>
     </div>
   )
 }

@@ -13,7 +13,7 @@ const useClanLimits = (clanId: number) => {
     {
       queryKey: queryKeys.clanLimits(clanId),
       queryFn: () => getClanLimits({ clanId }),
-      enabled: user !== null
+      enabled: user !== null && !!clanId
     }
   );
 

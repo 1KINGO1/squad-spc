@@ -16,10 +16,15 @@ const useDeleteClan = ({ onError, onSuccess }: UpdateClanParams) => {
 
   return useMutation({
     mutationFn: deleteClan,
-    onSuccess: (deletedClan) => {
-      queryClient.setQueryData(queryKeys.clans(), (previous : Clan[]) => {
+    onSuccess: (deletedClan: Clan) => {
+
+      function clanRemove(previous: Clan[]) {
         return [...previous].filter((clan) => clan.id !== deletedClan.id);
-      });
+      }
+
+      queryClient.setQueryData(queryKeys.clans(), clanRemove);
+      queryClient.removeQueries({queryKey: queryKeys.listClans()});
+      queryClient.removeQueries({queryKey: queryKeys.clans()});
 
       if (onSuccess) onSuccess();
     },

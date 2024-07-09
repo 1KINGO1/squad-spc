@@ -64,6 +64,7 @@ const SelectClanBar = () => {
         showSearch
         value={clanId}
         onChange={setClanId}
+        loading={isClansLoading}
         placeholder="Search to Select"
         optionFilterProp="label"
         disabled={clansNotFoundError}

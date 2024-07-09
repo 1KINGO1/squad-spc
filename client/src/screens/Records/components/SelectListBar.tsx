@@ -54,6 +54,7 @@ const SelectListBar = () => {
           className={styles.selectInput}
           showSearch
           value={isListsLoading ? 0 : listId}
+          loading={isListsLoading}
           disabled={listsNotFoundError}
           onChange={setListId}
           placeholder="Search to Select"
