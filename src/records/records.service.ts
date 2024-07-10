@@ -127,7 +127,7 @@ export class RecordsService {
     }
 
     await this.recordsRepository.remove(record);
-    return record;
+    return {...record, id: recordId}
   }
 
   async deleteExpiredRecords() {

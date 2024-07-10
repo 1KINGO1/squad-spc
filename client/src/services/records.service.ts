@@ -29,3 +29,11 @@ export async function createRecord(body: CreateRecord): Promise<Record> {
   });
   return data
 }
+
+interface DeleteRecord {
+  recordId: number;
+}
+export async function deleteRecord(body: DeleteRecord): Promise<Record> {
+  const { data } = await axiosWithAuth.delete(config.paths.records.delete(body.recordId));
+  return data
+}

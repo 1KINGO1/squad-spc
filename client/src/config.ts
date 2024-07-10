@@ -35,7 +35,8 @@ export default {
     },
     records: {
       index: (listId: number, clanId: number) => `/records/clan/${clanId}/list/${listId}`,
-      create: (listId: number, clanId: number) => `/records/clan/${clanId}/list/${listId}`
+      create: (listId: number, clanId: number) => `/records/clan/${clanId}/list/${listId}`,
+      delete: (recordId: number) => `/records/${recordId}`
     },
     groups: {
       index: "/permissions/groups"

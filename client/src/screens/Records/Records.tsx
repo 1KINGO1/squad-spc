@@ -30,6 +30,9 @@ const Records = () => {
             group={groups.find(group => group.id === record.group.id)?.name ?? record.group.name}
             authorName={record.author.username}
             expirationDate={record.expire_date ? new Date( record.expire_date ) : undefined}
+            listId={listId}
+            clanId={clanId}
+            recordId={record.id}
           />
         ))}
       </RecordsWrapper>
