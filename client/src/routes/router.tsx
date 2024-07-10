@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 
 import ClansRoute from "./Clans.route";
+import GroupsRoute from "./Groups.route";
 import HomeRoute from "./Home.route";
 import RecordsRoute from "./Records.route";
 import UsersRoute from "./Users.route";
@@ -17,7 +18,8 @@ const router = createBrowserRouter([
       HomeRoute,
       ClansRoute,
       RecordsRoute,
-      UsersRoute
+      UsersRoute,
+      GroupsRoute
     ]
   },
 ]);

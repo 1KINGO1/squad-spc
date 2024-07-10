@@ -41,23 +41,17 @@ const NavBar: FC = () => {
         <div className={styles.bottom}>
           <nav className={styles.linksWrapper} style={{display: !isLoading && ![Roles.Guest].includes(user?.permission) ? "block" : "none"}}>
             <ul>
-              <NavLink to="/clans">
+              <NavLink to="/clans" canAccess={[Roles.Root, Roles.Admin, Roles.ClanLeader]}>
                 Clans
               </NavLink>
-              <NavLink to="/records">
+              <NavLink to="/records" canAccess={[Roles.Root, Roles.Admin, Roles.ClanLeader]}>
                 Records
               </NavLink>
-              <NavLink to="/users">
+              <NavLink to="/groups" canAccess={[Roles.Root, Roles.Admin]}>
+                Groups
+              </NavLink>
+              <NavLink to="/users" canAccess={[Roles.Root, Roles.Admin]}>
                 Users
-              </NavLink>
-              <NavLink to="/limits">
-                Limits
-              </NavLink>
-              <NavLink to="/settings">
-                Settings
-              </NavLink>
-              <NavLink to="/something">
-                Something
               </NavLink>
             </ul>
           </nav>
