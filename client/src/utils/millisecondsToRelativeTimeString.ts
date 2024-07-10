@@ -4,7 +4,7 @@ export default function millisecondsToRelativeTimeString(time: number): string {
 
   const days = Math.floor(time / cd);
   const hours = Math.floor((time - days * cd) / ch);
-  const minutes = Math.ceil((time - days * cd - hours * ch) / 60000);
+  const minutes = Math.max(Math.floor((time - days * cd - hours * ch) / 60000), 1);
 
   if (days > 0) {
     return `${days}d ${hours}h ${minutes}m`;
