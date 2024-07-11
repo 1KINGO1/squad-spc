@@ -19,6 +19,9 @@ const queryKeys: {
   },
   groups(){
     return ["groups"];
+  },
+  permissions(){
+    return ["permissions"];
   }
 }
 

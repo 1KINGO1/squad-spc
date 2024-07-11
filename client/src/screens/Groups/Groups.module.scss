@@ -1,0 +1,58 @@
+.wrapper {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  border-radius: inherit;
+  font-size: 0.9em;
+}
+
+.groupWrapper {
+  padding: 20px;
+  color: var(--color-white);
+  background-color: var(--color-black);
+  font-size: 1.6em;
+  border-radius: inherit;
+  border: 1px solid var(--color-smoke-dark-1);
+
+  display: flex;
+  flex-direction: column;
+  //align-items: center;
+  gap: 10px;
+}
+
+.groupName {
+  font-size: 1em;
+  font-weight: bold;
+  //width: 14em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.groupPermissionsWrapper {
+  display: flex;
+  gap: 0.1em;
+}
+
+.permissionTag {
+  font-size: 0.6em;
+  padding: 0.5em;
+  background-color: var(--color-black-soft);
+  border-radius: 0.3em;
+  border: 1px solid var(--color-smoke-dark-1)
+}
+
+.groupHeader {
+  display: flex;
+  gap: 10px;
+}
+
+.editGroupButton {
+  cursor: pointer;
+  opacity: .4;
+  transition: opacity .2s ease-in-out;
+
+  &:hover {
+    opacity: .8;
+  }
+}

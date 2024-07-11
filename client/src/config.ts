@@ -40,6 +40,9 @@ export default {
     },
     groups: {
       index: "/permissions/groups"
+    },
+    permissions: {
+      index: "/permissions/permissions",
     }
   }
 }
