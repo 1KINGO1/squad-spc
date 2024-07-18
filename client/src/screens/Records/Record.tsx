@@ -52,13 +52,15 @@ const Record: FC<RecordProps> = (
 
   return (
     <div className={styles.record}>
-      <p className={styles.recordName} style={{ border: `1px solid ${nickColor[1]}` }}>{userName}</p>
-      <p className={styles.recordGroup}
-         style={{ backgroundColor: groupColor[0], borderColor: groupColor[1] }}>{group}</p>
+      <div className={styles.recordColorWrapper}>
+        <div className={styles.recordColor} style={{ backgroundColor: nickColor[0], borderColor: nickColor[1] }} />
+      </div>
+      <p className={styles.recordName}>{userName}</p>
       <p className={styles.recordSteamId}>
         <Copyable text={steamId} />
       </p>
-
+      <p className={styles.recordGroup}
+         style={{ backgroundColor: groupColor[0], borderColor: groupColor[1] }}>{group}</p>
       {
         expirationDate && (
           <p className={styles.recordExpirationDate}>
@@ -70,7 +72,7 @@ const Record: FC<RecordProps> = (
         <Button icon={<UserOutlined />} disabled>
           {authorName}
         </Button>
-        <Button icon={<DeleteOutlined />} danger onClick={deleteHandler} disabled={isLoading}/>
+        <Button icon={<DeleteOutlined />} danger onClick={deleteHandler} disabled={isLoading} />
       </div>
     </div>
   );

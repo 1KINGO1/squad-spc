@@ -16,7 +16,7 @@ const CreateButton: FC<CreateButtonProps> = ({onClick, style}) => {
                  type="primary"
                  onClick={onClick}
                  shape="square"
-                 style={{...style, position: "absolute", bottom: "10px", right: "10px"}}
+                 style={{...style, position: "fixed", bottom: "10px", right: "10px"}}
                  className={styles.addClanButton}
     />
   )
