@@ -1,5 +1,7 @@
 type Salt = "id" | "groups" | "clan" | "unknown";
 
+const calculatedValues = new Map<string, [string, string]>();
+
 function hashCode(str: string): number {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -50,12 +52,18 @@ function adjustColorBrightness(color: string): string {
 }
 
 function parseTextToColor(text: string, salt: Salt): [string, string] {
+  const accessKey = text + "#" + salt;
+
+  if (calculatedValues.has(accessKey)) {
+    return calculatedValues.get(accessKey) as [string, string];
+  }
+
   const combinedInput = text + salt;
   const hash = hashCode(combinedInput);
   let hexColor = hexColorFromHash(hash);
   hexColor = adjustColorBrightness(hexColor);
 
-
+  calculatedValues.set(accessKey, [`#${hexColor + 10}`, `#${hexColor + 60}`]);
   return [`#${hexColor + 10}`, `#${hexColor + 60}`];
 }
 
