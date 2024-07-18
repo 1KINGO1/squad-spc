@@ -19,9 +19,11 @@ const Group: FC<GroupProps> = ({group}) => {
   const groupColor = parseTextToColor(group.name, "groups");
   const {permissions} = usePermissions();
 
+  const wrapperStyle = {"--border-color": groupColor[1]} as React.CSSProperties;
+
   return (
     <>
-      <div className={styles.groupWrapper} style={{ borderLeft: `5px solid ${groupColor[1]}` }}>
+      <div className={styles.groupWrapper} style={wrapperStyle}>
 
         <div className={styles.groupHeader}>
           <p className={styles.groupName}>

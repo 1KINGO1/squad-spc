@@ -18,6 +18,20 @@
   flex-direction: column;
   //align-items: center;
   gap: 10px;
+
+  position: relative;
+  overflow-x: hidden;
+
+  &:before {
+    content: "";
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 5px;
+    //background-color: attr(data-border-color color, transparent);
+    background-color: var(--border-color);
+  }
 }
 
 .groupName {
