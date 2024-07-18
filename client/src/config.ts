@@ -39,7 +39,8 @@ export default {
       delete: (recordId: number) => `/records/${recordId}`
     },
     groups: {
-      index: "/permissions/groups"
+      index: "/permissions/groups",
+      update: (groupId: number) => `/permissions/groups/${groupId}`
     },
     permissions: {
       index: "/permissions/permissions",

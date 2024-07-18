@@ -8,6 +8,7 @@ import useCreateRecord from "../../../hooks/useCreateRecord";
 import useRecords from "../../../hooks/useRecords";
 import useRecordsLocation from "../../../store/useRecordsLocation";
 import styles from "../Records.module.scss";
+import useGroups from "../../../hooks/useGroups";
 
 interface CreateRecordModalProps {
   isOpen: boolean;
@@ -30,6 +31,8 @@ const CreateRecordModal: FC<CreateRecordModalProps> = ({ isOpen, setIsOpen }) =>
 
   const [form] = Form.useForm<FormValues>();
   const values = Form.useWatch([], form);
+
+  const {groups} = useGroups();
 
   const { clanId, listId } = useRecordsLocation();
   const { records } = useRecords(listId, clanId);
@@ -148,9 +151,11 @@ const CreateRecordModal: FC<CreateRecordModalProps> = ({ isOpen, setIsOpen }) =>
 
                 const isDisabled = usedGroupsCount >= (limit.limit ?? Infinity);
 
+                const groupName = groups.find(group => group.id === limit.group.id)?.name ?? limit.group.name;
+
                 return (
                   <Select.Option key={limit.group.id} value={limit.group.id} disabled={isDisabled}>
-                    {limit.group.name} <span style={{ color }}>{usedGroupsCount} / {limit.limit ?? "∞"}</span>
+                    {groupName} <span style={{ color }}>{usedGroupsCount} / {limit.limit ?? "∞"}</span>
                   </Select.Option>
                 );
               }
