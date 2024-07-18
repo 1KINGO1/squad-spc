@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { Form, Input, InputNumber, Select, Space } from "antd";
+import { Form, InputNumber, Select, Space } from "antd";
 
 interface DurationInputProps {
   handleValueChange?: (value: number | null) => void;

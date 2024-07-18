@@ -1,13 +1,13 @@
 import { FC, useState } from "react";
 
-import { DeleteOutlined, MoreOutlined, UserOutlined } from "@ant-design/icons";
+import { DeleteOutlined, UserOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
 import styles from "./Records.module.scss";
 import Copyable from "../../components/Copyable";
 import DateCountdown from "../../components/DateCountdown";
-import parseTextToColor from "../../utils/parseTextToColor";
 import useDeleteRecord from "../../hooks/useDeleteRecord";
+import parseTextToColor from "../../utils/parseTextToColor";
 
 interface RecordProps {
   userName: string;

@@ -1,6 +1,8 @@
 import React, { FC } from "react";
-import { FloatButton } from "antd";
+
 import { PlusOutlined } from "@ant-design/icons";
+import { FloatButton } from "antd";
+
 import styles from "../screens/Clans/Clans.module.scss";
 
 interface CreateButtonProps {

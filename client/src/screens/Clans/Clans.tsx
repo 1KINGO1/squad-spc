@@ -1,23 +1,16 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 
-import { PlusOutlined } from "@ant-design/icons";
-import { FloatButton, Spin } from "antd";
+import { Spin } from "antd";
 
 import ClanItem from "./ClanItem";
 import styles from "./Clans.module.scss";
 import ClansWrapper from "./ClansWrapper";
-import AddClanModal from "./modals/AddClanModal";
+import CreateClan from "./CreateClan";
 import PinnedClansWrapper from "./PinnedClansWrapper";
 import useClans from "../../hooks/useClans";
-import useCurrentUser from "../../store/useCurrentUser";
 import usePinnedClans from "../../store/usePinnedClans";
-import { Roles } from "../../types/Roles";
-import CreateButton from "../../components/CreateButton";
 
 const Clans: FC = () => {
-  const {user} = useCurrentUser();
-
-  const [isClanAddModalVisible, setIsClanAddModalVisible] = useState(false);
 
   const { clans, isPending } = useClans();
   const { pinnedClanIds } = usePinnedClans();
@@ -45,11 +38,8 @@ const Clans: FC = () => {
           </ClansWrapper>
         </div>
       </Spin>
-      <CreateButton
-        onClick={() => setIsClanAddModalVisible(true)}
-        style={{display: user && [Roles.Root, Roles.Admin].includes(user.permission) ? "block" : "none"}}
-      />
-      <AddClanModal isOpen={isClanAddModalVisible} setIsOpen={setIsClanAddModalVisible} />
+
+      <CreateClan />
     </>
 
   );

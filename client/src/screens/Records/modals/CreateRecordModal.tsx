@@ -5,10 +5,10 @@ import { Button, Form, Input, message, Modal, Select } from "antd";
 import DurationInput from "./shared/DurationInput";
 import useClanLimits from "../../../hooks/useClanLimits";
 import useCreateRecord from "../../../hooks/useCreateRecord";
+import useGroups from "../../../hooks/useGroups";
 import useRecords from "../../../hooks/useRecords";
 import useRecordsLocation from "../../../store/useRecordsLocation";
 import styles from "../Records.module.scss";
-import useGroups from "../../../hooks/useGroups";
 
 interface CreateRecordModalProps {
   isOpen: boolean;

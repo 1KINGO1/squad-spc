@@ -4,7 +4,7 @@ import { Button, message, Modal, Space, Typography } from "antd";
 
 import useDeleteList from "../../../hooks/useDeleteList";
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 interface DeleteListModalProps {
   isOpen: boolean;

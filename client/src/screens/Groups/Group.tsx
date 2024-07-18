@@ -1,11 +1,13 @@
-import GroupType from "../../types/models/Group";
 import { FC, useState } from "react";
-import styles from "./Groups.module.scss"
-import parseTextToColor from "../../utils/parseTextToColor";
-import usePermissions from "../../hooks/usePermissions";
-import Permission from "../../types/models/Permission";
+
 import { EditOutlined } from "@ant-design/icons";
+
+import styles from "./Groups.module.scss"
 import EditGroupModal from "./modals/EditGroupModal";
+import usePermissions from "../../hooks/usePermissions";
+import GroupType from "../../types/models/Group";
+import Permission from "../../types/models/Permission";
+import parseTextToColor from "../../utils/parseTextToColor";
 
 interface GroupProps {
   group: GroupType

@@ -4,8 +4,8 @@ import classNames from "classnames";
 import { Link, useLocation } from "react-router-dom";
 
 import styles from "./NavBar.module.scss";
-import { Roles } from "../../types/Roles";
 import useCurrentUser from "../../store/useCurrentUser";
+import { Roles } from "../../types/Roles";
 
 interface NavLinkProps {
   to: string;

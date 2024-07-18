@@ -1,9 +1,11 @@
 import { FC, useEffect, useState } from "react";
+
 import { Button, Form, Input, message, Modal, Select } from "antd";
-import GroupType from "../../../types/models/Group";
+
 import IFormValues from "./shared/IFormValues";
 import usePermissions from "../../../hooks/usePermissions";
 import useUpdateGroup from "../../../hooks/useUpdateGroup";
+import GroupType from "../../../types/models/Group";
 import Permission from "../../../types/models/Permission";
 
 interface EditGroupModalProps {

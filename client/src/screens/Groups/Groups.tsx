@@ -1,7 +1,8 @@
 import { FC } from "react";
-import useGroups from "../../hooks/useGroups";
-import GroupsWrapper from "./GroupsWrapper";
+
 import Group from "./Group";
+import GroupsWrapper from "./GroupsWrapper";
+import useGroups from "../../hooks/useGroups";
 
 const Groups: FC = () => {
 
