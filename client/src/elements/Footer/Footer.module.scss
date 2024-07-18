@@ -3,7 +3,7 @@
   text-align: center;
   margin: auto 0 0 0;
   font-size: 16px;
-  padding: 1.8em 0 2.2em;
+  padding: 1.8em 0;
   background-color: var(--color-black);
 
   line-height: 1.4em;
@@ -39,5 +39,9 @@
 }
 
 .bottomText {
-  margin-top: 1em;
+  margin-top: 2em;
+}
+.version {
+  font-size: 0.8em;
+  opacity: .7;
 }
