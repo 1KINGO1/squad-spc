@@ -12,11 +12,10 @@
   background-color: var(--color-black-soft);
   font-size: 1.6em;
   border-radius: inherit;
-  border: 1px solid var(--color-smoke-dark-1);
+  border: 1px solid var(--border-color);
 
   display: flex;
-  flex-direction: column;
-  //align-items: center;
+  justify-content: space-between;
   gap: 10px;
 
   position: relative;
@@ -34,6 +33,18 @@
   }
 }
 
+.groupLeftPart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.groupRightPart {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
 .groupName {
   font-size: 1em;
   font-weight: bold;
@@ -45,6 +56,7 @@
 
 .groupPermissionsWrapper {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.1em;
 }
 

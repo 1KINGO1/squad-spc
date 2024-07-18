@@ -7,6 +7,8 @@ import usePermissions from "../../../hooks/usePermissions";
 import useUpdateGroup from "../../../hooks/useUpdateGroup";
 import GroupType from "../../../types/models/Group";
 import Permission from "../../../types/models/Permission";
+import useGroups from "../../../hooks/useGroups";
+import Group from "../../../types/models/Group";
 
 interface EditGroupModalProps {
   isOpen: boolean;
@@ -14,12 +16,19 @@ interface EditGroupModalProps {
   group: GroupType;
 }
 
+const validateGroupName = (groups: Group[]) => (_: any, value: string) => {
+  if (groups.find((group) => group.name === value)) {
+    return Promise.reject("Group with this name already exists");
+  }
+  return Promise.resolve();
+}
 
 const EditGroupModal: FC<EditGroupModalProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [submittable, setSubmittable] = useState(false);
 
   const {permissions} = usePermissions();
+  const {groups} = useGroups();
 
   const [form] = Form.useForm<IFormValues>();
   const values = Form.useWatch([], form);
@@ -93,7 +102,7 @@ const EditGroupModal: FC<EditGroupModalProps> = (props) => {
           layout="vertical"
           label="Group Name"
           name="name"
-          rules={[{ max: 50, min: 4, required: true }]}
+          rules={[{ max: 50, min: 4, required: true }, {validator: validateGroupName(groups)}]}
           labelCol={{ span: 24 }}
           wrapperCol={{ span: 24 }}
         >
