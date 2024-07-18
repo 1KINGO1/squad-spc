@@ -6,6 +6,7 @@ import CreateRecordModal from "./modals/CreateRecordModal";
 import styles from "./Records.module.scss";
 import useRecordsLocation from "../../store/useRecordsLocation";
 import { FloatButton } from "antd";
+import CreateButton from "../../components/CreateButton";
 
 const CreateRecord: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,13 +16,7 @@ const CreateRecord: FC = () => {
 
   return (
     <>
-      <FloatButton icon={<PlusOutlined />}
-                   type="primary"
-                   style={{display: isDisabled ? "none" : undefined}}
-                   onClick={() => setIsOpen(true)}
-                   shape="square"
-                   className={styles.createRecord}
-      />
+      <CreateButton onClick={() => setIsOpen(true)} style={{display: isDisabled ? "none" : undefined}}/>
       <CreateRecordModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
 

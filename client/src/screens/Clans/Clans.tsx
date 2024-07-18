@@ -12,6 +12,7 @@ import useClans from "../../hooks/useClans";
 import useCurrentUser from "../../store/useCurrentUser";
 import usePinnedClans from "../../store/usePinnedClans";
 import { Roles } from "../../types/Roles";
+import CreateButton from "../../components/CreateButton";
 
 const Clans: FC = () => {
   const {user} = useCurrentUser();
@@ -44,12 +45,9 @@ const Clans: FC = () => {
           </ClansWrapper>
         </div>
       </Spin>
-      <FloatButton icon={<PlusOutlined />}
-                   type="primary"
-                   onClick={() => setIsClanAddModalVisible(true)}
-                   shape="square"
-                   style={{display: user && [Roles.Root, Roles.Admin].includes(user.permission) ? "block" : "none"}}
-                   className={styles.addClanButton}
+      <CreateButton
+        onClick={() => setIsClanAddModalVisible(true)}
+        style={{display: user && [Roles.Root, Roles.Admin].includes(user.permission) ? "block" : "none"}}
       />
       <AddClanModal isOpen={isClanAddModalVisible} setIsOpen={setIsClanAddModalVisible} />
     </>
