@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Select } from "antd";
+import { Button, Popover, Select } from "antd";
 
 import config from "../../../config";
 import useLists from "../../../hooks/useLists";
@@ -63,26 +63,34 @@ const SelectListBar = () => {
         />
 
         <div className={styles.listsSelectButtonWrapper}>
-          <Button
-            icon={<PlusOutlined />}
-            disabled={listsNotFoundError}
-            onClick={() => setIsAddListModalOpen(true)}
-          />
-          <Button
-            icon={<EditOutlined />}
-            disabled={listsNotFoundError}
-            onClick={() => setIsEditListModalOpen(true)}
-          />
-          <Button
-            icon={<ExportOutlined />}
-            disabled={listsNotFoundError}
-            onClick={() => window.location.href = config.apiBaseUrl + config.paths.output.path(lists.find(list => list.id === listId)?.path ?? "notfound")}
-          />
-          <Button
-            icon={<DeleteOutlined />}
-            disabled={listsNotFoundError}
-            onClick={() => setIsDeleteListModalOpen(true)}
-          />
+          <Popover content="Create a list">
+            <Button
+              icon={<PlusOutlined />}
+              disabled={listsNotFoundError}
+              onClick={() => setIsAddListModalOpen(true)}
+            />
+          </Popover>
+          <Popover content="Edit the list">
+            <Button
+              icon={<EditOutlined />}
+              disabled={listsNotFoundError}
+              onClick={() => setIsEditListModalOpen(true)}
+            />
+          </Popover>
+          <Popover content="Redirect to output path">
+            <Button
+              icon={<ExportOutlined />}
+              disabled={listsNotFoundError}
+              onClick={() => window.location.href = config.apiBaseUrl + config.paths.output.path(lists.find(list => list.id === listId)?.path ?? "notfound")}
+            />
+          </Popover>
+          <Popover content="Delete the list">
+            <Button
+              icon={<DeleteOutlined />}
+              disabled={listsNotFoundError}
+              onClick={() => setIsDeleteListModalOpen(true)}
+            />
+          </Popover>
         </div>
       </div>
       <AddListModal isOpen={isAddListModalOpen} setIsOpen={setIsAddListModalOpen} />

@@ -14,6 +14,7 @@
 
 .listsSelect, .clansSelect {
   display: flex;
+  justify-content: space-between;
 }
 
 .listsSelectButtonWrapper, .clansSelectInfoWrapper {

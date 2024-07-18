@@ -1,11 +1,12 @@
 import { useEffect, useMemo } from "react";
 
-import { Button, Select } from "antd";
+import { Button, Popover, Select } from "antd";
 
 import useListClans from "../../../hooks/useListClans";
 import { getRecordLocation } from "../../../services/storage/record-location.service";
 import useRecordsLocation from "../../../store/useRecordsLocation";
 import styles from "../Records.module.scss";
+import { CloseSquareOutlined, CloudDownloadOutlined, ImportOutlined, SelectOutlined } from "@ant-design/icons";
 
 const SelectClanBar = () => {
   const {
@@ -71,9 +72,22 @@ const SelectClanBar = () => {
         options={clansNotFoundError ? [{value: 0, label: "You don't have accessible clans"}] : clansOptions}
       />
       <div className={styles.clansSelectInfoWrapper}>
-        <Button disabled block>
-          Total: 99
-        </Button>
+        <Popover content="Import records to current clan from foreign resourse">
+          <Button
+            icon={<CloudDownloadOutlined />}
+            disabled={true}
+          />
+        </Popover>
+        <Popover content="Purge clan records in this list">
+          <Button
+            icon={<CloseSquareOutlined />}
+            disabled={true}
+          />
+        </Popover>
+
+        {/*<Button disabled>*/}
+        {/*  Total: 99*/}
+        {/*</Button>*/}
       </div>
     </div>
   )
