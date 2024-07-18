@@ -6,6 +6,7 @@ import RecordsWrapper from "./RecordsWrapper";
 import useGroups from "../../hooks/useGroups";
 import useRecords from "../../hooks/useRecords";
 import useRecordsLocation from "../../store/useRecordsLocation";
+import CreateRecord from "./CreateRecord";
 
 const Records = () => {
   const {listId, clanId} = useRecordsLocation();
@@ -36,6 +37,7 @@ const Records = () => {
           />
         ))}
       </RecordsWrapper>
+      <CreateRecord />
     </div>
   )
 }
