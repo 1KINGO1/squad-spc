@@ -41,7 +41,15 @@ function App() {
   return (
     <ConfigProvider
       theme={{
-        algorithm: darkAlgorithm
+        algorithm: darkAlgorithm,
+        token: {
+          colorPrimary: "#3d5790",
+          colorPrimaryActive: "#3f6f9d",
+          colorPrimaryHover: "#3f6f9d",
+          colorError: "#d9534f",
+          colorErrorActive: "#c9302c",
+          colorErrorHover: "#c9302c",
+        }
       }}
     >
       <RouterProvider router={router} />

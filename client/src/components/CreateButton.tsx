@@ -7,16 +7,19 @@ import styles from "../screens/Clans/Clans.module.scss";
 
 interface CreateButtonProps {
   onClick: () => void,
-  style?: React.CSSProperties
+  style?: React.CSSProperties,
+  bottom?: number,
+  right?: number,
+  icon?: React.ReactNode
 }
 
-const CreateButton: FC<CreateButtonProps> = ({onClick, style}) => {
+const CreateButton: FC<CreateButtonProps> = ({onClick, icon, style, bottom = 30, right = 30}) => {
   return (
-    <FloatButton icon={<PlusOutlined />}
+    <FloatButton icon={icon ?? <PlusOutlined />}
                  type="primary"
                  onClick={onClick}
                  shape="square"
-                 style={{...style, position: "fixed", bottom: "30px", right: "30px"}}
+                 style={{...style, position: "fixed", bottom: `${bottom}px`, right: `${right}px`}}
                  className={styles.addClanButton}
     />
   )
