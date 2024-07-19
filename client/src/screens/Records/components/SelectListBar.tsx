@@ -81,7 +81,7 @@ const SelectListBar = () => {
             <Button
               icon={<ExportOutlined />}
               disabled={listsNotFoundError}
-              onClick={() => window.location.href = config.apiBaseUrl + config.paths.output.path(lists.find(list => list.id === listId)?.path ?? "notfound")}
+              onClick={() => window.open(config.apiBaseUrl + config.paths.output.path(lists.find(list => list.id === listId)?.path ?? "notfound"))}
             />
           </Popover>
           <Popover content="Delete the list">
