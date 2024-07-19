@@ -9,6 +9,7 @@ import GroupType from "../../types/models/Group";
 import Permission from "../../types/models/Permission";
 import parseTextToColor from "../../utils/parseTextToColor";
 import { Button } from "antd";
+import { DeleteGroupModal } from "./modals/DeleteGroupModal";
 
 interface GroupProps {
   group: GroupType
@@ -16,6 +17,7 @@ interface GroupProps {
 
 const Group: FC<GroupProps> = ({group}) => {
   const [isEditGroupModalOpen, setIsEditGroupModalOpen] = useState(false);
+  const [isDeleteGroupModalOpen, setIsDeleteGroupModalOpen] = useState(false);
 
   const groupColor = parseTextToColor(group.name, "groups");
   const {permissions} = usePermissions();
@@ -51,11 +53,13 @@ const Group: FC<GroupProps> = ({group}) => {
           />
           <Button
             icon={<DeleteOutlined />}
+            onClick={() => setIsDeleteGroupModalOpen(true)}
             danger
           />
         </div>
       </div>
       <EditGroupModal isOpen={isEditGroupModalOpen} setIsOpen={setIsEditGroupModalOpen} group={group} />
+      <DeleteGroupModal isOpen={isDeleteGroupModalOpen} setIsOpen={setIsDeleteGroupModalOpen} groupId={group.id} />
     </>
   )
 }

@@ -19,3 +19,8 @@ export async function updateGroup(params: UpdateGroupParams){
   });
   return data;
 }
+
+export async function deleteGroup(id: number){
+  const {data} = await axiosWithAuth.delete(config.paths.groups.delete(id));
+  return data;
+}

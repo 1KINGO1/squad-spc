@@ -40,7 +40,8 @@ export default {
     },
     groups: {
       index: "/permissions/groups",
-      update: (groupId: number) => `/permissions/groups/${groupId}`
+      update: (groupId: number) => `/permissions/groups/${groupId}`,
+      delete: (groupId: number) => `/permissions/groups/${groupId}`,
     },
     permissions: {
       index: "/permissions/permissions",
