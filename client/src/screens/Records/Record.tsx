@@ -6,7 +6,7 @@ import { Button } from "antd";
 import styles from "./Records.module.scss";
 import Copyable from "../../components/Copyable";
 import DateCountdown from "../../components/DateCountdown";
-import useDeleteRecord from "../../hooks/useDeleteRecord";
+import useDeleteRecord from "../../hooks/records/useDeleteRecord";
 import parseTextToColor from "../../utils/parseTextToColor";
 
 interface RecordProps {

@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-import queryKeys from "../query-keys";
-import { deleteList } from "../services/lists.service";
-import List from "../types/models/List";
+import queryKeys from "../../query-keys";
+import { deleteList } from "../../services/lists.service";
+import List from "../../types/models/List";
 
 interface DeleteListParams {
   onSuccess?: () => void;

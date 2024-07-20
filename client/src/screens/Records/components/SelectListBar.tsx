@@ -4,7 +4,7 @@ import { DeleteOutlined, EditOutlined, ExportOutlined, PlusOutlined } from "@ant
 import { Button, Popover, Select } from "antd";
 
 import config from "../../../config";
-import useLists from "../../../hooks/useLists";
+import useLists from "../../../hooks/lists/useLists";
 import { getRecordLocation } from "../../../services/storage/record-location.service";
 import useRecordsLocation from "../../../store/useRecordsLocation";
 import List from "../../../types/models/List";

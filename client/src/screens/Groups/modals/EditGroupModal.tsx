@@ -2,12 +2,12 @@ import { FC, useEffect, useMemo, useState } from "react";
 
 import { Button, Form, message, Modal} from "antd";
 
+import GroupForm from "./shared/GroupForm";
 import IFormValues from "./shared/IFormValues";
-import usePermissions from "../../../hooks/usePermissions";
-import useUpdateGroup from "../../../hooks/useUpdateGroup";
+import useUpdateGroup from "../../../hooks/groups/useUpdateGroup";
+import usePermissions from "../../../hooks/permissions/usePermissions";
 import GroupType from "../../../types/models/Group";
 import Permission from "../../../types/models/Permission";
-import GroupForm from "./shared/GroupForm";
 
 
 interface EditGroupModalProps {

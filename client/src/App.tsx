@@ -6,8 +6,8 @@ import { RouterProvider } from "react-router";
 import "./styles/global.scss";
 
 import config from "./config";
-import useClans from "./hooks/useClans";
-import useLists from "./hooks/useLists";
+import useClans from "./hooks/clans/useClans";
+import useLists from "./hooks/lists/useLists";
 import router from "./routes/router";
 import {getUserInfo} from "./services/auth.service";
 import useCurrentUser from "./store/useCurrentUser";

@@ -4,7 +4,7 @@ import { Button, Form, message, Modal } from "antd";
 
 import { IFormValues } from "./shared/IFormValues";
 import ListForm from "./shared/ListForm";
-import useCreateList from "../../../hooks/useCreateList";
+import useCreateList from "../../../hooks/lists/useCreateList";
 
 interface AddListModalProps {
   isOpen: boolean;

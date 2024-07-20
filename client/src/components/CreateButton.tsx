@@ -3,8 +3,8 @@ import React, { FC, useEffect } from "react";
 import { PlusOutlined } from "@ant-design/icons";
 import { FloatButton, Popover } from "antd";
 
-import styles from "../screens/Clans/Clans.module.scss";
 import KeyboardKey from "./KeyboardKey";
+import styles from "../screens/Clans/Clans.module.scss";
 
 interface CreateButtonProps {
   onClick: () => void,

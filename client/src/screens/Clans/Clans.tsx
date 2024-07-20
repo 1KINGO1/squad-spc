@@ -7,7 +7,7 @@ import styles from "./Clans.module.scss";
 import ClansWrapper from "./ClansWrapper";
 import CreateClan from "./CreateClan";
 import PinnedClansWrapper from "./PinnedClansWrapper";
-import useClans from "../../hooks/useClans";
+import useClans from "../../hooks/clans/useClans";
 import usePinnedClans from "../../store/usePinnedClans";
 
 const Clans: FC = () => {

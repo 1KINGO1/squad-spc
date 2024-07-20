@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-import queryKeys from "../query-keys";
-import { createRecord } from "../services/records.service";
-import Record from "../types/models/Record";
+import queryKeys from "../../query-keys";
+import { createRecord } from "../../services/records.service";
+import Record from "../../types/models/Record";
 
 interface CreateRecordParams {
   clanId: number;

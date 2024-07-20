@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-import queryKeys from "../query-keys";
-import { createList } from "../services/lists.service";
-import Clan from "../types/models/Clan";
-import List from "../types/models/List";
+import queryKeys from "../../query-keys";
+import { createList } from "../../services/lists.service";
+import Clan from "../../types/models/Clan";
+import List from "../../types/models/List";
 
 interface UpdateClanParams {
   onSuccess?: (changedClan: Clan) => void;

@@ -1,6 +1,6 @@
 import config from "../config";
-import axiosWithAuth from "../utils/axiosWithAuth";
 import Group from "../types/models/Group";
+import axiosWithAuth from "../utils/axiosWithAuth";
 
 export async function getGroups() {
   const { data } = await axiosWithAuth(config.paths.groups.index);

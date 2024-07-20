@@ -1,6 +1,6 @@
 import Records from "../screens/Records/Records";
-import WithAuth from "../utils/WithAuth";
 import { Roles } from "../types/Roles";
+import WithAuth from "../utils/WithAuth";
 
 const RecordsRoute = (
   <WithAuth excludedRoles={[Roles.Guest]}>

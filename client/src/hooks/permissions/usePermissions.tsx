@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
-import queryKeys from "../query-keys";
-import { getPermissions } from "../services/permissions.service";
-import useCurrentUser from "../store/useCurrentUser";
-import Permission from "../types/models/Permission";
-import { Roles } from "../types/Roles";
+import queryKeys from "../../query-keys";
+import { getPermissions } from "../../services/permissions.service";
+import useCurrentUser from "../../store/useCurrentUser";
+import Permission from "../../types/models/Permission";
+import { Roles } from "../../types/Roles";
 
 const usePermissions = () => {
   const {user} = useCurrentUser();

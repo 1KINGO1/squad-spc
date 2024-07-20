@@ -2,10 +2,10 @@ import {
   useQuery
 } from "@tanstack/react-query";
 
-import queryKeys from "../query-keys";
-import { getClanLimits } from "../services/clans.service";
-import useCurrentUser from "../store/useCurrentUser";
-import Limit from "../types/models/Limit";
+import queryKeys from "../../query-keys";
+import { getClanLimits } from "../../services/clans.service";
+import useCurrentUser from "../../store/useCurrentUser";
+import Limit from "../../types/models/Limit";
 
 const useClanLimits = (clanId: number) => {
   const { user } = useCurrentUser();

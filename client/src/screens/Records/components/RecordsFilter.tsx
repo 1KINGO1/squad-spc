@@ -1,7 +1,9 @@
 import { FC } from "react";
+
 import { Input } from "antd";
-import styles from "../Records.module.scss";
+
 import useRecordsLocation from "../../../store/useRecordsLocation";
+import styles from "../Records.module.scss";
 
 interface RecordsFilterProps {
   filterValue: string;

@@ -1,13 +1,11 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { Button, Form, message, Modal} from "antd";
 
-import IFormValues from "./shared/IFormValues";
-import usePermissions from "../../../hooks/usePermissions";
-import useUpdateGroup from "../../../hooks/useUpdateGroup";
-import GroupType from "../../../types/models/Group";
 import GroupForm from "./shared/GroupForm";
-import useCreateGroup from "../../../hooks/useCreateGroup";
+import IFormValues from "./shared/IFormValues";
+import useCreateGroup from "../../../hooks/groups/useCreateGroup";
+import usePermissions from "../../../hooks/permissions/usePermissions";
 import Permission from "../../../types/models/Permission";
 
 
@@ -48,7 +46,7 @@ const CreateGroupModal: FC<CreateGroupModalProps> = (props) => {
   useEffect(() => {
     form
       .validateFields({ validateOnly: true })
-      .then((values) => {
+      .then(() => {
         setSubmittable(true);
       })
       .catch(() => setSubmittable(false));

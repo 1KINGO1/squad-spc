@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-import queryKeys from "../query-keys";
-import { deleteGroup } from "../services/groups.service";
-import Group from "../types/models/Group";
+import queryKeys from "../../query-keys";
+import { deleteGroup } from "../../services/groups.service";
+import Group from "../../types/models/Group";
 
 interface DeleteGroupParams {
   onSuccess?: () => void;

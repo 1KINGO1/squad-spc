@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import queryKeys from "../query-keys";
-import { updateGroup } from "../services/groups.service";
-import Group from "../types/models/Group";
+import queryKeys from "../../query-keys";
+import { updateGroup } from "../../services/groups.service";
+import Group from "../../types/models/Group";
 
 interface UpdateGroupParams {
   onSuccess?: (changedGroup: Group) => void;

@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import queryKeys from "../query-keys";
-import { createClan } from "../services/clans.service";
-import Clan from "../types/models/Clan";
+import queryKeys from "../../query-keys";
+import { createClan } from "../../services/clans.service";
+import Clan from "../../types/models/Clan";
 
 interface UpdateClanParams {
   onSuccess?: (changedClan: Clan) => void;

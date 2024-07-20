@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-import queryKeys from "../query-keys";
-import { deleteClan } from "../services/clans.service";
-import Clan from "../types/models/Clan";
+import queryKeys from "../../query-keys";
+import { deleteClan } from "../../services/clans.service";
+import Clan from "../../types/models/Clan";
 
 interface UpdateClanParams {
   onSuccess?: () => void;

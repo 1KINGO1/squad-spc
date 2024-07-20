@@ -1,15 +1,15 @@
 import { FC, useState } from "react";
 
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 
 import styles from "./Groups.module.scss"
+import { DeleteGroupModal } from "./modals/DeleteGroupModal";
 import EditGroupModal from "./modals/EditGroupModal";
-import usePermissions from "../../hooks/usePermissions";
+import usePermissions from "../../hooks/permissions/usePermissions";
 import GroupType from "../../types/models/Group";
 import Permission from "../../types/models/Permission";
 import parseTextToColor from "../../utils/parseTextToColor";
-import { Button } from "antd";
-import { DeleteGroupModal } from "./modals/DeleteGroupModal";
 
 interface GroupProps {
   group: GroupType

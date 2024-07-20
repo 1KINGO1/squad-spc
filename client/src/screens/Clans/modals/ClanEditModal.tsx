@@ -4,9 +4,9 @@ import { Button, Form, message, Modal } from "antd";
 
 import ClanForm from "./shared/ClanForm";
 import IFormValues from "./shared/IFormValues";
-import useClanLimits from "../../../hooks/useClanLimits";
-import useUpdateClan from "../../../hooks/useUpdateClan";
-import useUpdateClanLimits from "../../../hooks/useUpdateClanLimits";
+import useClanLimits from "../../../hooks/clans/useClanLimits";
+import useUpdateClan from "../../../hooks/clans/useUpdateClan";
+import useUpdateClanLimits from "../../../hooks/clans/useUpdateClanLimits";
 import Clan from "../../../types/models/Clan";
 
 interface ClanEditModalProps {

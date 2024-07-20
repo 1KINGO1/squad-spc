@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import { Checkbox, Form, List } from "antd";
 
-import useLists from "../../../../hooks/useLists";
+import useLists from "../../../../hooks/lists/useLists";
 
 interface SelectAllowedListsProps {
   initialValue?: number[];

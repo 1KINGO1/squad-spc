@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 
 import { Button, message, Modal, Space, Typography } from "antd";
 
-import useDeleteGroup from "../../../hooks/useDeleteGroup";
+import useDeleteGroup from "../../../hooks/groups/useDeleteGroup";
 
 const { Text } = Typography;
 

@@ -4,7 +4,7 @@ import { Form, FormInstance, Input } from "antd";
 
 import { IFormValues } from "./IFormValues";
 import config from "../../../../config";
-import useLists from "../../../../hooks/useLists";
+import useLists from "../../../../hooks/lists/useLists";
 
 interface ListFormProps {
   form: FormInstance<IFormValues>,

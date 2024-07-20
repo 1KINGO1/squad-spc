@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 
-import queryKeys from "../query-keys";
-import { getLists } from "../services/lists.service";
-import useCurrentUser from "../store/useCurrentUser";
-import List from "../types/models/List";
+import queryKeys from "../../query-keys";
+import { getLists } from "../../services/lists.service";
+import useCurrentUser from "../../store/useCurrentUser";
+import List from "../../types/models/List";
 
 const useLists = () => {
   const {user} = useCurrentUser();

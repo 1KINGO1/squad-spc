@@ -1,4 +1,5 @@
 import { FC, PropsWithChildren } from "react";
+
 import styles from "./KeyboardKey.module.scss";
 
 const KeyboardKey: FC<PropsWithChildren> = ({children}) => {

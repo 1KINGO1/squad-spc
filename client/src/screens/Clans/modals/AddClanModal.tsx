@@ -4,8 +4,8 @@ import { Button, Form, message, Modal } from "antd";
 
 import ClanForm from "./shared/ClanForm";
 import IFormValues from "./shared/IFormValues";
-import useCreateClan from "../../../hooks/useCreateClan";
-import useUpdateClanLimits from "../../../hooks/useUpdateClanLimits";
+import useCreateClan from "../../../hooks/clans/useCreateClan";
+import useUpdateClanLimits from "../../../hooks/clans/useUpdateClanLimits";
 
 interface AddClanModalProps {
   isOpen: boolean;

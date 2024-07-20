@@ -1,9 +1,11 @@
 import { FC, useEffect } from "react";
-import IFormValues from "./IFormValues";
+
 import { Form, FormInstance, Input, Select } from "antd";
+
+import IFormValues from "./IFormValues";
+import useGroups from "../../../../hooks/groups/useGroups";
+import usePermissions from "../../../../hooks/permissions/usePermissions";
 import Group from "../../../../types/models/Group";
-import usePermissions from "../../../../hooks/usePermissions";
-import useGroups from "../../../../hooks/useGroups";
 
 interface GroupFormProps {
   form: FormInstance<IFormValues>,

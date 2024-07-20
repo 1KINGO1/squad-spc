@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 
 import { Button, message, Modal, Space, Typography } from "antd";
 
-import useDeleteList from "../../../hooks/useDeleteList";
+import useDeleteList from "../../../hooks/lists/useDeleteList";
 
 const { Text } = Typography;
 

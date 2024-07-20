@@ -2,10 +2,10 @@ import { useCallback, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import queryKeys from "../query-keys";
-import { getListClans } from "../services/lists.service";
-import useCurrentUser from "../store/useCurrentUser";
-import Clan from "../types/models/Clan";
+import queryKeys from "../../query-keys";
+import { getListClans } from "../../services/lists.service";
+import useCurrentUser from "../../store/useCurrentUser";
+import Clan from "../../types/models/Clan";
 
 
 const useListClans = (listId: number) => {

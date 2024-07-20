@@ -1,6 +1,7 @@
-import CreateButton from "../../components/CreateButton";
 import { FC, useState } from "react";
+
 import CreateGroupModal from "./modals/CreateGroupModal";
+import CreateButton from "../../components/CreateButton";
 
 
 const CreateGroup: FC = () => {

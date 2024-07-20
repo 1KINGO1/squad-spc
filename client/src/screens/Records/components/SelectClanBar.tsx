@@ -1,12 +1,12 @@
 import { useEffect, useMemo } from "react";
 
+import { CloseSquareOutlined, CloudDownloadOutlined } from "@ant-design/icons";
 import { Button, Popover, Select } from "antd";
 
-import useListClans from "../../../hooks/useListClans";
+import useListClans from "../../../hooks/lists/useListClans";
 import { getRecordLocation } from "../../../services/storage/record-location.service";
 import useRecordsLocation from "../../../store/useRecordsLocation";
 import styles from "../Records.module.scss";
-import { CloseSquareOutlined, CloudDownloadOutlined, ImportOutlined, SelectOutlined } from "@ant-design/icons";
 
 const SelectClanBar = () => {
   const {

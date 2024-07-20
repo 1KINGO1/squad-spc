@@ -4,7 +4,7 @@ import { Button, Form, message, Modal } from "antd";
 
 import { IFormValues } from "./shared/IFormValues";
 import ListForm from "./shared/ListForm";
-import useUpdateList from "../../../hooks/useUpdateList";
+import useUpdateList from "../../../hooks/lists/useUpdateList";
 import List from "../../../types/models/List";
 
 interface EditListModalProps {

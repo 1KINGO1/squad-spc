@@ -5,8 +5,8 @@ import SelectRecordsLocation from "./components/SelectRecordsLocation";
 import CreateRecord from "./CreateRecord";
 import Record from "./Record";
 import RecordsWrapper from "./RecordsWrapper";
-import useGroups from "../../hooks/useGroups";
-import useRecords from "../../hooks/useRecords";
+import useGroups from "../../hooks/groups/useGroups";
+import useRecords from "../../hooks/records/useRecords";
 import useRecordsLocation from "../../store/useRecordsLocation";
 
 const Records = () => {
