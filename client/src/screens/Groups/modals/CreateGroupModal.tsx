@@ -6,24 +6,24 @@ import IFormValues from "./shared/IFormValues";
 import usePermissions from "../../../hooks/usePermissions";
 import useUpdateGroup from "../../../hooks/useUpdateGroup";
 import GroupType from "../../../types/models/Group";
-import Permission from "../../../types/models/Permission";
 import GroupForm from "./shared/GroupForm";
+import useCreateGroup from "../../../hooks/useCreateGroup";
+import Permission from "../../../types/models/Permission";
 
 
-interface EditGroupModalProps {
+interface CreateGroupModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  group: GroupType;
 }
 
-const EditGroupModal: FC<EditGroupModalProps> = (props) => {
+const CreateGroupModal: FC<CreateGroupModalProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [submittable, setSubmittable] = useState(false);
   const { permissions } = usePermissions();
   const [form] = Form.useForm<IFormValues>();
   const values = Form.useWatch([], form);
 
-  const mutation = useUpdateGroup({
+  const mutation = useCreateGroup({
     onSuccess: () => {
       form.resetFields();
       setSubmittable(false);
@@ -34,18 +34,13 @@ const EditGroupModal: FC<EditGroupModalProps> = (props) => {
       message.error(err);
     }
   });
-  const initialValues = useMemo(() => {
-    return { name: props.group.name, permissions: props.group.permissions.map(p => p.value) };
-  }, [props.group])
-
   const handleCancel = () => {
     props.setIsOpen(false);
   };
   const handleOk = () => {
     setIsLoading(true);
     mutation.mutate({
-      id: props.group.id,
-      name: values.name === props.group.name ? undefined : values.name,
+      name: values.name,
       permissions: values.permissions.map(permission => (permissions.find(p => p.value === permission) as Permission).id)
     });
   };
@@ -54,10 +49,6 @@ const EditGroupModal: FC<EditGroupModalProps> = (props) => {
     form
       .validateFields({ validateOnly: true })
       .then((values) => {
-        if (values.name === props.group.name && values.permissions + "" === props.group.permissions.map(p => p.value) + "") {
-          setSubmittable(false);
-          return;
-        }
         setSubmittable(true);
       })
       .catch(() => setSubmittable(false));
@@ -71,10 +62,11 @@ const EditGroupModal: FC<EditGroupModalProps> = (props) => {
     };
   }, [props.isOpen]);
 
+
   return (
     <Modal
       open={props.isOpen}
-      title={"Edit group " + props.group.name}
+      title={"Create new group"}
       onCancel={handleCancel}
       loading={isLoading}
       footer={[
@@ -92,10 +84,9 @@ const EditGroupModal: FC<EditGroupModalProps> = (props) => {
     >
       <GroupForm
         form={form}
-        initialValues={initialValues}
       />
     </Modal>
   );
 };
 
-export default EditGroupModal;
+export default CreateGroupModal;

@@ -1,5 +1,6 @@
 import config from "../config";
 import axiosWithAuth from "../utils/axiosWithAuth";
+import Group from "../types/models/Group";
 
 export async function getGroups() {
   const { data } = await axiosWithAuth(config.paths.groups.index);
@@ -22,5 +23,14 @@ export async function updateGroup(params: UpdateGroupParams){
 
 export async function deleteGroup(id: number){
   const {data} = await axiosWithAuth.delete(config.paths.groups.delete(id));
+  return data;
+}
+
+interface CreateGroupParams{
+  name: string;
+  permissions: number[]
+}
+export async function createGroup(params: CreateGroupParams): Promise<Group>{
+  const {data} = await axiosWithAuth.post(config.paths.groups.create, params);
   return data;
 }

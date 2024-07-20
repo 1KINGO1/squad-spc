@@ -53,6 +53,14 @@ export const AddListModal: FC<AddListModalProps> = (props) => {
     props.setIsOpen(false);
   }
 
+  useEffect(() => {
+    return () => {
+      form.resetFields();
+      setIsLoading(false);
+      setSubmittable(false);
+    };
+  }, [props.isOpen]);
+
   return (
     <Modal
       open={props.isOpen}

@@ -42,6 +42,7 @@ export default {
       index: "/permissions/groups",
       update: (groupId: number) => `/permissions/groups/${groupId}`,
       delete: (groupId: number) => `/permissions/groups/${groupId}`,
+      create: "/permissions/groups"
     },
     permissions: {
       index: "/permissions/permissions",
