@@ -43,7 +43,7 @@ const ManageUser: FC<ManageUserProps> = ({ user }) => {
                 permission: value
               });
             },
-            disabled: user.permission === value || value === Roles.Root
+            disabled: user.permission === value || value === Roles.Root || (currentUser?.permission ?? 0) <= value
           };
         })
 
@@ -61,7 +61,7 @@ const ManageUser: FC<ManageUserProps> = ({ user }) => {
       onClick: () => setIsRemoveModalOpen(true),
       danger: true
     }
-  ], []);
+  ], [user]);
 
   return (
     <>

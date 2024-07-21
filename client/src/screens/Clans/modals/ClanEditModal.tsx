@@ -16,7 +16,7 @@ interface ClanEditModalProps {
 }
 
 const ClanEditModal: FC<ClanEditModalProps> = (props) => {
-  const { limits } = useClanLimits(props.clan.id);
+  const { limits } = useClanLimits(props.clan.id, !props.isOpen);
   const [form] = Form.useForm<IFormValues>();
   const [submittable, setSubmittable] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

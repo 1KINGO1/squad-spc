@@ -7,13 +7,13 @@ import { getClanLimits } from "../../services/clans.service";
 import useCurrentUser from "../../store/useCurrentUser";
 import Limit from "../../types/models/Limit";
 
-const useClanLimits = (clanId: number) => {
+const useClanLimits = (clanId: number, isDisabled = false) => {
   const { user } = useCurrentUser();
   const query = useQuery(
     {
       queryKey: queryKeys.clanLimits(clanId),
       queryFn: () => getClanLimits({ clanId }),
-      enabled: user !== null && !!clanId
+      enabled: user !== null && !!clanId && !isDisabled
     }
   );
 
