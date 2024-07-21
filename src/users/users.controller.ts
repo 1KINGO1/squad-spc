@@ -188,7 +188,7 @@ export class UsersController {
   ) {
     return this.usersService.getAll(
       {
-        limit: parseInt(limit) > 0 && parseInt(limit) <= 100 ? parseInt(limit) : 20,
+        limit: parseInt(limit) > 0 && parseInt(limit) <= 100 ? parseInt(limit) : undefined,
         orderBy: ["ASC", "DESC"].includes(orderBy) ? orderBy : undefined,
         orderByField,
         offset: parseInt(offset) > 0 ? parseInt(offset) : 0

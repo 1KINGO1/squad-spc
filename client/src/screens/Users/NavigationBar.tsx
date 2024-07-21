@@ -20,7 +20,7 @@ const NavigationBar: FC = () => {
     <div className={styles.navigationWrapper}>
       <Button type="primary">Create invite link</Button>
       <div className={styles.navigationSearchWrapper}>
-        <Input.Search placeholder="Search a user by name"
+        <Input placeholder="Search a user by name"
                       style={{ width: 450 }}
                       allowClear
                       value={searchValue}

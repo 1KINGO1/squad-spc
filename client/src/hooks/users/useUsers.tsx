@@ -17,7 +17,7 @@ const useUsers = (params: UseUsersParams) => {
     {
       queryKey: queryKeys.users(),
       queryFn: () => getUsers({
-        limit: params.limit ?? 40,
+        limit: params.limit ?? 9999,
         order: {
           by: params.orderBy ?? "DESC",
           field: params.orderByField ?? "permission"
