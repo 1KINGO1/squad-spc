@@ -20,11 +20,10 @@ export default {
       limitsReplace: (id: number) => "/clans/" + id + "/limits/replace",
     },
     users: {
-      index: "/users",
+      index: (limit: number, orderBy: string, orderByField: string) => "/users" + `?limit=${limit}&orderBy=${orderBy}&orderByField=${orderByField}`,
       show: "/users/:id",
       create: "/users",
-      update: "/users/:id",
-      delete: "/users/:id"
+      update: (id: number) => "/users/" + id,
     },
     lists: {
       index: "/lists",

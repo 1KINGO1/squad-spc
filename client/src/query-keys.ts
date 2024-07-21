@@ -22,7 +22,10 @@ const queryKeys: {
   },
   permissions(){
     return ["permissions"];
-  }
+  },
+  users(){
+    return ["users"];
+  },
 }
 
 export default queryKeys;

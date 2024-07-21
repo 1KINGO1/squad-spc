@@ -32,12 +32,30 @@
 .userWrapper {
   display: flex;
   align-items: center;
+  position: relative;
   background-color: var(--color-black-soft);
   padding: 20px;
   border-radius: 5px;
   font-size: 20px;
   border: 1px solid var(--color-smoke-dark-1);
   color: var(--color-white);
+}
+
+.currentUser {
+  order: -1;
+
+  &:before {
+    content: 'You';
+    position: absolute;
+    display: block;
+    font-size: 0.7em;
+    top: -0.5em;
+    left: -0.2em;
+    padding: 0.1em 0.3em;
+    background-color: var(--color-black);
+    border: 1px solid var(--color-smoke-dark-1);
+    border-radius: inherit;
+  }
 }
 
 .userInfoWrapper {

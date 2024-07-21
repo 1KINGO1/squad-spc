@@ -90,6 +90,7 @@ export class UsersService {
 
   async update(id: number, user: User, updateObj: UpdateUserDto){
 
+
     if (user.id === id) {
       throw new ForbiddenException('You cannot update yourself');
     }
@@ -101,6 +102,10 @@ export class UsersService {
     }
 
     if (updateObj?.permission !== undefined) {
+      const authRolesValues = Object.values(AuthRoles);
+      if (!authRolesValues.includes(updateObj.permission)) {
+        throw new BadRequestException('Invalid permission value');
+      }
       if (user.permission <= updateObj.permission) {
         throw new ForbiddenException('You cannot update a user with a higher permission level than yourself');
       }
