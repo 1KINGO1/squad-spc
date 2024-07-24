@@ -41,9 +41,9 @@ const ClanForm: FC<ClanFormProps> = (
       .catch(() => setSubmittable(false));
   }, [values, initialValues, form]);
 
-  // useEffect(() => {
-  //   form.setFieldsValue(initialValues as IFormValues);
-  // }, [initialValues]);
+  useEffect(() => {
+    form.setFieldsValue(initialValues as IFormValues);
+  }, [initialValues]);
 
   return (
     <>
