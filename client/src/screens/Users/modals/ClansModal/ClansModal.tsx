@@ -20,7 +20,6 @@ const ClansModal: FC<ClansModalProps> = ({isOpen, setIsOpen, user}) => {
   const [clans, setClans] = useState<Clan[]>([]);
 
   const userClans = useUserClans(user);
-  const {clans: allClans} = useClans();
 
   const handleOk = () => setIsOpen(false);
   const handleCancel = () => setIsOpen(false);
@@ -35,16 +34,7 @@ const ClansModal: FC<ClansModalProps> = ({isOpen, setIsOpen, user}) => {
       open={isOpen}
       onOk={handleOk}
       onCancel={handleCancel}
-      footer={() => (
-        <>
-          <Button onClick={handleCancel}>
-            Cancel
-          </Button>
-          <Button onClick={handleOk} disabled>
-            Save
-          </Button>
-        </>
-      )}
+      footer={null}
     >
       {clans.map((clan) => (
         <ClanItem clan={clan} key={clan.id} isSelected={true} user={user}/>
