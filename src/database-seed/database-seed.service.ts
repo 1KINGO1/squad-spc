@@ -2,12 +2,14 @@ import { Injectable } from "@nestjs/common";
 import { PermissionsService } from "../permissions/permissions.service";
 import { ClansService } from "../clans/clans.service";
 import { ListsService } from "../lists/lists.service";
+import { LimitsService } from "../clans/limits/limits.service";
 
 @Injectable()
 export class DatabaseSeedService {
 
   constructor(
     private permissionsService: PermissionsService,
+    private limitsService: LimitsService,
     private clansService: ClansService,
     private listsService: ListsService
   ) {}
@@ -47,10 +49,10 @@ export class DatabaseSeedService {
     const list = await this.listsService.create({ name: "Main", path: "main" });
 
     // Clans init
-    await this.clansService.createClan({ name: "Admins", tag: "[ADM]", allowed_lists: [list.id]});
-    await this.clansService.createClan({ name: "Whitelists", tag: "[WHT]", allowed_lists: [list.id]});
+    const adminsClan = await this.clansService.createClan({ name: "Admins", tag: "[ADM]", allowed_lists: [list.id]});
+    const whitelistClan = await this.clansService.createClan({ name: "Whitelists", tag: "[WHT]", allowed_lists: [list.id]});
 
-
-
+    await this.limitsService.createLimit(adminsClan.id, { group_id: adminGroup.id });
+    await this.limitsService.createLimit(whitelistClan.id, { group_id: whitelistGroup.id });
   }
 }
