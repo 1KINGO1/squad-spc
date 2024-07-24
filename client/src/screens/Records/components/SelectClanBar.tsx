@@ -7,6 +7,7 @@ import useListClans from "../../../hooks/lists/useListClans";
 import { getRecordLocation } from "../../../services/storage/record-location.service";
 import useRecordsLocation from "../../../store/useRecordsLocation";
 import styles from "../Records.module.scss";
+import useIsAdmin from "../../../hooks/users/useIsAdmin";
 
 const SelectClanBar = () => {
   const {
@@ -19,6 +20,8 @@ const SelectClanBar = () => {
   } = useRecordsLocation();
 
   const { clans, isLoading: isClansLoading, enableClanFetch } = useListClans(listId ?? 0);
+  const isAdmin = useIsAdmin();
+
   const clansOptions = useMemo(
     () => !isClansLoading ?
       clans
@@ -71,24 +74,26 @@ const SelectClanBar = () => {
         disabled={clansNotFoundError}
         options={clansNotFoundError ? [{value: 0, label: "You don't have accessible clans"}] : clansOptions}
       />
-      <div className={styles.clansSelectInfoWrapper}>
-        <Popover content="Import records to current clan from foreign resourse">
-          <Button
-            icon={<CloudDownloadOutlined />}
-            disabled={true}
-          />
-        </Popover>
-        <Popover content="Purge clan records in this list">
-          <Button
-            icon={<CloseSquareOutlined />}
-            disabled={true}
-          />
-        </Popover>
+      {isAdmin && (
+        <div className={styles.clansSelectInfoWrapper}>
+          <Popover content="Import records to current clan from foreign resourse">
+            <Button
+              icon={<CloudDownloadOutlined />}
+              disabled={true}
+            />
+          </Popover>
+          <Popover content="Purge clan records in this list">
+            <Button
+              icon={<CloseSquareOutlined />}
+              disabled={true}
+            />
+          </Popover>
 
-        {/*<Button disabled>*/}
-        {/*  Total: 99*/}
-        {/*</Button>*/}
-      </div>
+          {/*<Button disabled>*/}
+          {/*  Total: 99*/}
+          {/*</Button>*/}
+        </div>
+      )}
     </div>
   )
 }

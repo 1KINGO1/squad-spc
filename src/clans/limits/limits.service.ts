@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, ForbiddenException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Limit } from "../entity/Limit.entity";
@@ -7,6 +7,7 @@ import { ListsService } from "../../lists/lists.service";
 import { CreateLimitDto } from "../dtos/create-limit.dto";
 import { ClansService } from "../clans.service";
 import { UpdateLimitDto } from "../dtos/update-limit.dto";
+import { User } from "../../users/entity/User.entity";
 
 @Injectable()
 export class LimitsService {
@@ -18,9 +19,14 @@ export class LimitsService {
     private clansService: ClansService
   ) {}
 
-  async getLimitsByClanId(clanId: number) {
-    const clan = await this.clansService.getClanById(clanId);
-    return this.limitsRepository.find({where: { clan: {id: clan.id} }, relations: ["group"]});
+  async getLimitsByClanId(clanId: number, user: User) {
+    const clans = await this.clansService.getAvailableClans({user});
+
+    if (!clans.some(clan => clan.id === clanId)) {
+      throw new ForbiddenException("You do not have access to this clan");
+    }
+
+    return this.limitsRepository.find({where: { clan: {id: clanId} }, relations: ["group"]});
   }
 
   async getLimitById(limitId: number) {

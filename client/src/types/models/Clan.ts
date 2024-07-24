@@ -1,4 +1,5 @@
 import List from "./List";
+import User from "./User";
 
 export default interface Clan {
   id: number;
@@ -8,5 +9,5 @@ export default interface Clan {
   // ids of lists
   allowed_lists: List[],
   //limits?: Limit[],
-  //clan_leaders?: User[]
+  clan_leaders: User[]
 }

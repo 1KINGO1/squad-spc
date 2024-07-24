@@ -5,7 +5,6 @@ import {
   MinLength,
   MaxLength, IsNotEmpty, IsOptional
 } from "class-validator";
-import { AuthRoles } from "../../auth/guards/auth.guard";
 
 export class UpdateClanDto {
   @MinLength(3)

@@ -47,6 +47,8 @@
     white-space: nowrap;
     color: var(--color-smoke);
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .clanItemBottom {
@@ -91,4 +93,36 @@
     font-size: 32px;
     text-align: center;
     color: var(--color-white);
+}
+
+.clanManagerItem {
+    padding: 1em;
+    background-color: var(--color-black);
+    margin: 1em 0;
+    display: flex;
+    align-items: center;
+    border-radius: 0.6em;
+    border: 1px solid var(--color-smoke-dark-1);
+    gap: 1em;
+}
+
+.clanManagerAvatarWrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.clanManagerNickname {
+    font-size: 1.2em;
+}
+
+.deleteButtonWrapper {
+    margin-left: auto;
 }

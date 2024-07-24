@@ -99,3 +99,30 @@
   display: flex;
   gap: 5px;
 }
+
+.clanItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+  border: 1px solid;
+  margin: 1em 0;
+  border-radius: .5em;
+  background-color: var(--color-black);
+  transition: .1s ease-in-out all;
+
+  p {
+    font-size: 1.5em;
+    white-space: nowrap;
+    color: var(--color-white);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  button {
+    flex-shrink: 0;
+  }
+
+  &:hover{
+    opacity: 0.9 !important;
+  }
+}

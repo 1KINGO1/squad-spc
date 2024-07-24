@@ -9,6 +9,8 @@ import { DeleteClanModal } from "./modals/DeleteClanModal";
 import usePinnedClans from "../../store/usePinnedClans";
 import Clan from "../../types/models/Clan";
 import parseTextToColor from "../../utils/parseTextToColor";
+import { ClanManagersModal } from "./modals/ClanManagersModal";
+import useIsAdmin from "../../hooks/users/useIsAdmin";
 
 interface ClanItemProps {
   clan: Clan;
@@ -16,10 +18,15 @@ interface ClanItemProps {
 
 const ClanItem: FC<ClanItemProps> = ({ clan }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const { pinClan, unpinClan, pinnedClanIds } = usePinnedClans();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isManagersModalOpen, setIsManagersModalOpen] = useState(false);
+
+  const { pinClan, unpinClan, pinnedClanIds } = usePinnedClans();
+
   const color = parseTextToColor(clan.name + clan.tag, "clan");
   const isClanPinned = pinnedClanIds.includes(clan.id);
+
+  const isAdmin = useIsAdmin();
 
   const pinHandler = () => {
     if (isClanPinned) {
@@ -38,22 +45,29 @@ const ClanItem: FC<ClanItemProps> = ({ clan }) => {
           </p>
         </div>
         <div className={styles.clanItemBottom}>
-          <Button type="primary" className={styles.editButton} onClick={() => setIsEditing(true)}>
-            <EditOutlined /> Edit
-          </Button>
-          <Button type="primary" className={styles.managersButton}>
+          {isAdmin && (
+            <Button type="primary" className={styles.editButton} onClick={() => setIsEditing(true)}>
+              <EditOutlined /> Edit
+            </Button>
+          )}
+
+          <Button type="primary" className={styles.managersButton} onClick={() => setIsManagersModalOpen(true)}>
             <TeamOutlined /> Managers
           </Button>
+
           <Button type="primary" className={styles.managersButton} onClick={pinHandler}>
             <PushpinOutlined /> {isClanPinned ? "Unpin" : "Pin"}
           </Button>
-          <Button type="primary"
-                  danger
-                  className={styles.managersButton}
-                  onClick={() => setIsDeleteModalOpen(true)}
-                  loading={isDeleteModalOpen}>
-            <CloseCircleOutlined /> Delete
-          </Button>
+
+          {isAdmin && (
+            <Button type="primary"
+                    danger
+                    className={styles.managersButton}
+                    onClick={() => setIsDeleteModalOpen(true)}
+                    loading={isDeleteModalOpen}>
+              <CloseCircleOutlined /> Delete
+            </Button>
+          )}
         </div>
       </div>
       <ClanEditModal isOpen={isEditing}
@@ -63,6 +77,10 @@ const ClanItem: FC<ClanItemProps> = ({ clan }) => {
       <DeleteClanModal isOpen={isDeleteModalOpen}
                        setIsOpen={setIsDeleteModalOpen}
                        clanId={clan.id}
+      />
+      <ClanManagersModal isOpen={isManagersModalOpen}
+                         setIsOpen={setIsManagersModalOpen}
+                         clan={clan}
       />
     </>
   );

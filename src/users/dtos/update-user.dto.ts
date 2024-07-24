@@ -8,7 +8,7 @@ export class UpdateUserDto {
   @IsOptional()
   permission?: AuthRoles;
 
-  @ArrayMinSize(1)
+  @ArrayMinSize(0)
   @IsPositive({ each: true })
   @IsNumber({}, { each: true })
   @IsOptional()

@@ -48,7 +48,7 @@ const ManageUser: FC<ManageUserProps> = ({ user }) => {
         })
 
     },
-    {
+    [Roles.Admin, Roles.Root, Roles.Guest].includes(user.permission) ? null : {
       label: "Clans",
       key: "clans",
       icon: <UnlockOutlined />,

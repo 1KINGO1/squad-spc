@@ -78,7 +78,7 @@ export class ClansService {
       throw new BadRequestException("No lists found with the provided ids");
     }
 
-    const clan = this.clansRepository.create(
+    let clan = this.clansRepository.create(
       {
         name: createClanDto.name,
         tag: createClanDto.tag,
@@ -87,7 +87,12 @@ export class ClansService {
       }
     );
 
-    return await this.clansRepository.save(clan);
+    clan = await this.clansRepository.save(clan);
+
+    return {
+      clan_leaders: [],
+      ...clan
+    }
   }
 
   async getClanById(id: number, relations?: string[]) {
