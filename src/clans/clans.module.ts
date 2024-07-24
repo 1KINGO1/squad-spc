@@ -13,6 +13,6 @@ import { LimitsController } from './limits/limits.controller';
   imports: [TypeOrmModule.forFeature([Clan, Limit]), PermissionsModule, forwardRef(() => ListsModule)],
   providers: [ClansService, LimitsService],
   controllers: [ClansController, LimitsController],
-  exports: [ClansService]
+  exports: [ClansService, LimitsService]
 })
 export class ClansModule {}
