@@ -12,6 +12,7 @@
 
 body {
   overflow-x: hidden;
+  background-color: var(--color-black);
 }
 
 ::-webkit-scrollbar {
@@ -29,4 +30,9 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-smoke);
+}
+
+#root {
+  max-width: 2000px;
+  margin: 0 auto;
 }

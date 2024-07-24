@@ -10,11 +10,8 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
-#    volumes:
-#      - type: tmpfs
-#        target: /dev/shm
-#        tmpfs:
-#          size: 134217728 # 128*2^20 bytes = 128Mb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
   app:
     build:
       context: .
@@ -27,4 +24,7 @@ services:
       - db
     env_file:
       - ".env.${NODE_ENV}"
+
+volumes:
+  pgdata:
 

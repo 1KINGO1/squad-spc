@@ -1,5 +1,5 @@
 export default {
-  apiBaseUrl: `http://${process.env.HOST || "localhost"}:${process.env.PORT || "3000"}${process.env.API_PREFIX || "/api"}`,
+  apiBaseUrl: `${process.env.NODE_ENV === "development" ? "http://localhost:3000" : window.location.origin}${process.env.API_PREFIX || "/api"}`,
   paths: {
     output: {
       index: "/output",
