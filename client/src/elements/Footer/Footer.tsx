@@ -15,7 +15,7 @@ const Footer = () => {
         OpenSource © 2024
       </p>
       <p className={styles.version}>
-        Beta 0.0.1
+        Beta 0.0.2
       </p>
     </footer>
   )
