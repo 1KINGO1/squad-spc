@@ -15,13 +15,13 @@ export class OutputService {
     let outputString = ``;
 
     groups.forEach(group => {
-      outputString += `Group=${group.name}:${group.permissions.map(permission => permission.value).join(',')}\n`;
+      outputString += `Group=${group.name.toLowerCase()}:${group.permissions.map(permission => permission.value).join(',')}\n`;
     });
 
     outputString += `\n`;
 
     records.forEach(record => {
-      outputString += `Admin=${record.steam_id}:${record.group.name } // ${record.clan.tag} ${record.username}\n`;
+      outputString += `Admin=${record.steam_id}:${record.group.name.toLowerCase()} // ${record.clan.tag} ${record.username}\n`;
     })
 
     return outputString;
