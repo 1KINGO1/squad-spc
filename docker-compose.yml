@@ -11,20 +11,23 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - spc-pgdata:/var/lib/postgresql/data
   app:
-    build:
-      context: .
-      args:
-        - NODE_ENV=${NODE_ENV}
-    restart: always
+    image: node:20.10.0
+    restart: on-failure
     ports:
       - "${PORT}:3000"
     depends_on:
       - db
     env_file:
-      - ".env.${NODE_ENV}"
+      - ".env"
+    environment:
+      DB_PORT: 5432
+    volumes:
+      - ./:/home/magicgear-spc/
+    working_dir: /home/magicgear-spc/
+    entrypoint: ./entrypoint.sh
 
 volumes:
-  pgdata:
+  spc-pgdata:
 

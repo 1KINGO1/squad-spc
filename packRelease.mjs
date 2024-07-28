@@ -40,17 +40,17 @@ const gatherFiles = async () => {
   console.log(chalk.green("Done!"));
 
   console.log(chalk.cyan("Coping server build..."));
-  await copy("./dist", "./release/dist").catch(console.log);
+  await copy("./dist", "./release/dist");
   console.log(chalk.cyan("Coping client build..."));
   await copy("./client/build", "./release/client/build");
   console.log(chalk.cyan("Coping other files..."));
   await copy("./package.json", "./release/package.json");
   await copy("./docker-compose.yml", "./release/docker-compose.yml");
-  await copy("./Dockerfile", "./release/Dockerfile");
+  await copy("./entrypoint.sh", "./release/entrypoint.sh");
   console.log(chalk.green("Done!"));
 
   console.log(chalk.cyan("Creating .env file..."));
-  await fsPromises.writeFile("./release/.env.production", envData);
+  await fsPromises.writeFile("./release/.env", envData);
   console.log(chalk.green("Done!"));
 }
 

@@ -3,15 +3,42 @@ version: '3.9'
 services:
   db:
     image: postgres:latest
-    restart: always
+    restart: on-failure
     ports:
       - "${DB_PORT}:5432"
     environment:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
-#    volumes:
-#      - type: tmpfs
-#        target: /dev/shm
-#        tmpfs:
-#          size: 134217728 # 128*2^20 bytes = 128Mb
+    volumes:
+      - spc-pgdata:/var/lib/postgresql/data
+  server:
+    image: node:20.10.0
+    restart: on-failure
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    env_file:
+      - ".env"
+    environment:
+      DB_PORT: 5432
+    volumes:
+      - ./:/home/magicgear-spc/
+    working_dir: /home/magicgear-spc/
+    entrypoint: npm run start:dev
+  client:
+    image: node:20.10.0
+    restart: on-failure
+    ports:
+      - "3001:3000"
+    depends_on:
+      - server
+      - db
+    volumes:
+      - ./client:/home/magicgear-spc/client
+    working_dir: /home/magicgear-spc/client
+    entrypoint: npm run start
+volumes:
+  spc-pgdata:
+

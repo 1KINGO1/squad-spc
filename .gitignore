@@ -3,6 +3,8 @@
 /build
 /node_modules
 release.zip
+/release
+/release/*
 
 # Logs
 logs
@@ -38,5 +40,3 @@ lerna-debug.log*
 
 # Env files
 .env
-.env.development
-.env.production

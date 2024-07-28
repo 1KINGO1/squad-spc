@@ -1,7 +1,7 @@
 import * as process from "node:process";
 
 const dotenv = require('dotenv');
-dotenv.config({path: `.env.${process.env.NODE_ENV || 'development'}`});
+dotenv.config({path: `../.env`});
 
 export default {
   PORT: +process.env.PORT,
