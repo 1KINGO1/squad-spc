@@ -13,6 +13,7 @@ import { LoggerModule } from './logger/logger.module';
 import { LoggerInterceptor } from "./logger/logger.interceptor";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { DatabaseSeedModule } from "./database-seed/database-seed.module";
+import { ConfigModule } from './config/config.module';
 
 import * as path from "path";
 import dbConfig from "./db.config";
@@ -32,6 +33,7 @@ import dbConfig from "./db.config";
     RecordsModule,
     OutputModule,
     LoggerModule,
+    ConfigModule,
   ],
   controllers: [],
   providers: [

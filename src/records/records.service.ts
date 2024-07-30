@@ -141,4 +141,17 @@ export class RecordsService {
       .execute();
   }
 
+  private async getRecordsBySteamId(steamId: string) {
+    return this.recordsRepository.find({
+      where: {
+        steam_id: steamId
+      },
+      relations: ["group"]
+    });
+  };
+
+  async getCurrentUserRecords(user: User) {
+    return this.getRecordsBySteamId(user.steam_id);
+  }
+
 }

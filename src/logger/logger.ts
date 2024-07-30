@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { BaseLogger } from "./providers/base-logger";
 import { LoggerRequestBody } from "./types/logger-request-body.interface";
+import { ConfigService } from "../config/config.service";
 
 /*
 
@@ -18,7 +19,7 @@ class Logger {
 
   private loggers: BaseLogger[] = [];
 
-  constructor() {
+  constructor(private configService: ConfigService) {
 
     this.getLoggers().then(loggers => {
       for (let Logger of loggers){
@@ -26,7 +27,7 @@ class Logger {
         if (!Logger?.default) continue;
 
         try{
-          const logger = new Logger.default();
+          const logger = new Logger.default(this.configService);
           this.loggers.push(logger);
         }
         catch (e) {
@@ -52,4 +53,4 @@ class Logger {
 
 }
 
-export default new Logger();
+export default Logger;

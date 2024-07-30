@@ -11,6 +11,8 @@ import { Group } from "../permissions/entity/Group.entity";
 import { List } from "../lists/entity/List.entity";
 import { Clan } from "../clans/entity/Clan.entity";
 import { Limit } from "../clans/entity/Limit.entity";
+import { ConfigService } from "../config/config.service";
+import Logger from "./logger";
 
 interface PathLog{
   method: string;
@@ -22,6 +24,13 @@ interface PathLog{
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor {
+
+  private logger: Logger;
+
+  constructor(private readonly configService: ConfigService) {
+    this.logger = new Logger(this.configService);
+  }
+
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
 
     const req = context.switchToHttp().getRequest() as Request & { user: User };
@@ -68,7 +77,7 @@ export class LoggerInterceptor implements NestInterceptor {
 
 
         if (path.match(/\d*/) && (body.permission !== undefined || body.clan_ids !== undefined)){
-          return logger.log({
+          return this.logger.log({
             level: LoggerLevel.UPDATED,
             message: `Updated user <b>${data.username}<b> <code>${data.steam_id}<code>
 By <b>${user.username}<b> <code>${user.steam_id}<code>
@@ -83,7 +92,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
 
 
         if (path.match(/\d*/)){
-          logger.log({
+          this.logger.log({
             level: LoggerLevel.DELETED,
             title: 'User deleted',
             image_url: data.avatar_url,
@@ -107,7 +116,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
       switch (method) {
         case 'POST':
           if (path.match(/clan\/\d+\/list\/\d+/)){
-            return logger.log({
+            return this.logger.log({
               level: LoggerLevel.CREATED,
               title: 'Record created',
               fields: [
@@ -150,7 +159,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
 
         case 'DELETE':
           if (path.match(/\d+/)){
-            return logger.log({
+            return this.logger.log({
               level: LoggerLevel.DELETED,
               title: 'Record deleted',
               fields: [
@@ -192,7 +201,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
     switch (method) {
       case 'POST':
         if (path.match(/^groups/)){
-          return logger.log({
+          return this.logger.log({
             level: LoggerLevel.CREATED,
             title: 'Group created',
             fields: [
@@ -218,7 +227,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
         break;
       case 'PATCH':
         if (path.match(/^groups\/\d+/)){
-          return logger.log({
+          return this.logger.log({
             level: LoggerLevel.UPDATED,
             title: 'Group updated',
             fields: [
@@ -244,7 +253,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
         break;
       case 'DELETE':
         if (path.match(/^groups\/\d+/)){
-          return logger.log({
+          return this.logger.log({
             level: LoggerLevel.DELETED,
             title: 'Group deleted',
             fields: [
@@ -277,7 +286,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
     switch (method) {
       case 'POST':
         if (path.match(/^/)){
-          return logger.log({
+          return this.logger.log({
             level: LoggerLevel.CREATED,
             title: 'List created',
             fields: [
@@ -303,7 +312,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
         break;
       case 'PATCH':
         if (path.match(/^\d+/)){
-          return logger.log({
+          return this.logger.log({
             level: LoggerLevel.UPDATED,
             title: 'List updated',
             fields: [
@@ -329,7 +338,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
         break;
       case 'DELETE':
         if (path.match(/^\d+/)){
-          return logger.log({
+          return this.logger.log({
             level: LoggerLevel.DELETED,
             title: 'List deleted',
             fields: [
@@ -366,7 +375,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
     switch (method) {
       case 'POST':
         if (path.match(/^/)){
-          return logger.log({
+          return this.logger.log({
             level: LoggerLevel.CREATED,
             title: 'Clan created',
             fields: [
@@ -396,7 +405,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
         break;
       case 'PATCH':
         if (path.match(/^\d+/)){
-          return logger.log({
+          return this.logger.log({
             level: LoggerLevel.UPDATED,
             title: 'Clan updated',
             fields: [
@@ -426,7 +435,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
         break;
       case 'DELETE':
         if (path.match(/^\d+/)){
-          return logger.log({
+          return this.logger.log({
             level: LoggerLevel.DELETED,
             title: 'Clan deleted',
             fields: [
@@ -468,7 +477,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
 
           const clan = responseData.length ? responseData[0].clan : {id: matches[1], name: 'Unknown'};
 
-          return logger.log({
+          return this.logger.log({
             level: LoggerLevel.UPDATED,
             title: `Limits Update`,
             message: `${responseData.map(l => `Group: <code>${l.group.name}<code> Limit: <code>${l.limit || 'Unlimited'}<code>`).join('\n')}`,
@@ -489,7 +498,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
           })
         }
         if (path.match(/^/)){
-          return logger.log({
+          return this.logger.log({
             level: LoggerLevel.CREATED,
             title: 'Clan limit created',
             fields: [
@@ -523,7 +532,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
         break;
       case 'PATCH':
         if (path.match(/^\d+/)){
-          return logger.log({
+          return this.logger.log({
             level: LoggerLevel.UPDATED,
             title: 'Clan limit updated',
             fields: [
@@ -557,7 +566,7 @@ ${body.permission !== undefined ? `Permission: ${AuthRoles[body.permission]} -> 
         break;
       case 'DELETE':
         if (path.match(/^\d+/)){
-          return logger.log({
+          return this.logger.log({
             level: LoggerLevel.DELETED,
             title: 'Clan limit deleted',
             fields: [

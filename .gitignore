@@ -40,3 +40,8 @@ lerna-debug.log*
 
 # Env files
 .env
+.env.development
+
+# Config files
+config.json
+

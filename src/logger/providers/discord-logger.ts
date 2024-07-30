@@ -3,6 +3,7 @@ import { BaseLogger } from "./base-logger";
 import axios from "axios";
 import { LoggerRequestBody } from "../types/logger-request-body.interface";
 import { LoggerLevel } from "../types/logger-level.enum";
+import { ConfigService } from "../../config/config.service";
 
 interface DiscordMessageBody {
   title: string;
@@ -27,20 +28,15 @@ class DiscordLogger extends BaseLogger {
 
   private url: string;
 
-  constructor() {
-    super();
-
-    const url = config.DISCORD_WEBHOOK_URL;
-
-    if (!url) {
-      throw new Error("Discord Webhook Logger: URL is not provided");
-    }
-
-    console.log("Discord Webhook Logger: Initialized");
-    this.url = url;
+  constructor(configService: ConfigService) {
+    super(configService);
   }
 
   async log(body: LoggerRequestBody) {
+    this.url = this.configService.get("logger.discord.webhookUrl");
+    if (!this.url) {
+      return;
+    }
     switch (body.level) {
       case LoggerLevel.CREATED:
         return this.logCreated(body);
@@ -51,6 +47,7 @@ class DiscordLogger extends BaseLogger {
       default:
         throw new Error("Discord Webhook Logger: Invalid log level");
     }
+
   }
 
   private async logCreated(body: LoggerRequestBody) {
@@ -59,7 +56,7 @@ class DiscordLogger extends BaseLogger {
       description: body.message || undefined,
       color: "#00a22d",
       timestamp: new Date(),
-      fields: body.fields?.map(field => ({name: field.name, value: field.value, inline: false}))
+      fields: body.fields?.map(field => ({ name: field.name, value: field.value, inline: false }))
     };
 
     return this.sendToDiscord(message);
@@ -71,7 +68,7 @@ class DiscordLogger extends BaseLogger {
       description: body.message || undefined,
       color: "#bb9900",
       timestamp: new Date(),
-      fields: body.fields?.map(field => ({name: field.name, value: field.value, inline: false}))
+      fields: body.fields?.map(field => ({ name: field.name, value: field.value, inline: false }))
     };
 
     return this.sendToDiscord(message);
@@ -83,12 +80,11 @@ class DiscordLogger extends BaseLogger {
       description: body.message || undefined,
       color: "#980000",
       timestamp: new Date(),
-      fields: body.fields?.map(field => ({name: field.name, value: field.value, inline: false}))
+      fields: body.fields?.map(field => ({ name: field.name, value: field.value, inline: false }))
     };
 
     return this.sendToDiscord(message);
   }
-
 
 
   private async sendToDiscord(body: DiscordMessageBody) {
@@ -98,10 +94,10 @@ class DiscordLogger extends BaseLogger {
             ...body,
             description: body.description ?
               body.description
-                .replaceAll('<b>', '**')
-                .replaceAll('<code>', '`')
+                .replaceAll("<b>", "**")
+                .replaceAll("<code>", "`")
               : undefined,
-            color: parseInt(body.color.replaceAll('#', '0x')) || 0,
+            color: parseInt(body.color.replaceAll("#", "0x")) || 0,
             footer: {
               text: body.footer?.text ? body.footer.text + " © SPC" : "© SPC",
               icon_url: body.footer?.icon_url
@@ -110,7 +106,7 @@ class DiscordLogger extends BaseLogger {
         ]
       }
     ).catch((e) => {
-      console.error("Discord Webhook Logger: Error sending message", e);
+      console.error("Discord Webhook Logger: Error sending message (Probably incorrect Webhook URL provided)");
     });
   }
 }

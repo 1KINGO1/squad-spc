@@ -44,12 +44,12 @@ export class UsersService {
         user = await this.usersRepository.save(user);
       }
 
-      logger.log({
-        level: LoggerLevel.CREATED,
-        image_url: user.avatar_url,
-        message: `Name: <b>${user.username}<b>\nSteamID: <b>${user.steam_id}<b>`,
-        title: 'New User',
-      })
+      // logger.log({
+      //   level: LoggerLevel.CREATED,
+      //   image_url: user.avatar_url,
+      //   message: `Name: <b>${user.username}<b>\nSteamID: <b>${user.steam_id}<b>`,
+      //   title: 'New User',
+      // })
 
       return user;
     } catch (e) {

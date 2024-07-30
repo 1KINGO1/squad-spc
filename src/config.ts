@@ -1,11 +1,13 @@
 import * as process from "node:process";
 
 const dotenv = require('dotenv');
-dotenv.config({path: `../.env`});
+dotenv.config({path: process.env.NODE_ENV === 'production' ? `.env` : `.env.development`});
 
 export default {
+  NODE_ENV: process.env.NODE_ENV,
+
   PORT: +process.env.PORT,
-  HOST: process.env.HOST.startsWith("http") ? process.env.HOST : `http://${process.env.HOST}`,
+  HOST: process.env.HOST?.startsWith("http") ? process.env.HOST : `http://${process.env.HOST}`,
   STEAM_API_KEY: process.env.STEAM_API_KEY,
   JWT_SECRET: process.env.JWT_SECRET,
   DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,

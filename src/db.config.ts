@@ -19,5 +19,5 @@ export default {
   password: config.DB_PASSWORD,
   database: config.DB_NAME,
   entities: [User, List, Permission, Group, Clan, Record, Limit],
-  synchronize: true
+  synchronize: true, // TODO: Refactor with migrations
 } as TypeOrmModuleOptions & DataSourceOptions

@@ -5,10 +5,10 @@ import { User } from "../users/entity/User.entity";
 import { CreateRecordDto } from "./dtos/create-record.dto";
 
 @Controller('records')
-@Auth([AuthRoles.ClanLeader, AuthRoles.Admin, AuthRoles.Root])
 export class RecordsController {
   constructor(private recordsService: RecordsService) {}
 
+  @Auth([AuthRoles.ClanLeader, AuthRoles.Admin, AuthRoles.Root])
   @Get('/clan/:clanId/list/:listId')
   async getRecords(
     @Req() req: Request & {user: User },
@@ -24,6 +24,7 @@ export class RecordsController {
     );
   }
 
+  @Auth([AuthRoles.ClanLeader, AuthRoles.Admin, AuthRoles.Root])
   @Post('/clan/:clanId/list/:listId')
   async createRecord(
     @Req() req: Request & {user: User },
@@ -41,6 +42,7 @@ export class RecordsController {
     );
   }
 
+  @Auth([AuthRoles.ClanLeader, AuthRoles.Admin, AuthRoles.Root])
   @Delete(':recordId')
   async deleteRecord(
     @Req() req: Request & {user: User },
@@ -49,4 +51,9 @@ export class RecordsController {
     return this.recordsService.deleteRecord(recordId, req.user);
   }
 
+  @Auth([AuthRoles.Guest, AuthRoles.ClanLeader, AuthRoles.Admin, AuthRoles.Root])
+  @Get('me')
+  async getMyRecords(@Req() req: Request & {user: User }) {
+    return this.recordsService.getCurrentUserRecords(req.user);
+  }
 }
