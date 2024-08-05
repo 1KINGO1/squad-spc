@@ -14,7 +14,7 @@ const Users: FC = () => {
   const { roles, searchValue } = useUsersFilter();
 
   return (
-    <>
+    <div>
       <NavigationBar />
       <UsersWrapper>
         {
@@ -29,7 +29,7 @@ const Users: FC = () => {
             ))
         }
       </UsersWrapper>
-    </>
+    </div>
   );
 };
 

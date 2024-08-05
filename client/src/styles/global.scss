@@ -36,3 +36,12 @@ body {
   max-width: 2000px;
   margin: 0 auto;
 }
+
+main {
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    flex: 1;
+  }
+}

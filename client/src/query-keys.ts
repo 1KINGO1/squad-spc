@@ -26,6 +26,12 @@ const queryKeys: {
   users(){
     return ["users"];
   },
+  config() {
+    return ["config"];
+  },
+  configSettings(){
+    return ["configSettings"];
+  }
 }
 
 export default queryKeys;

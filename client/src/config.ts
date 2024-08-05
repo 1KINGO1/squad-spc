@@ -45,6 +45,11 @@ export default {
     },
     permissions: {
       index: "/permissions/permissions",
+    },
+    config: {
+      index: "/config",
+      settings: "/config/settings",
+      changeProperty: (propertyPath: string) => "/config/" + propertyPath
     }
   }
 }

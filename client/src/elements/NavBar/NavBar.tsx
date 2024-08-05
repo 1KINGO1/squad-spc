@@ -53,6 +53,9 @@ const NavBar: FC = () => {
               <NavLink to="/users" canAccess={[Roles.Root, Roles.Admin]}>
                 Users
               </NavLink>
+              <NavLink to="/config" canAccess={[Roles.Root]}>
+                Config
+              </NavLink>
             </ul>
           </nav>
         </div>

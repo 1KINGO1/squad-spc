@@ -1,17 +1,5 @@
-export interface IConfig {
-  logger: {
-    discord: {
-      webhookUrl: string | null
-    }
-  }
-}
+export interface IConfig {}
 
-const configDefault = {
-  logger: {
-    discord: {
-      webhookUrl: null
-    }
-  }
-}
+const configDefault = {}
 
 export default configDefault;

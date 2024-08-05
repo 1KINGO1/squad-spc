@@ -150,8 +150,8 @@ export class ConfigService implements OnModuleInit {
   getSettings() {
     const result = {};
     for (const keyString in this.configSettings) {
-      const {type, get, set} = this.configSettings[keyString];
-      setPropertyByKeyString(result, keyString, {type, get, set});
+      const setting = this.configSettings[keyString];
+      setPropertyByKeyString(result, keyString, setting);
     }
     return result
   }
@@ -168,11 +168,11 @@ export class ConfigService implements OnModuleInit {
       throw new ForbiddenException(`You don't have permission to set this config setting: ${keyString}`);
     }
 
-    if (!this.verifyConfigPathValueType(type, value)) {
+    if (value && !this.verifyConfigPathValueType(type, value)) {
       throw new BadRequestException(`Invalid value type for config setting: ${keyString}`);
     }
 
-    this.setConfigValueByPath(keyString, value);
+    this.setConfigValueByPath(keyString, value ?? null);
     await this.saveConfig();
 
     return value;

@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     volumes:
-      - spc-pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
   app:
     image: node:20.10.0
     restart: on-failure
@@ -29,5 +29,5 @@ services:
     entrypoint: ./entrypoint.sh
 
 volumes:
-  spc-pgdata:
+  pgdata:
 

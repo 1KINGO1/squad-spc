@@ -9,6 +9,7 @@ import HomeRoute from "./Home.route";
 import RecordsRoute from "./Records.route";
 import UsersRoute from "./Users.route";
 import DefaultLayout from "../layouts/DefaultLayout/DefaultLayout";
+import ConfigRoute from "./Config.route";
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,8 @@ const router = createBrowserRouter([
       ClansRoute,
       RecordsRoute,
       UsersRoute,
-      GroupsRoute
+      GroupsRoute,
+      ConfigRoute
     ]
   },
 ]);
