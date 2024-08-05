@@ -11,7 +11,9 @@ describe('ConfigService', () => {
     "exampleProperty": {
       get: [AuthRoles.Admin, AuthRoles.Root],
       set: [AuthRoles.Root],
-      type: "string"
+      type: "string",
+      name: "exampleProperty",
+      comment: "example comment",
     }
   }
   let service: ConfigService;
