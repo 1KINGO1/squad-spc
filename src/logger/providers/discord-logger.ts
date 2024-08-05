@@ -4,6 +4,7 @@ import axios from "axios";
 import { LoggerRequestBody } from "../types/logger-request-body.interface";
 import { LoggerLevel } from "../types/logger-level.enum";
 import { ConfigService } from "../../config/config.service";
+import { AuthRoles } from "../../auth/guards/auth.guard";
 
 interface DiscordMessageBody {
   title: string;
@@ -33,62 +34,79 @@ class DiscordLogger extends BaseLogger {
   }
 
   async log(body: LoggerRequestBody) {
-    this.url = this.configService.get("logger.discord.webhookUrl");
-    if (!this.url) {
-      return;
-    }
+    const isEnabled = this.configService.get("logger.discord.webhook.enabled");
+    if (!isEnabled) return;
+    this.url = this.configService.get(`logger.discord.webhook.${body.entity}ManagementUrl`);
+    if (!this.url) return;
+
+    let message: DiscordMessageBody;
+
     switch (body.level) {
       case LoggerLevel.CREATED:
-        return this.logCreated(body);
+        message = await this.serializeCreatedMessage(body);
+        break;
       case LoggerLevel.UPDATED:
-        return this.logUpdated(body);
+        message = await this.serializeUpdatedMessage(body);
+        break;
       case LoggerLevel.DELETED:
-        return this.logDeleted(body);
+        message = await this.serializeDeletedMessage(body);
+        break;
       default:
         throw new Error("Discord Webhook Logger: Invalid log level");
     }
 
+    await this.sendToDiscord(message, this.url);
   }
 
-  private async logCreated(body: LoggerRequestBody) {
+  private async serializeCreatedMessage(body: LoggerRequestBody) {
     const message: DiscordMessageBody = {
       title: body.title || undefined,
       description: body.message || undefined,
       color: "#00a22d",
       timestamp: new Date(),
-      fields: body.fields?.map(field => ({ name: field.name, value: field.value, inline: false }))
+      fields: body.fields?.map(field => ({ name: field.name, value: field.value, inline: false })),
+      footer: {
+        text: body.user ? `${body.user.username} [${AuthRoles[body.user.permission]}] (ID: ${body.user.id})` : undefined,
+        icon_url: body.user?.avatar_url ?? undefined
+      }
     };
 
-    return this.sendToDiscord(message);
+    return message;
   }
-
-  private async logUpdated(body: LoggerRequestBody) {
+  private async serializeUpdatedMessage(body: LoggerRequestBody) {
     const message: DiscordMessageBody = {
       title: body.title || undefined,
       description: body.message || undefined,
       color: "#bb9900",
       timestamp: new Date(),
-      fields: body.fields?.map(field => ({ name: field.name, value: field.value, inline: false }))
+      fields: body.fields?.map(field => ({ name: field.name, value: field.value, inline: false })),
+      footer: {
+        text: body.user ? `${body.user.username} [${AuthRoles[body.user.permission]}] (ID: ${body.user.id})` : undefined,
+        icon_url: body.user?.avatar_url ?? undefined
+      }
     };
 
-    return this.sendToDiscord(message);
+    return message;
   }
-
-  private async logDeleted(body: LoggerRequestBody) {
+  private async serializeDeletedMessage(body: LoggerRequestBody) {
     const message: DiscordMessageBody = {
       title: body.title || undefined,
       description: body.message || undefined,
       color: "#980000",
       timestamp: new Date(),
-      fields: body.fields?.map(field => ({ name: field.name, value: field.value, inline: false }))
+      fields: body.fields?.map(field => ({ name: field.name, value: field.value, inline: false })),
+      footer: {
+        text: body.user ? `${body.user.username} [${AuthRoles[body.user.permission]}] (ID: ${body.user.id})` : undefined,
+        icon_url: body.user?.avatar_url ?? undefined
+      }
     };
 
-    return this.sendToDiscord(message);
+    return message;
   }
 
 
-  private async sendToDiscord(body: DiscordMessageBody) {
-    return axios.post(this.url, {
+  private async sendToDiscord(body: DiscordMessageBody, url: string) {
+    return axios.post(url, {
         embeds: [
           {
             ...body,
@@ -99,7 +117,7 @@ class DiscordLogger extends BaseLogger {
               : undefined,
             color: parseInt(body.color.replaceAll("#", "0x")) || 0,
             footer: {
-              text: body.footer?.text ? body.footer.text + " © SPC" : "© SPC",
+              text: body.footer?.text ? body.footer.text.slice(0,292) + " © SPC" : "© SPC",
               icon_url: body.footer?.icon_url
             }
           }

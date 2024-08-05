@@ -37,22 +37,23 @@ export class DatabaseSeedService {
     const teamChange = await this.permissionsService.createPermission({ name: "TeamChange", value: "teamchange" });
 
     // Groups init
-    const whitelistGroup = await this.permissionsService.createGroup({ name: "Whitelist", permissions: [reserve.id] });
+    const whitelistGroup = await this.permissionsService.createGroup({ name: "Whitelist", permissions: [reserve.id] }, null);
     const adminGroup = await this.permissionsService.createGroup(
       {
         name: "Admin",
         permissions: [reserve.id, teamChange.id, balance.id, kick.id, ban.id, adminChat.id, chat.id, camera.id, forceTeamChange.id]
-      }
+      },
+      null
     );
 
     // List init
-    const list = await this.listsService.create({ name: "Main", path: "main" });
+    const list = await this.listsService.create({ name: "Main", path: "main" }, null);
 
     // Clans init
-    const adminsClan = await this.clansService.createClan({ name: "Admins", tag: "[ADM]", allowed_lists: [list.id]});
-    const whitelistClan = await this.clansService.createClan({ name: "Whitelists", tag: "[WHT]", allowed_lists: [list.id]});
+    const adminsClan = await this.clansService.createClan({ name: "Admins", tag: "[ADM]", allowed_lists: [list.id]}, null);
+    const whitelistClan = await this.clansService.createClan({ name: "Whitelists", tag: "[WHT]", allowed_lists: [list.id]}, null);
 
-    await this.limitsService.createLimit(adminsClan.id, { group_id: adminGroup.id });
-    await this.limitsService.createLimit(whitelistClan.id, { group_id: whitelistGroup.id });
+    await this.limitsService.createLimit(adminsClan.id, { group_id: adminGroup.id }, null);
+    await this.limitsService.createLimit(whitelistClan.id, { group_id: whitelistGroup.id }, null);
   }
 }

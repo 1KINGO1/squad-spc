@@ -8,12 +8,17 @@ import { AuthRoles } from "../auth/guards/auth.guard";
 import { CreateRecordOptions } from "./interfaces/create-record-options.interface";
 import { User } from "../users/entity/User.entity";
 
+import { LoggerService } from "../logger/logger.service";
+import { LoggerEntity } from "../logger/types/logger-request-body.interface";
+import { LoggerLevel } from "../logger/types/logger-level.enum";
+
 @Injectable()
 export class RecordsService {
 
   constructor(
     @InjectRepository(Record) private recordsRepository: Repository<Record>,
-    private clansService: ClansService
+    private clansService: ClansService,
+    private loggerService: LoggerService
   ) {
   }
 
@@ -62,13 +67,11 @@ export class RecordsService {
     }
 
     const list = clan.allowed_lists.find(list => list.id === listId);
-
     if (!list) {
       throw new BadRequestException("Clan does not have access to this list");
     }
 
     const limit = clan.limits.find(limit => limit.group.id === group_id);
-
     if (!limit) {
       throw new ForbiddenException("Clan does not have access to this group");
     }
@@ -84,7 +87,6 @@ export class RecordsService {
     if (limit.limit && limit.limit <= recordsCount) {
       throw new ForbiddenException("Clan has reached the limit for this group");
     }
-
     const record = this.recordsRepository.create({
       clan: { id: clanId, name: clan.name },
       list: { id: listId, name: list.name },
@@ -95,7 +97,25 @@ export class RecordsService {
       author: user
     });
 
-    return this.recordsRepository.save(record);
+    const response = await this.recordsRepository.save(record);
+
+    this.loggerService.log({
+      entity: LoggerEntity.Record,
+      level: LoggerLevel.CREATED,
+      title: "Record created",
+      fields: [
+        { name: 'Record ID', value: record.id + "" },
+        { name: 'User name', value: username },
+        { name: 'Steam ID', value: steam_id + "" },
+        { name: 'Clan', value: `${clan.name} (ID: ${clan.id})` },
+        { name: 'List', value: `${list.name} (ID: ${list.id})` },
+        { name: 'Group', value: `${limit.group.name} (ID: ${limit.group.id})` },
+        { name: 'Expire date', value: expire_date + "" },
+      ],
+      user
+    });
+
+    return response;
   }
 
   async getRecordsByListPath(listPath: string){
@@ -127,6 +147,20 @@ export class RecordsService {
     }
 
     await this.recordsRepository.remove(record);
+
+    this.loggerService.log({
+      entity: LoggerEntity.Record,
+      level: LoggerLevel.DELETED,
+      title: "Record deleted",
+      fields: [
+        { name: 'Record ID', value: recordId + "" },
+        { name: 'Record username', value: record.username },
+        { name: 'Record steam ID', value: record.steam_id + "" },
+        { name: 'Clan', value: `${clan.name} (ID: ${clan.id})` },
+      ],
+      user
+    });
+
     return {...record, id: recordId}
   }
 

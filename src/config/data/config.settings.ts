@@ -52,6 +52,13 @@ const configSettings: IConfigSettings = {
     name: "Clan Management Webhook URL",
     comment: "Webhook URL for clan management logs (create, delete, update, update clan & clan limits)",
   },
+  "logger.discord.webhook.listManagementUrl": {
+    get: [AuthRoles.Root],
+    set: [AuthRoles.Root],
+    type: "string",
+    name: "List Management Webhook URL",
+    comment: "Webhook URL for list management logs (create, delete, update)",
+  },
   "logger.discord.webhook.permissionManagementUrl": {
     get: [AuthRoles.Root],
     set: [AuthRoles.Root],

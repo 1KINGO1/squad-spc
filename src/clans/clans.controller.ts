@@ -41,19 +41,19 @@ export class ClansController {
 
   @Post()
   @Auth([AuthRoles.Admin, AuthRoles.Root])
-  async createClan(@Body() body: CreateClanDto) {
-    return await this.clansService.createClan(body);
+  async createClan(@Body() body: CreateClanDto, @Req() req: Express.Request) {
+    return await this.clansService.createClan(body, req.user);
   }
 
   @Delete(':id')
   @Auth([AuthRoles.Admin, AuthRoles.Root])
-  async deleteClan(@Param("id", ParseIntPipe) id: number) {
-    return await this.clansService.deleteClan(id);
+  async deleteClan(@Param("id", ParseIntPipe) id: number, @Req() req: Express.Request) {
+    return await this.clansService.deleteClan(id, req.user);
   }
 
   @Patch(':id')
   @Auth([AuthRoles.Admin, AuthRoles.Root])
-  async updateClan(@Param("id", ParseIntPipe) id: number, @Body() body: UpdateClanDto) {
-    return await this.clansService.updateClan(id, body);
+  async updateClan(@Param("id", ParseIntPipe) id: number, @Body() body: UpdateClanDto, @Req() req: Express.Request) {
+    return await this.clansService.updateClan(id, body, req.user);
   }
 }

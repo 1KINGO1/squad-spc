@@ -175,6 +175,6 @@ export class ConfigService implements OnModuleInit {
     this.setConfigValueByPath(keyString, value ?? null);
     await this.saveConfig();
 
-    return value;
+    return {[keyString]: value};
   }
 }

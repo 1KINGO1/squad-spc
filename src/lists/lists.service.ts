@@ -7,6 +7,9 @@ import { CreateListDto } from "./dtos/create-list.dto";
 import { ClansService } from "../clans/clans.service";
 import { User } from "../users/entity/User.entity";
 import { AuthRoles } from "../auth/guards/auth.guard";
+import { LoggerService } from "../logger/logger.service";
+import { LoggerEntity } from "../logger/types/logger-request-body.interface";
+import { LoggerLevel } from "../logger/types/logger-level.enum";
 
 @Injectable()
 export class ListsService {
@@ -14,17 +17,32 @@ export class ListsService {
   constructor(
     @InjectRepository(List) private listsRepository: Repository<List>,
     @Inject(forwardRef(() => ClansService))
-    private clansService: ClansService
+    private clansService: ClansService,
+    private loggerService: LoggerService
   ) {
   }
 
-  async create(createListDto: CreateListDto) {
+  async create(createListDto: CreateListDto, user: User) {
 
     await this.checkAvailability(createListDto);
 
     try {
       const list = this.listsRepository.create(createListDto);
-      return await this.listsRepository.save(list);
+      const response = await this.listsRepository.save(list);
+
+      this.loggerService.log({
+        entity: LoggerEntity.List,
+        level: LoggerLevel.CREATED,
+        title: "List created",
+        fields: [
+          { name: 'List ID', value: list.id + "" },
+          { name: 'Name', value: list.name },
+          { name: 'Path', value: list.path },
+        ],
+        user
+      });
+
+      return response;
     } catch (e) {
       throw new BadRequestException("Something went wrong!");
     }
@@ -46,20 +64,45 @@ export class ListsService {
     return list;
   }
 
-  async deleteById(id: number) {
+  async deleteById(id: number, user: User) {
     const list = await this.getById(id);
     if (!list) throw new NotFoundException();
 
     await this.listsRepository.delete(list);
 
+    this.loggerService.log({
+      entity: LoggerEntity.List,
+      level: LoggerLevel.DELETED,
+      title: "List deleted",
+      fields: [
+        { name: 'List ID', value: list.id + "" },
+        { name: 'Name', value: list.name },
+        { name: 'Path', value: list.path },
+      ],
+      user
+    });
+
     return list;
   }
 
-  async update(id: number, updateListDto: UpdateListDto) {
+  async update(id: number, updateListDto: UpdateListDto, user: User) {
     const list = await this.getById(id);
     if (!list) throw new NotFoundException();
 
     await this.checkAvailability(updateListDto);
+
+    this.loggerService.log({
+      entity: LoggerEntity.List,
+      level: LoggerLevel.UPDATED,
+      title: "List updated",
+      fields: [
+        { name: 'List ID', value: list.id + "" },
+        { name: 'Name', value: `${list.name}${updateListDto?.name ? ` -> ${updateListDto.name}` : ''}`},
+        { name: 'Path', value: `${list.path}${updateListDto?.path ? ` -> ${updateListDto.path}` : ''}`},
+      ],
+      user
+    });
+
     await this.listsRepository.update(list, updateListDto);
 
     return {...list, ...updateListDto};

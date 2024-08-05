@@ -6,8 +6,9 @@ import { JwtService } from "@nestjs/jwt";
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService
-  ) {}
+    private jwtService: JwtService,
+  ) {
+  }
 
   private async signup(steam_id: string, avatar: string, name: string) {
     const username = name.slice(0, 49);
@@ -22,7 +23,7 @@ export class AuthService {
       user = await this.signup(steam_id, avatar, name);
     }
 
-    const payload = {steam_id: user.steam_id};
+    const payload = { steam_id: user.steam_id };
 
     return {
       access_token: await this.jwtService.signAsync(payload)

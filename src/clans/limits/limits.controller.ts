@@ -19,32 +19,35 @@ export class LimitsController {
   @Post("")
   async createClanLimit(
     @Param("id", ParseIntPipe) clanId: number,
-    @Body() body: CreateLimitDto
+    @Body() body: CreateLimitDto,
+    @Req() req: Express.Request
   ) {
-    return this.limitsService.createLimit(clanId, body);
+    return this.limitsService.createLimit(clanId, body, req.user);
   }
 
   @Auth([AuthRoles.Root, AuthRoles.Admin])
   @Post("replace")
   async replaceClanLimits(
     @Param("id", ParseIntPipe) clanId: number,
-    @Body(new ParseArrayPipe({items: CreateLimitDto, separator: ","})) body: CreateLimitDto[]
+    @Body(new ParseArrayPipe({items: CreateLimitDto, separator: ","})) body: CreateLimitDto[],
+    @Req() req: Express.Request
   ) {
-    return this.limitsService.replaceLimits(clanId, body);
+    return this.limitsService.replaceLimits(clanId, body, req.user);
   }
 
   @Auth([AuthRoles.Root, AuthRoles.Admin])
   @Delete(":limitId")
-  async deleteClanLimit(@Param("limitId", ParseIntPipe) limitId: number){
-    return this.limitsService.deleteLimit(limitId);
+  async deleteClanLimit(@Param("limitId", ParseIntPipe) limitId: number, @Req() req: Express.Request){
+    return this.limitsService.deleteLimit(limitId, req.user);
   }
 
   @Auth([AuthRoles.Root, AuthRoles.Admin])
   @Patch(":limitId")
   async updateClanLimit(
     @Param("limitId", ParseIntPipe) limitId: number,
-    @Body() body: UpdateLimitDto
+    @Body() body: UpdateLimitDto,
+    @Req() req: Express.Request
   ) {
-    return this.limitsService.updateLimit(limitId, body);
+    return this.limitsService.updateLimit(limitId, body, req.user);
   }
 }

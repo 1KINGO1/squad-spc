@@ -7,6 +7,9 @@ import { User } from "../users/entity/User.entity";
 import { CreateClanDto } from "./dtos/create-clan.dto";
 import { ListsService } from "../lists/lists.service";
 import { UpdateClanDto } from "./dtos/update-clan.dto";
+import { LoggerService } from "../logger/logger.service";
+import { LoggerEntity } from "../logger/types/logger-request-body.interface";
+import { LoggerLevel } from "../logger/types/logger-level.enum";
 
 interface GetAvailableClansOptions {
   user: User;
@@ -21,7 +24,8 @@ export class ClansService {
   constructor(
     @InjectRepository(Clan) private clansRepository: Repository<Clan>,
     @Inject(forwardRef(() => ListsService))
-    private listsService: ListsService
+    private listsService: ListsService,
+    private loggerService: LoggerService
   ) {
   }
 
@@ -71,7 +75,7 @@ export class ClansService {
     return this.clansRepository.findBy({ id: In(id) });
   }
 
-  async createClan(createClanDto: CreateClanDto) {
+  async createClan(createClanDto: CreateClanDto, user: User) {
     const lists = await this.listsService.getListsByIds(createClanDto.allowed_lists);
 
     if (lists.length === 0) {
@@ -89,6 +93,20 @@ export class ClansService {
 
     clan = await this.clansRepository.save(clan);
 
+    this.loggerService.log({
+      entity: LoggerEntity.Clan,
+      level: LoggerLevel.CREATED,
+      title: 'Create clan',
+      fields: [
+        { name: 'Clan ID', value: clan.id + '' },
+        { name: 'Name', value: clan.name },
+        { name: 'Tag', value: clan.tag },
+        { name: 'Allowed lists', value: clan.allowed_lists.map(list => list.name).join(', ')},
+        { name: 'Limits', value: clan.limits.map(limit => `${limit.group.name} => ${limit.limit || "Unlimited"}`).join('\n')},
+      ],
+      user
+    });
+
     return {
       clan_leaders: [],
       ...clan
@@ -103,15 +121,30 @@ export class ClansService {
     return clan;
   }
 
-  async deleteClan(id: number) {
+  async deleteClan(id: number, user: User) {
     const clan = await this.getClanById(id);
     await this.clansRepository.remove(clan);
     clan.id = id;
+
+    this.loggerService.log({
+      entity: LoggerEntity.Clan,
+      level: LoggerLevel.DELETED,
+      title: 'Clan deleted',
+      fields: [
+        { name: 'Clan ID', value: clan.id + '' },
+        { name: 'Name', value: clan.name },
+        { name: 'Tag', value: clan.tag },
+      ],
+      user
+    });
+
     return clan;
   }
 
-  async updateClan(id: number, updateClanDto: UpdateClanDto) {
+  async updateClan(id: number, updateClanDto: UpdateClanDto, user: User) {
     const clan = await this.getClanById(id);
+
+    let { name, tag, allowed_lists, limits } = clan;
 
     if (updateClanDto?.allowed_lists) {
       const lists = await this.listsService.getListsByIds(updateClanDto.allowed_lists);
@@ -128,6 +161,19 @@ export class ClansService {
     if (updateClanDto?.tag) {
       clan.tag = updateClanDto.tag;
     }
+
+    this.loggerService.log({
+      entity: LoggerEntity.Clan,
+      level: LoggerLevel.UPDATED,
+      title: 'Clan updated',
+      fields: [
+        { name: 'Clan ID', value: clan.id + '' },
+        { name: 'Name', value: name + (updateClanDto?.name ? ' -> ' + updateClanDto.name : '')},
+        { name: 'Tag', value: tag + (updateClanDto?.tag ? ' -> ' + updateClanDto.tag : '') },
+        { name: 'Allowed lists', value: clan.allowed_lists.map(list => list.name).join(', ')},
+      ],
+      user
+    });
 
     return await this.clansRepository.save(clan);
   }

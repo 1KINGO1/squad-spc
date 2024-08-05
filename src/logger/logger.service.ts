@@ -1,26 +1,17 @@
+import { Injectable, OnModuleInit } from "@nestjs/common";
+import { ConfigService } from "../config/config.service";
+import { BaseLogger } from "./providers/base-logger";
 import * as fs from "fs";
 import * as path from "path";
-import { BaseLogger } from "./providers/base-logger";
 import { LoggerRequestBody } from "./types/logger-request-body.interface";
-import { ConfigService } from "../config/config.service";
 
-/*
-
-  Logger syntax
-  <b><b> - bold
-  <code><code> - code
-
-
-
- */
-
-
-class Logger {
+@Injectable()
+export class LoggerService implements OnModuleInit{
+  constructor(private configService: ConfigService) {}
 
   private loggers: BaseLogger[] = [];
 
-  constructor(private configService: ConfigService) {
-
+  public async onModuleInit() {
     this.getLoggers().then(loggers => {
       for (let Logger of loggers){
 
@@ -34,15 +25,8 @@ class Logger {
           console.log(e.message)
         }
       }
-    })
+    });
   }
-
-  log(body: LoggerRequestBody) {
-    for (let logger of this.loggers){
-      logger.log(body);
-    }
-  }
-
   private async getLoggers(): Promise<{default: typeof BaseLogger}[]> {
     const loggersPaths = fs.readdirSync(path.join(__dirname, "providers"))
       .filter(file => file.match(/^.*-logger\.[tj]s$/) && !file.startsWith('base-logger'));
@@ -51,6 +35,9 @@ class Logger {
     }));
   }
 
+  public async log(body: LoggerRequestBody) {
+    for (let logger of this.loggers){
+      await logger.log(body);
+    }
+  }
 }
-
-export default Logger;

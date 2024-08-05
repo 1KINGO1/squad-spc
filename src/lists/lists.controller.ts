@@ -12,7 +12,7 @@ export class ListsController {
 
   @Get('')
   @Auth([AuthRoles.ClanLeader, AuthRoles.Admin, AuthRoles.Root])
-  async getLists(@Req() req: {user: User}) {
+  async getLists(@Req() req: Express.Request) {
     return this.listsService.getAll(req.user);
   }
 
@@ -30,19 +30,19 @@ export class ListsController {
 
   @Post('')
   @Auth([AuthRoles.Admin, AuthRoles.Root])
-  async createList(@Body() body: CreateListDto){
-    return this.listsService.create(body);
+  async createList(@Body() body: CreateListDto, @Req() req: Express.Request) {
+    return this.listsService.create(body, req.user);
   }
 
   @Delete(':id')
   @Auth([AuthRoles.Admin, AuthRoles.Root])
-  async deleteList(@Param('id', ParseIntPipe) id: number){
-    return this.listsService.deleteById(id);
+  async deleteList(@Param('id', ParseIntPipe) id: number, @Req() req: Express.Request) {
+    return this.listsService.deleteById(id, req.user);
   }
 
   @Patch(':id')
   @Auth([AuthRoles.Admin, AuthRoles.Root])
-  async editList(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateListDto) {
-    return this.listsService.update(id, body);
+  async editList(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateListDto, @Req() req: Express.Request) {
+    return this.listsService.update(id, body, req.user);
   }
 }

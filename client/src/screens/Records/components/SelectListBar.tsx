@@ -101,7 +101,7 @@ const SelectListBar = () => {
       </div>
       <AddListModal isOpen={isAddListModalOpen} setIsOpen={setIsAddListModalOpen} />
       {
-        listId ? (
+        listId && lists.find(list => list.id === listId) ? (
           <>
             <DeleteListModal isOpen={isDeleteListModalOpen} setIsOpen={setIsDeleteListModalOpen} listId={listId} />
             <EditListModal isOpen={isEditListModalOpen} setIsOpen={setIsEditListModalOpen}

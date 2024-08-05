@@ -16,7 +16,7 @@ interface UpdateConfigPropertyParams {
   key: string;
   value: any;
 }
-export const updateConfigProperty = async ({key, value}: UpdateConfigPropertyParams) => {
+export const updateConfigProperty = async ({key, value}: UpdateConfigPropertyParams): Promise<{[key: string]: any}> => {
   const {data} = await axiosWithAuth.put(config.paths.config.changeProperty(key), {value});
-  return data;
+  return data as {[key: string]: any};
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from "@nestjs/common";
 import { Auth, AuthRoles } from "../auth/guards/auth.guard";
 import { PermissionsService } from "./permissions.service";
 import { CreatePermissionDto } from "./dtos/create-permission.dto";
@@ -28,18 +28,18 @@ export class PermissionsController {
   }
 
   @Post('groups')
-  async createGroup(@Body() body: CreateGroupDto){
-    return this.permissionsService.createGroup(body);
+  async createGroup(@Body() body: CreateGroupDto, @Req() req: Express.Request){
+    return this.permissionsService.createGroup(body, req.user);
   }
 
   @Patch('groups/:id')
-  async updateGroup(@Param('id') id: string, @Body() body: UpdateGroupDto){
-   return this.permissionsService.updateGroup(+id, body);
+  async updateGroup(@Param('id') id: string, @Body() body: UpdateGroupDto, @Req() req: Express.Request){
+   return this.permissionsService.updateGroup(+id, body, req.user);
   }
 
   @Delete('groups/:id')
-  async deleteGroup(@Param('id') id: string){
-    return this.permissionsService.deleteGroup(+id);
+  async deleteGroup(@Param('id') id: string, @Req() req: Express.Request){
+    return this.permissionsService.deleteGroup(+id, req.user);
   }
 
   /* ========================================================= */
