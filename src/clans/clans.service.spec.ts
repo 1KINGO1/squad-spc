@@ -4,11 +4,13 @@ import { getRepositoryToken } from "@nestjs/typeorm";
 import { Clan } from "./entity/Clan.entity";
 import { ListsService } from "../lists/lists.service";
 import { AuthRoles } from "../auth/guards/auth.guard";
+import { LoggerService } from "../logger/logger.service";
 
 describe('ClansService', () => {
 
   let mockClansRepository;
   let mockListService;
+  let mockLoggerService;
 
   let service: ClansService;
 
@@ -23,9 +25,17 @@ describe('ClansService', () => {
       getListById: jest.fn()
     };
 
+    mockLoggerService = {
+      log: jest.fn(),
+    }
+
     const module = await Test.createTestingModule({
       providers: [
         ClansService,
+        {
+          provide: LoggerService,
+          useValue: mockLoggerService
+        },
         {
           provide: getRepositoryToken(Clan),
           useValue: mockClansRepository

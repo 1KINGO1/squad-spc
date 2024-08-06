@@ -6,12 +6,14 @@ import { ClansService } from "../clans/clans.service";
 import { User } from "../users/entity/User.entity";
 import { AuthRoles } from "../auth/guards/auth.guard";
 import { BadRequestException, ForbiddenException } from "@nestjs/common";
+import { LoggerService } from "../logger/logger.service";
 
 describe('RecordsService', () => {
 
   let service: RecordsService;
   let mockRecordsRepository;
   let mockClansService;
+  let mockLoggerService;
 
   beforeEach(async () => {
     mockRecordsRepository = {
@@ -21,6 +23,9 @@ describe('RecordsService', () => {
     };
     mockClansService = {
       getClanById: jest.fn()
+    }
+    mockLoggerService = {
+      log: jest.fn(),
     }
 
     const module = await Test.createTestingModule({
@@ -33,6 +38,10 @@ describe('RecordsService', () => {
         {
           provide: ClansService,
           useValue: mockClansService
+        },
+        {
+          provide: LoggerService,
+          useValue: mockLoggerService
         }
       ]
     }).compile();
