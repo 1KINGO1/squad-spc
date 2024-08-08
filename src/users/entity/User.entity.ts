@@ -1,5 +1,6 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Clan } from "../../clans/entity/Clan.entity";
+import { Balance } from "../../payments/entity/Balance.entity";
 
 @Entity()
 export class User {
@@ -20,6 +21,13 @@ export class User {
 
   @Column({ type: "smallint", default: 0 })
   permission: number;
+
+  @OneToOne(
+    () => Balance,
+      balance => balance.user,
+    {onDelete: "SET NULL"}
+  )
+  balance: Balance | null
 
   @ManyToMany(
     () => Clan,

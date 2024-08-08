@@ -1,5 +1,3 @@
-import { APP_INTERCEPTOR } from "@nestjs/core";
-
 import { Module } from "@nestjs/common";
 import { UsersModule } from "./users/users.module";
 import { AuthModule } from "./auth/auth.module";
@@ -13,9 +11,11 @@ import { LoggerModule } from './logger/logger.module';
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { DatabaseSeedModule } from "./database-seed/database-seed.module";
 import { ConfigModule } from './config/config.module';
+import { PaymentsModule } from './payments/payments.module';
 
 import * as path from "path";
 import dbConfig from "./db.config";
+
 
 @Module({
   imports: [
@@ -33,14 +33,9 @@ import dbConfig from "./db.config";
     OutputModule,
     LoggerModule,
     ConfigModule,
+    PaymentsModule,
   ],
   controllers: [],
-  providers: [
-    // {
-    //   provide: APP_INTERCEPTOR,
-    //   useClass: LoggerInterceptor,
-    // },
-  ],
+  providers: [],
 })
-export class AppModule {
-}
+export class AppModule {}

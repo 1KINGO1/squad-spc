@@ -46,6 +46,7 @@
     "pg": "^8.11.5",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
+    "stripe": "^16.6.0",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {

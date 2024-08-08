@@ -31,6 +31,9 @@ const queryKeys: {
   },
   configSettings(){
     return ["configSettings"];
+  },
+  balance(){
+    return ["balance"];
   }
 }
 

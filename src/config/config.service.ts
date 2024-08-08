@@ -24,7 +24,12 @@ export class ConfigService implements OnModuleInit {
 
   private async parseConfig() {
     if (fs.existsSync(this.configPath)) {
-      this.config = JSON.parse(fs.readFileSync(this.configPath, 'utf8'));
+      try {
+        this.config = JSON.parse(fs.readFileSync(this.configPath, 'utf8'));
+      }
+      catch (e) {
+        this.config = {};
+      }
     }
     else {
       this.createDefaultConfig();
@@ -48,7 +53,7 @@ export class ConfigService implements OnModuleInit {
       try {
         this.getConfigValueByPath(keyString);
       } catch (e) {
-        this.setConfigValueByPath(keyString, null);
+        this.setConfigValueByPath(keyString, settings[keyString].default ?? null);
         this.saveConfig();
       }
     }
@@ -142,7 +147,7 @@ export class ConfigService implements OnModuleInit {
       try {
         setPropertyByKeyString(result, keyString, this.getOne(keyString, user));
       } catch (e) {
-        setPropertyByKeyString(result, keyString, null);
+        setPropertyByKeyString(result, keyString, undefined);
       }
     }
     return result;

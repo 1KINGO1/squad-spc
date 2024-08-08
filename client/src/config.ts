@@ -1,4 +1,5 @@
 export default {
+  clientBaseUrl: `${process.env.NODE_ENV === "development" ? "http://localhost:3001" : window.location.origin}`,
   apiBaseUrl: `${process.env.NODE_ENV === "development" ? "http://localhost:3000" : window.location.origin}${process.env.API_PREFIX || "/api"}`,
   paths: {
     output: {
@@ -50,6 +51,12 @@ export default {
       index: "/config",
       settings: "/config/settings",
       changeProperty: (propertyPath: string) => "/config/" + propertyPath
+    },
+    payments: {
+      create: "/payments/stripe/payment-intent",
+      update: "/payments/stripe/payment-intent",
+      delete: (paymentIntentId: string) => `/payments/stripe/payment-intent/${paymentIntentId}`,
+      balance: "/payments/balance",
     }
   }
 }

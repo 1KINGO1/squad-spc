@@ -10,7 +10,6 @@ export default {
   HOST: process.env.HOST?.startsWith("http") ? process.env.HOST : `http://${process.env.HOST}`,
   STEAM_API_KEY: process.env.STEAM_API_KEY,
   JWT_SECRET: process.env.JWT_SECRET,
-  DISCORD_WEBHOOK_URL: process.env.DISCORD_WEBHOOK_URL,
   API_PREFIX: process.env.API_PREFIX || '/api',
 
   DB_HOST: process.env.DB_HOST || 'localhost',

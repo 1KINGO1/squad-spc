@@ -12,6 +12,7 @@ import router from "./routes/router";
 import {getUserInfo} from "./services/auth.service";
 import useCurrentUser from "./store/useCurrentUser";
 import User from "./types/models/User";
+import useConfig from "./hooks/config/useConfig";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
   // Fetch data
   useClans();
   useLists();
+  useConfig();
 
   useEffect(() => {
     getUserInfo()
