@@ -15,7 +15,8 @@ const ConfigLocation: FC<ConfigLocationProps> = (
     configSettings,
     selectedProperty,
     setSelectedProperty,
-    topSpan = 0
+    topSpan = 0,
+    depth = 0
   }
 ) => {
   const [currentTopSpan, setCurrentTopSpan] = useState<number>(topSpan);
@@ -54,12 +55,12 @@ const ConfigLocation: FC<ConfigLocationProps> = (
         {configSettings && Object.keys(configSettings).map((setting: string, index: number) => (
           // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
           <li
-            key={setting}
+            key={setting + "#" + depth + "#" + index}
             onClick={() => {
               propertyClickHandler(setting);
               setCurrentTopSpan(topSpan + index);
             }}
-            className={selectedProperty.includes(setting) ? styles.selected : ""}
+            className={selectedProperty[0] === setting ? styles.selected : ""}
           >
             {setting}
           </li>
@@ -72,6 +73,7 @@ const ConfigLocation: FC<ConfigLocationProps> = (
           selectedProperty={selectedProperty.slice(1)}
           setSelectedProperty={setSelectedProperty}
           topSpan={currentTopSpan}
+          depth={depth + 1}
         />
       }
     </>
