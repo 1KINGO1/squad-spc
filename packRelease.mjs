@@ -32,6 +32,7 @@ const gatherFiles = async () => {
   console.log(chalk.cyan("Deleting release folder..."));
   try {
     await fsPromises.rm("release", { recursive: true, force: true });
+    await fsPromises.rm("release.zip", { recursive: true, force: true });
   }catch (e) {}
   console.log(chalk.green("Done!"));
 

@@ -11,7 +11,10 @@ import { Balance } from "./payments/entity/Balance.entity";
 
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { DataSourceOptions } from "typeorm";
+import { Setup1723306542359 } from "./migrations/1723306542359-Setup";
 
+console.log("DB Synchronize", process.env.NODE_ENV !== 'production');
+console.log("DB MigrationsRun", process.env.NODE_ENV === 'production');
 
 export default {
   type: "postgres",
@@ -21,5 +24,8 @@ export default {
   password: config.DB_PASSWORD,
   database: config.DB_NAME,
   entities: [User, List, Permission, Group, Clan, Record, Limit, Balance],
-  synchronize: true, // TODO: Refactor with migrations
+  synchronize: process.env.NODE_ENV !== 'production',
+  migrationsRun: process.env.NODE_ENV === 'production',
+  migrationsTableName: "migrations",
+  migrations: [Setup1723306542359],
 } as TypeOrmModuleOptions & DataSourceOptions
