@@ -11,7 +11,6 @@ import { Balance } from "./payments/entity/Balance.entity";
 
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { DataSourceOptions } from "typeorm";
-import { Setup1723306542359 } from "./migrations/1723306542359-Setup";
 
 console.log("DB Synchronize", process.env.NODE_ENV !== 'production');
 console.log("DB MigrationsRun", process.env.NODE_ENV === 'production');
@@ -27,5 +26,5 @@ export default {
   synchronize: process.env.NODE_ENV !== 'production',
   migrationsRun: process.env.NODE_ENV === 'production',
   migrationsTableName: "migrations",
-  migrations: [Setup1723306542359],
+  migrations: ["dist/migrations/*.js"],
 } as TypeOrmModuleOptions & DataSourceOptions
