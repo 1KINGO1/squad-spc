@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 
 import { Button, Form, Input, message, Modal, Select } from "antd";
 
-import DurationInput from "./shared/DurationInput";
+import DurationInput from "../../../components/DurationInput";
 import useClanLimits from "../../../hooks/clans/useClanLimits";
 import useGroups from "../../../hooks/groups/useGroups";
 import useCreateRecord from "../../../hooks/records/useCreateRecord";

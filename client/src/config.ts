@@ -57,6 +57,12 @@ export default {
       update: "/payments/stripe/payment-intent",
       delete: (paymentIntentId: string) => `/payments/stripe/payment-intent/${paymentIntentId}`,
       balance: "/payments/balance",
+    },
+    products: {
+      index: "/products",
+      create: "/products",
+      update: (id: number) => "/products/" + id,
+      delete: (id: number) => "/products/" + id,
     }
   }
 }

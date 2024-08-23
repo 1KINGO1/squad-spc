@@ -1,7 +1,7 @@
 import { FC } from "react";
-import styles from "./Home.module.scss";
+import styles from "../Home.module.scss";
 import { Avatar } from "antd";
-import useConfig from "../../hooks/config/useConfig";
+import useConfig from "../../../hooks/config/useConfig";
 
 const ServerLabel: FC = () => {
 

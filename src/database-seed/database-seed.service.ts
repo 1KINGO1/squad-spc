@@ -33,6 +33,7 @@ export class DatabaseSeedService {
     const forceTeamChange = await this.permissionsService.createPermission({ name: "ForceTeamChange", value: "forceteamchange" });
     const reserve = await this.permissionsService.createPermission({ name: "Reserve", value: "reserve" });
     await this.permissionsService.createPermission({ name: "Demos", value: "demos" });
+    await this.permissionsService.createPermission({ name: "ClientDemos", value: "clientdemos" });
     await this.permissionsService.createPermission({ name: "Debug", value: "debug" });
     const teamChange = await this.permissionsService.createPermission({ name: "TeamChange", value: "teamchange" });
 

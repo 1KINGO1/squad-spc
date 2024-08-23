@@ -34,6 +34,9 @@ const queryKeys: {
   },
   balance(){
     return ["balance"];
+  },
+  products(){
+    return ["products"]
   }
 }
 

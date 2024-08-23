@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Record } from "../../records/entity/Record.entity";
 import { Clan } from "../../clans/entity/Clan.entity";
+import { Product } from "../../products/entity/Product.entity";
 
 @Entity()
 export class List {
@@ -18,4 +19,7 @@ export class List {
 
   @ManyToMany(() => Clan, clan => clan.allowed_lists, { onDelete: "CASCADE" })
   clans: Clan[];
+
+  @OneToMany(() => Product, product => product.list)
+  products: Product[];
 }

@@ -68,7 +68,7 @@ export class ListsService {
     const list = await this.getById(id);
     if (!list) throw new NotFoundException();
 
-    await this.listsRepository.delete(list);
+    await this.listsRepository.delete({id: list.id});
 
     this.loggerService.log({
       entity: LoggerEntity.List,
@@ -103,7 +103,7 @@ export class ListsService {
       user
     });
 
-    await this.listsRepository.update(list, updateListDto);
+    await this.listsRepository.update({id: list.id}, updateListDto);
 
     return {...list, ...updateListDto};
   }

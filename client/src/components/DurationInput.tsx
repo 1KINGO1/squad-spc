@@ -8,6 +8,8 @@ interface DurationInputProps {
   inputDurationClassName?: string;
   inputUnitClassName?: string;
   placeholder?: string;
+  label?: string;
+  noStyle?: boolean;
 }
 
 const DurationInput: FC<DurationInputProps> = (
@@ -16,7 +18,7 @@ const DurationInput: FC<DurationInputProps> = (
     handleValueChange,
     inputDurationClassName,
     inputUnitClassName,
-    placeholder
+    placeholder,
   }
 ) => {
   return (
@@ -30,7 +32,7 @@ const DurationInput: FC<DurationInputProps> = (
           placeholder={placeholder}
           className={inputDurationClassName}
           min={0}
-          max={999999}
+          max={999}
           onChange={handleValueChange}
         />
       </Form.Item>
@@ -44,7 +46,6 @@ const DurationInput: FC<DurationInputProps> = (
           <Select.Option value={60}>Minutes</Select.Option>
           <Select.Option value={60 * 60}>Hours</Select.Option>
           <Select.Option value={60 * 60 * 24}>Days</Select.Option>
-          <Select.Option value={60 * 60 * 24 * 30}>Months</Select.Option>
         </Select>
       </Form.Item>
     </Space.Compact>

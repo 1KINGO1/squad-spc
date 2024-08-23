@@ -154,4 +154,7 @@ export class PermissionsService {
     return this.permissionsRepository.remove(permission);
   }
 
+  async getPermissionsByIds(ids: number[]) {
+    return this.permissionsRepository.findBy({id: In(ids)});
+  }
 }

@@ -1,7 +1,6 @@
-import React from "react";
+import React, { FC, useEffect } from "react";
 
-import { createBrowserRouter } from "react-router-dom";
-
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import ClansRoute from "./Clans.route";
 import GroupsRoute from "./Groups.route";
@@ -10,6 +9,7 @@ import RecordsRoute from "./Records.route";
 import UsersRoute from "./Users.route";
 import DefaultLayout from "../layouts/DefaultLayout/DefaultLayout";
 import ConfigRoute from "./Config.route";
+import ProductsRoute from "./Products.route";
 
 const router = createBrowserRouter([
   {
@@ -21,9 +21,14 @@ const router = createBrowserRouter([
       RecordsRoute,
       UsersRoute,
       GroupsRoute,
-      ConfigRoute
+      ConfigRoute,
+      ProductsRoute
     ]
   },
+  {
+    path: "*",
+    element: <Navigate to="/" replace />,
+  }
 ]);
 
 export default router;

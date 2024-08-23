@@ -12,6 +12,7 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { DatabaseSeedModule } from "./database-seed/database-seed.module";
 import { ConfigModule } from './config/config.module';
 import { PaymentsModule } from './payments/payments.module';
+import { ProductsModule } from './products/products.module';
 
 import * as path from "path";
 import dbConfig from "./db.config";
@@ -34,6 +35,7 @@ import dbConfig from "./db.config";
     LoggerModule,
     ConfigModule,
     PaymentsModule,
+    ProductsModule,
   ],
   controllers: [],
   providers: [],

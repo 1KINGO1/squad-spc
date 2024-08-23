@@ -99,6 +99,14 @@ const configSettings: IConfigSettings = {
     default: false,
     comment: "Enable or disable payments (paid roles etc)",
   },
+  "payment.general.currency": {
+    get: All,
+    set: [AuthRoles.Root],
+    type: "string",
+    name: "Currency symbol",
+    default: "$",
+    comment: "This symbol will be displayed in the payment page",
+  },
   "payment.stripe.enabled": {
     get: All,
     set: [AuthRoles.Root],

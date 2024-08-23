@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 
 import { Button, Form, message, Modal } from "antd";
 
@@ -62,6 +62,10 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
     form.resetFields();
   };
 
+  const limitsMemo = useMemo(() => {
+    return limits.map(limits => ({group: limits.group.id, limit: limits.limit ?? undefined}))
+  }, [limits])
+
   return (
     <Modal
       open={props.isOpen}
@@ -84,7 +88,7 @@ const ClanEditModal: FC<ClanEditModalProps> = (props) => {
         name: props.clan.name,
         tag: props.clan.tag,
         allowed_lists: props.clan.allowed_lists.map(list => list.id),
-        limits: limits.map(limits => ({group: limits.group.id, limit: limits.limit ?? undefined}))
+        limits: limitsMemo
       }}/>
     </Modal>
   );
