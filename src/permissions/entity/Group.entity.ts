@@ -12,4 +12,7 @@ export class Group {
   @ManyToMany(() => Permission)
   @JoinTable()
   permissions: Permission[];
+
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  create_date: Date;
 }

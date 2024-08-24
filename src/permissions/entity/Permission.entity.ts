@@ -9,4 +9,7 @@ export class Permission {
 
   @Column({type: 'varchar', length: 50})
   value: string
+
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  create_date: Date;
 }

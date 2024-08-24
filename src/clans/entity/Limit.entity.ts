@@ -17,4 +17,7 @@ export class Limit {
 
   @Column({ default: null, type: 'int' })
   limit: number | null;
+
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  create_date: Date;
 }
