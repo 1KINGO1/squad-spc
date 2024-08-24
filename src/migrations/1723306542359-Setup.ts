@@ -18,6 +18,7 @@ export class Setup1723306542359 implements MigrationInterface {
     await this.createGroupPermissionsToPermissions(queryRunner);
     await this.createUserClansToClans(queryRunner);
     await this.createForeignKeys(queryRunner);
+    await this.createProductToPermission(queryRunner);
   }
 
   private async createUsersTable(queryRunner: QueryRunner): Promise<void> {
@@ -354,6 +355,11 @@ export class Setup1723306542359 implements MigrationInterface {
           {
             name: "listId",
             type: "int"
+          },
+          {
+            name: "create_date",
+            type: "timestamp",
+            default: "CURRENT_TIMESTAMP"
           }
         ]
       }), true);

@@ -5,9 +5,7 @@ export default interface Clan {
   id: number;
   name: string;
   tag: string;
-  created_date: Date;
-  // ids of lists
+  create_date: Date;
   allowed_lists: List[],
-  //limits?: Limit[],
-  clan_leaders: User[]
+  clan_leaders: User[],
 }

@@ -151,7 +151,8 @@ const ProductForm: FC<ProductFormProps> = ({ initialValues, form, setSubmittable
             permissions: [{ id: 1, name: "whitelist", value: "whitelist" }],
             productColor: values.productColor ? values.productColor.toHexString() : null,
             shouldSale: true,
-            list: { id: 1, name: "Any", path: "any" }
+            list: { id: 1, name: "Any", path: "any", create_date: new Date() },
+            create_date: new Date()
           }} isDisabled={true} />
         }
       </div>

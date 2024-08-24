@@ -4,5 +4,6 @@ export default interface List {
   id: number,
   name: string,
   path: string,
-  clans?: Clan[]
+  clans?: Clan[],
+  create_date: Date
 }

@@ -12,7 +12,7 @@ const useLists = () => {
       queryKey: queryKeys.lists(),
       queryFn: getLists,
       enabled: user !== null,
-      placeholderData: [{ id: 0, name: "Loading..." }],
+      placeholderData: [{ id: 0, name: "Loading..."}],
     });
 
   return {

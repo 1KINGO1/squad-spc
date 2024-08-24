@@ -13,4 +13,5 @@ export interface Product {
   shouldSale: boolean;
   duration: number | null;
   list: List;
+  create_date: Date;
 }

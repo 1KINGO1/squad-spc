@@ -5,4 +5,5 @@ export default interface Limit {
   clanId: number;
   group: Group;
   limit: number | null;
+  create_date: Date;
 }
