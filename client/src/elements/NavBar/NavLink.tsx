@@ -16,7 +16,7 @@ const NavLink: FC<PropsWithChildren<NavLinkProps>> = ({to, children, canAccess =
   const location = useLocation();
   const {user} = useCurrentUser();
 
-  const isCurrentPage = location.pathname.startsWith("/" + to.replace(/^\//, ""));
+  const isCurrentPage = to === "/" ? to === location.pathname : location.pathname.startsWith("/" + to.replace(/^\//, ""));
 
   return (
     canAccess.length > 0 && !canAccess.includes(user?.permission ?? Roles.Guest) ? null :

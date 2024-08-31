@@ -10,6 +10,6 @@ export default interface Record {
     id: number;
     username: string;
   }
-  created_date: string;
+  create_date: Date;
   expire_date: string | null;
 }

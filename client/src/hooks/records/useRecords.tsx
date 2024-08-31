@@ -6,6 +6,7 @@ import queryKeys from "../../query-keys";
 import { getRecords } from "../../services/records.service";
 import useCurrentUser from "../../store/useCurrentUser";
 import Record from "../../types/models/Record";
+import sortByCreateDate from "../../utils/sortByCreateDate";
 
 const useRecords = (listId: number, clanId: number) => {
   const [isDisabled, setIsDisabled] = useState(true);
@@ -16,6 +17,7 @@ const useRecords = (listId: number, clanId: number) => {
       queryKey: queryKeys.records(listId, clanId),
       queryFn: () => getRecords({listId, clanId}),
       enabled: user !== null && !isDisabled,
+      select: (data) => sortByCreateDate<Record>(data, "DESC")
     });
 
   return {

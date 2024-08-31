@@ -41,6 +41,9 @@ const NavBar: FC = () => {
         <div className={styles.bottom}>
           <nav className={styles.linksWrapper} style={{display: !isLoading && ![Roles.Guest].includes(user?.permission) ? "block" : "none"}}>
             <ul>
+              <NavLink to="/" canAccess={[Roles.Root, Roles.Admin, Roles.ClanLeader]}>
+                Home
+              </NavLink>
               <NavLink to="/clans" canAccess={[Roles.Root, Roles.Admin, Roles.ClanLeader]}>
                 Clans
               </NavLink>
