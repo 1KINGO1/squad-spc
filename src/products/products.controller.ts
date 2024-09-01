@@ -14,19 +14,19 @@ export class ProductsController {
     return this.productsService.getProducts(req.user);
   }
 
-  @Auth([AuthRoles.Root])
+  @Auth([AuthRoles.Root, AuthRoles.Admin])
   @Post()
   async createProduct(@Body() body: CreateProductDto) {
     return this.productsService.createProduct(body);
   }
 
-  @Auth([AuthRoles.Root])
+  @Auth([AuthRoles.Root, AuthRoles.Admin])
   @Patch(":id")
   async updateProduct(@Param("id") id: number, @Body() body: UpdateProductDto) {
     return this.productsService.updateProduct(+id, body);
   }
 
-  @Auth([AuthRoles.Root])
+  @Auth([AuthRoles.Root, AuthRoles.Admin])
   @Delete(":id")
   async getProduct(@Param("id") id: number) {
     return this.productsService.deleteProduct(+id);

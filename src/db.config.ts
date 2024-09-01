@@ -12,6 +12,7 @@ import { Balance } from "./payments/entity/Balance.entity";
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { DataSourceOptions } from "typeorm";
 import { Product } from "./products/entity/Product.entity";
+import { Purchase } from "./purchases/entity/Purchase.entity";
 
 console.log("DB Synchronize", process.env.NODE_ENV !== 'production');
 console.log("DB MigrationsRun", process.env.NODE_ENV === 'production');
@@ -23,7 +24,7 @@ export default {
   username: config.DB_USERNAME,
   password: config.DB_PASSWORD,
   database: config.DB_NAME,
-  entities: [User, List, Permission, Group, Clan, Record, Limit, Balance, Product],
+  entities: [User, List, Permission, Group, Clan, Record, Limit, Balance, Product, Purchase],
   synchronize: process.env.NODE_ENV !== 'production',
   migrationsRun: process.env.NODE_ENV === 'production',
   migrationsTableName: "migrations",

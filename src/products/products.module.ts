@@ -9,6 +9,7 @@ import { PermissionsModule } from "../permissions/permissions.module";
 @Module({
   providers: [ProductsService],
   controllers: [ProductsController],
-  imports: [TypeOrmModule.forFeature([Product]), ListsModule, PermissionsModule]
+  imports: [TypeOrmModule.forFeature([Product]), ListsModule, PermissionsModule],
+  exports: [ProductsService]
 })
 export class ProductsModule {}

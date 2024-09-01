@@ -6,10 +6,12 @@ import { PaymentsController } from './payments.controller';
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Balance } from "./entity/Balance.entity";
 import { UsersModule } from "../users/users.module";
+import { ConfigModule } from "../config/config.module";
 
 @Module({
   providers: [StripeService, PaymentsService],
   controllers: [StripeController, PaymentsController],
-  imports: [UsersModule, TypeOrmModule.forFeature([Balance])]
+  imports: [ConfigModule, UsersModule, TypeOrmModule.forFeature([Balance])],
+  exports: [PaymentsService]
 })
 export class PaymentsModule {}

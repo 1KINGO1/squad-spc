@@ -13,6 +13,7 @@ import { DatabaseSeedModule } from "./database-seed/database-seed.module";
 import { ConfigModule } from './config/config.module';
 import { PaymentsModule } from './payments/payments.module';
 import { ProductsModule } from './products/products.module';
+import { PurchasesModule } from './purchases/purchases.module';
 
 import * as path from "path";
 import dbConfig from "./db.config";
@@ -36,6 +37,7 @@ import dbConfig from "./db.config";
     ConfigModule,
     PaymentsModule,
     ProductsModule,
+    PurchasesModule
   ],
   controllers: [],
   providers: [],

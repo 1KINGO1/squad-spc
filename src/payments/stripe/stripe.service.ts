@@ -7,7 +7,11 @@ import { UsersService } from "../../users/users.service";
 
 @Injectable()
 export class StripeService implements OnModuleInit {
-  constructor(private configService: ConfigService, private paymentsService: PaymentsService, private usersService: UsersService) {
+  constructor(
+    private configService: ConfigService,
+    private paymentsService: PaymentsService,
+    private usersService: UsersService
+  ) {
   }
 
   private isEnabled = false;

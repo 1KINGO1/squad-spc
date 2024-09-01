@@ -12,6 +12,7 @@ import { Clan } from "../../clans/entity/Clan.entity";
 import { User } from "../../users/entity/User.entity";
 import { List } from "../../lists/entity/List.entity";
 import { Permission } from "../../permissions/entity/Permission.entity";
+import { Purchase } from "../../purchases/entity/Purchase.entity";
 
 @Entity()
 export class Product {

@@ -16,7 +16,7 @@ interface UpdateProductModalProps {
 }
 
 function parseDuration(duration: number): [number, number] {
-  const durationInSeconds = Math.floor(duration / 1000);
+  const durationInSeconds = duration;
   let unit = 60;
 
   for (const u of [60, 60*60, 60*60*24]) {
@@ -75,7 +75,7 @@ const CreateProductModal: FC<UpdateProductModalProps> = ({isOpen, setIsOpen, pro
       tag: !values.tag ? null : values.tag,
       tagColor: values?.tagColor?.toHexString() ?? null,
       productColor: values?.productColor?.toHexString() ?? null,
-      duration: values?.duration?.value ? values.duration.value * 1000 * values.duration.unit : null,
+      duration: values?.duration?.value ? values.duration.value * values.duration.unit : null,
       permissions: values.permissions.map(permission => (permissions.find(p => p.value === permission) as Permission).id),
     })
   }

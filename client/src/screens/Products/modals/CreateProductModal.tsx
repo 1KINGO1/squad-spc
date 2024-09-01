@@ -44,7 +44,7 @@ const CreateProductModal: FC<CreateProductModalProps> = ({isOpen, setIsOpen, lis
       tag: values.tag ?? undefined,
       tagColor: values?.tagColor?.toHexString() ?? undefined,
       productColor: values?.productColor?.toHexString() ?? undefined,
-      duration: values?.duration?.value ? values.duration.value * 1000 * values.duration.unit : undefined,
+      duration: values?.duration?.value ? values.duration.value * values.duration.unit : undefined,
       permissions: values.permissions.map(permission => (permissions.find(p => p.value === permission) as Permission).id),
       listId
     });

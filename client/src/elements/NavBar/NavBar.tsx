@@ -17,8 +17,8 @@ const NavBar: FC = () => {
 
   const changeAccountHandler = () => {
     window.location.replace(config.apiBaseUrl + config.paths.auth.login);
-  }
-  
+  };
+
   return (
     <div className={styles.wrapper}>
       <Spin spinning={isLoading} className={styles.loading} delay={200}>
@@ -39,7 +39,8 @@ const NavBar: FC = () => {
           </div>
         </div>
         <div className={styles.bottom}>
-          <nav className={styles.linksWrapper} style={{display: !isLoading && ![Roles.Guest].includes(user?.permission) ? "block" : "none"}}>
+          <nav className={styles.linksWrapper}
+               style={{ display: !isLoading && ![Roles.Guest].includes(user?.permission) ? "block" : "none" }}>
             <ul>
               <NavLink to="/" canAccess={[Roles.Root, Roles.Admin, Roles.ClanLeader]}>
                 Home
@@ -56,11 +57,11 @@ const NavBar: FC = () => {
               <NavLink to="/users" canAccess={[Roles.Root, Roles.Admin]}>
                 Users
               </NavLink>
+              <NavLink to="/products" canAccess={[Roles.Root, Roles.Admin]}>
+                Products
+              </NavLink>
               <NavLink to="/config" canAccess={[Roles.Root]}>
                 Config
-              </NavLink>
-              <NavLink to="/products" canAccess={[Roles.Root]}>
-                Products
               </NavLink>
             </ul>
           </nav>
