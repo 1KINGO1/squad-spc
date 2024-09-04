@@ -107,6 +107,14 @@ const configSettings: IConfigSettings = {
     default: "$",
     comment: "This symbol will be displayed in the payment page",
   },
+  "payment.general.motd": {
+    get: All,
+    set: [AuthRoles.Root],
+    type: "string",
+    name: "MOTD",
+    default: "By making a purchase, you automatically accept all policies",
+    comment: "\"Message of the day\" displayed in the payment page before purchase. You can specify donation rules, payment policies or any information user have to know before making a purchase (HTML Supported)",
+  },
   "payment.stripe.enabled": {
     get: All,
     set: [AuthRoles.Root],

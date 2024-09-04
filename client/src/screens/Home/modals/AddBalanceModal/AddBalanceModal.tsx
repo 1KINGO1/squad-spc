@@ -1,9 +1,9 @@
-import { FC, FocusEventHandler, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
+import styles from "./AddBalanceModal.module.scss";
 import { loadStripe, Stripe } from "@stripe/stripe-js";
 import useConfig from "../../../../hooks/config/useConfig";
 import { Button, InputNumber, Modal, Spin } from "antd";
 import { Elements } from "@stripe/react-stripe-js";
-import axiosWithAuth from "../../../../utils/axiosWithAuth";
 import appConfig from "../../../../config";
 import AddBalanceForm from "./AddBalanceForm";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -93,6 +93,8 @@ const AddBalanceModal: FC<AddBalanceModalProps> = (props) => {
         </Button>
       ]}
     >
+      <p className={styles.wrapper} dangerouslySetInnerHTML={{__html: config?.payment?.general?.motd}}></p>
+
       <InputNumber addonAfter={config?.payment?.stripe?.currency}
                    defaultValue={defaultPaymentValue}
                    onBlur={onAmountBlur}
