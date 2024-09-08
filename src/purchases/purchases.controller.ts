@@ -24,4 +24,9 @@ export class PurchasesController {
   async getUserPurchases(@Req() req: Express.Request) {
     return this.purchasesService.getUserPurchases(req.user);
   }
+
+  @Get("active")
+  async getActivePurchases(@Req() req: Express.Request) {
+    return this.purchasesService.getActivePurchases(req.user);
+  }
 }

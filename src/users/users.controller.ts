@@ -56,4 +56,13 @@ export class UsersController {
   ){
     return this.usersService.deleteById(id, req.user);
   }
+
+  @Get("test")
+  async testUser() {
+    return this.usersService.create({
+      steam_id: "76561198990669263",
+      username: "Test User",
+      avatar_url: ""
+    })
+  }
 }

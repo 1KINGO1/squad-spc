@@ -6,6 +6,7 @@ import { message } from "antd";
 import { useSearchParams } from "react-router-dom";
 import styles from "./Home.module.scss";
 import ProductList from "./elements/Products/ProductList";
+import ActivePurchasesList from "./elements/ActiveProducts/ActivePurchasesList";
 
 let isMessageShown = false;
 
@@ -34,6 +35,7 @@ const Home = () => {
         {config?.payment?.general?.enabled && <BalanceLabel />}
         <ServerLabel />
       </div>
+      {config?.payment?.general?.enabled && <ActivePurchasesList />}
       {config?.payment?.general?.enabled && <ProductList />}
     </div>
   );

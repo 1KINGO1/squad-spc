@@ -133,10 +133,10 @@ export class UsersService {
         { name: "Steam ID", value: userToUpdate.steam_id },
         { name: "Username", value: userToUpdate.username },
         { name: "Permission", value: AuthRoles[permission] + " -> " + AuthRoles[userToUpdate.permission] },
-        {
+        userToUpdate?.clans && userToUpdate?.clans.length ? {
           name: "Clan IDs",
           value: clan_ids?.join(", ") + " -> " + userToUpdate.clans.map(clan => clan.name).join(", ")
-        }
+        } : undefined
       ],
       image_url: userToUpdate.avatar_url,
       user

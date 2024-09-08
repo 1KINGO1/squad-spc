@@ -62,9 +62,18 @@ export class PurchasesService {
   }
 
   async getUserPurchases(user: User): Promise<Purchase[]> {
-    return this.purchaseRepository.find({ where: { steam_id: user.steam_id } });
+    return this.purchaseRepository.find({ where: { steam_id: user.steam_id }, relations: ["list"] });
   }
 
+  async getActivePurchases(user: User): Promise<Purchase[]> {
+    const currentDate = new Date();
+
+    const patches = await this.getUserPurchases(user);
+    return patches.filter(purchase =>
+      (!purchase.expire_date || purchase.expire_date > currentDate) &&
+      purchase.isCanceled === false
+    );
+  }
   async getActiveUserPurchasesByProductId(user: User, productId: number): Promise<Purchase[]> {
     const currentDate = new Date();
 

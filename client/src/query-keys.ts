@@ -37,6 +37,9 @@ const queryKeys: {
   },
   products(){
     return ["products"]
+  },
+  activePurchases(){
+    return ["activePurchases"];
   }
 }
 
