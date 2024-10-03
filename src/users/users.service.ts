@@ -91,7 +91,11 @@ export class UsersService {
   }
 
   async findBySteamId(steam_id: string) {
-    return this.usersRepository.findOneBy({ steam_id });
+    const user = await this.usersRepository.findOneBy({ steam_id });
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+    return user;
   }
 
   async update(id: number, user: User, updateObj: UpdateUserDto) {

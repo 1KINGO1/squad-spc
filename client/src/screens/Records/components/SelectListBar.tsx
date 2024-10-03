@@ -70,7 +70,6 @@ const SelectListBar = () => {
             <Popover content="Create a list">
               <Button
                 icon={<PlusOutlined />}
-                disabled={listsNotFoundError}
                 onClick={() => setIsAddListModalOpen(true)}
               />
             </Popover>

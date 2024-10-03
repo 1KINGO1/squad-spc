@@ -84,4 +84,16 @@ export class PurchasesService {
       purchase.isCanceled === false
     );
   }
+
+  async getActivePurchasesByListPath(listPath: string): Promise<Purchase[]> {
+    const currentDate = new Date();
+
+    return this.purchaseRepository.find({
+      where: {
+        list: { path: listPath },
+        expire_date: MoreThan(currentDate),
+        isCanceled: false
+      }
+    });
+  }
 }

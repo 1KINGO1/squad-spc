@@ -26,6 +26,12 @@ const ActivePurchase: FC<{ purchase: Purchase }> = ({ purchase }) => {
         <span className={styles.itemList}>
           {purchase?.list?.name ?? "List deleted"}
         </span>
+
+        {!product && (
+          <span className={styles.itemList}>
+            Product Deleted
+          </span>
+        )}
       </div>
 
 
@@ -34,6 +40,7 @@ const ActivePurchase: FC<{ purchase: Purchase }> = ({ purchase }) => {
           {purchase?.expire_date ? <DateCountdown date={new Date(purchase.expire_date)}/> : "No expire date"}
         </span>
         <span className={styles.itemStatusLabel}>Active</span>
+        <span className={styles.itemCancelLabel}>Cancel</span>
       </div>
 
     </div>

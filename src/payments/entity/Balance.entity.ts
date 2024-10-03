@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Clan } from "../../clans/entity/Clan.entity";
 import { User } from "../../users/entity/User.entity";
+import { Version } from "@nestjs/common";
 
 @Entity()
 export class Balance {

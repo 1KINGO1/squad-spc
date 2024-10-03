@@ -35,13 +35,24 @@
   gap: 10px;
 }
 
-.itemStatusLabel {
+.itemStatusLabel, .itemCancelLabel {
   font-size: 14px;
   font-weight: 400;
   padding: 0.3em 0.5em;
   bottom: 0.4em;
   background-color: #16b578;
   border-radius: 0.5em;
+}
+
+.itemCancelLabel {
+  opacity: .4;
+  background-color: #b51616;
+  cursor: pointer;
+  transition: .1s ease-in-out all;
+}
+
+.itemCancelLabel:hover {
+  opacity: 1;
 }
 
 .itemExpireDate {

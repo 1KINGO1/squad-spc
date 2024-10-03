@@ -1,6 +1,6 @@
 import { FC, useMemo, useState } from "react";
 
-import { CrownOutlined, DeleteOutlined, DownOutlined, UnlockOutlined } from "@ant-design/icons";
+import { CrownOutlined, DeleteOutlined, DownOutlined, UnlockOutlined, WalletOutlined } from "@ant-design/icons";
 import { Button, Dropdown, Space } from "antd";
 
 import useCurrentUser from "../../../store/useCurrentUser";
@@ -10,6 +10,7 @@ import roleFilterOptions from "../data/roleFilterOptions";
 import ClansModal from "../modals/ClansModal/ClansModal";
 import UserRemoveModal from "../modals/UserRemoveModal/UserRemoveModal";
 import useUpdateUserPermission from "../../../hooks/users/useUpdateUserPermission";
+import useConfig from "../../../hooks/config/useConfig";
 
 interface ManageUserProps {
   user: User;
@@ -22,6 +23,8 @@ const ManageUser: FC<ManageUserProps> = ({ user }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const {user: currentUser} = useCurrentUser();
+  const { data: config } = useConfig();
+
   const mutateUserPermission = useUpdateUserPermission({
     onSuccess: () => setIsLoading(false)
   });
@@ -54,6 +57,12 @@ const ManageUser: FC<ManageUserProps> = ({ user }) => {
       icon: <UnlockOutlined />,
       onClick: () => setIsClanseModalOpen(true)
     },
+    !config?.payment?.general?.enabled ? null : {
+      label: "Balance",
+      key: "balance",
+      icon: <WalletOutlined />,
+      onClick: () => setIsClanseModalOpen(true)
+    },
     {
       label: "Delete",
       key: "delete",
@@ -61,7 +70,7 @@ const ManageUser: FC<ManageUserProps> = ({ user }) => {
       onClick: () => setIsRemoveModalOpen(true),
       danger: true
     }
-  ], [user]);
+  ], [user, config]);
 
   return (
     <>

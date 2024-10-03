@@ -9,6 +9,7 @@ import { PaymentsModule } from "../payments/payments.module";
 @Module({
   providers: [PurchasesService],
   controllers: [PurchasesController],
-  imports: [TypeOrmModule.forFeature([Purchase]), ProductsModule, PaymentsModule]
+  imports: [TypeOrmModule.forFeature([Purchase]), ProductsModule, PaymentsModule],
+  exports: [PurchasesService]
 })
 export class PurchasesModule {}
