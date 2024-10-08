@@ -6,5 +6,11 @@ export function initApp(app: INestApplication<any>) {
   app.setGlobalPrefix(config.API_PREFIX);
   app.use(cookieParser());
   app.enableCors();
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe(
+    {
+      transform: true,
+      transformOptions: {enableImplicitConversion: true},
+      forbidNonWhitelisted: true
+    }
+  ));
 }

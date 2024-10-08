@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React from "react";
 
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
@@ -10,6 +10,7 @@ import UsersRoute from "./Users.route";
 import DefaultLayout from "../layouts/DefaultLayout/DefaultLayout";
 import ConfigRoute from "./Config.route";
 import ProductsRoute from "./Products.route";
+import PurchasesRoute from "./Purchases.route";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,8 @@ const router = createBrowserRouter([
       UsersRoute,
       GroupsRoute,
       ConfigRoute,
-      ProductsRoute
+      ProductsRoute,
+      PurchasesRoute
     ]
   },
   {

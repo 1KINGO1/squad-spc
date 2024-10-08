@@ -4,12 +4,21 @@ import ProductList from "./components/ProductList";
 import CreateProduct from "./components/CreateProduct";
 import useProducts from "../../hooks/products/useProducts";
 import Product from "./components/Product";
+import useConfig from "../../hooks/config/useConfig";
+import { useNavigate } from "react-router";
 
 const Products = () => {
   const [listId, setListId] = useState<number>(0);
   const { data } = useProducts();
+  const { data: config } = useConfig();
+  const navigate = useNavigate();
 
-  return (
+  if (!config?.payment?.general?.enabled) {
+    navigate("/");
+    return null;
+  }
+
+    return (
     <>
       <div>
         <div>

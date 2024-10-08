@@ -67,7 +67,7 @@ export default {
       delete: (id: number) => "/products/" + id,
     },
     purchases: {
-      active: "/purchases/active",
+      active: "/purchases/me/active",
       create: (productId: number, desiredPrice: number) => "/purchases/products/" + productId + "?desiredPrice=" + desiredPrice,
     }
   }

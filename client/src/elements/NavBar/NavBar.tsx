@@ -5,12 +5,12 @@ import { Avatar, Button, Spin } from "antd";
 import styles from "./NavBar.module.scss";
 import NavLink from "./NavLink";
 import UserTag from "../../components/UserTag";
-import config from "../../config";
+import useConfig from "../../hooks/config/useConfig";
 import useCurrentUser from "../../store/useCurrentUser";
 import { Roles } from "../../types/Roles";
 
 const NavBar: FC = () => {
-
+  const { data: config } = useConfig();
   const { user } = useCurrentUser();
 
   const isLoading = user == null;
@@ -57,9 +57,12 @@ const NavBar: FC = () => {
               <NavLink to="/users" canAccess={[Roles.Root, Roles.Admin]}>
                 Users
               </NavLink>
-              <NavLink to="/products" canAccess={[Roles.Root, Roles.Admin]}>
+              {config?.payment?.general?.enabled && <NavLink to="/products" canAccess={[Roles.Root, Roles.Admin]}>
                 Products
-              </NavLink>
+              </NavLink>}
+              {config?.payment?.general?.enabled && <NavLink to="/purchases" canAccess={[Roles.Root, Roles.Admin]}>
+                Purchases
+              </NavLink>}
               <NavLink to="/config" canAccess={[Roles.Root]}>
                 Config
               </NavLink>

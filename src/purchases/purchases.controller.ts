@@ -1,7 +1,19 @@
-import { Controller, Get, Param, ParseIntPipe, Post, Query, Req } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Param,
+  ParseArrayPipe,
+  ParseBoolPipe,
+  ParseIntPipe,
+  Post,
+  Query,
+  Req,
+  ValidationPipe
+} from "@nestjs/common";
 import { User } from "../users/entity/User.entity";
 import { PurchasesService } from "./purchases.service";
 import { Auth, AuthRoles } from "../auth/guards/auth.guard";
+import GetAllPurchasesDto from "./dto/get-all-purchases.dto";
 
 @Controller('purchases')
 @Auth([AuthRoles.Guest, AuthRoles.ClanLeader, AuthRoles.Root, AuthRoles.Admin])
@@ -20,13 +32,21 @@ export class PurchasesController {
     return this.purchasesService.createPurchase(productId, desiredPrice, req.user);
   }
 
-  @Get("")
+  @Get("me")
   async getUserPurchases(@Req() req: Express.Request) {
     return this.purchasesService.getUserPurchases(req.user);
   }
 
-  @Get("active")
+  @Get("me/active")
   async getActivePurchases(@Req() req: Express.Request) {
     return this.purchasesService.getActivePurchases(req.user);
+  }
+
+  @Auth([AuthRoles.Root, AuthRoles.Admin])
+  @Get("all")
+  async getAllPurchases(
+    @Query() query: GetAllPurchasesDto
+  ) {
+    return this.purchasesService.getAllPurchasesWithFilters(query);
   }
 }

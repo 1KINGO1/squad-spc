@@ -1,12 +1,13 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { DataSource, MoreThan, Repository } from "typeorm";
+import { DataSource, In, MoreThan, Repository } from "typeorm";
 import { Purchase } from "./entity/Purchase.entity";
 import { User } from "../users/entity/User.entity";
 import { PaymentsService } from "../payments/payments.service";
 import { ProductsService } from "../products/products.service";
 import { Balance } from "../payments/entity/Balance.entity";
 import { Record } from "../records/entity/Record.entity";
+import GetAllPurchasesDto from "./dto/get-all-purchases.dto";
 
 @Injectable()
 export class PurchasesService {
@@ -60,11 +61,9 @@ export class PurchasesService {
 
     return purchase;
   }
-
   async getUserPurchases(user: User): Promise<Purchase[]> {
     return this.purchaseRepository.find({ where: { steam_id: user.steam_id }, relations: ["list"] });
   }
-
   async getActivePurchases(user: User): Promise<Purchase[]> {
     const currentDate = new Date();
 
@@ -84,7 +83,6 @@ export class PurchasesService {
       purchase.isCanceled === false
     );
   }
-
   async getActivePurchasesByListPath(listPath: string): Promise<Purchase[]> {
     const currentDate = new Date();
 
@@ -95,5 +93,46 @@ export class PurchasesService {
         isCanceled: false
       }
     });
+  }
+  async getAllPurchasesWithFilters(params: GetAllPurchasesDto) {
+    const limit = params.limit ?? 10;
+    const offset = params.offset ?? 0;
+
+    const queryBuilder = this.purchaseRepository.createQueryBuilder("purchase");
+    queryBuilder.leftJoinAndSelect("purchase.list", "list");
+
+    if (params.active !== undefined) {
+      if (params.active) {
+        queryBuilder.where("(purchase.expire_date >= CURRENT_TIMESTAMP OR purchase.expire_date IS NULL) AND purchase.isCanceled = false")
+      }
+      else {
+        queryBuilder.where("purchase.expire_date <= CURRENT_TIMESTAMP OR purchase.isCanceled = true")
+      }
+    }
+
+    if (params.users) {
+      queryBuilder.andWhere("steam_id IN (:...users)", { users: params.users });
+    }
+
+    if (params.nolist !== undefined) {
+      if (params.nolist) {
+        queryBuilder.andWhere("list IS NULL");
+      }
+      else {
+        queryBuilder.andWhere("list IS NOT NULL");
+      }
+    }
+
+    queryBuilder.limit(limit).offset(offset);
+
+    const totalCount = await queryBuilder.getCount();
+
+    return {
+      purchases: await queryBuilder.getMany(),
+      total: totalCount,
+      limit: params.limit ?? 10,
+      pageCount: Math.ceil(totalCount / (params.limit ?? 10)),
+      page: Math.ceil(offset / (params.limit ?? 10)) + 1,
+    };
   }
 }

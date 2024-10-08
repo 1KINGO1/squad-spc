@@ -36,7 +36,7 @@ export class Purchase {
   @Column({ type: 'int'})
   purchase_price: number;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ type: 'boolean', default: false, name: 'isCanceled' })
   isCanceled: boolean;
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
