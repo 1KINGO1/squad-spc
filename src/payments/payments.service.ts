@@ -52,10 +52,29 @@ export class PaymentsService {
     return this.getOrCreateBalance(user);
   }
 
+  // Used for balance top-up
   async addBalance(user: User, amount: number){
-    this.isAvailable();
     const balance = await this.getOrCreateBalance(user);
     balance.balance += Math.floor(amount);
     return this.balanceRepository.save(balance);
+  }
+
+  // Used for admin panel
+  async setBalance(steamId: string, amount: number, current: number){
+    this.isAvailable();
+
+    const user = await this.usersService.findBySteamId(steamId);
+
+    const balance = await this.getOrCreateBalance(user);
+
+    if (balance.balance != current) throw new BadRequestException("Balance has changed");
+
+    balance.balance = Math.floor(amount);
+    await this.balanceRepository.save(balance);
+
+    return {
+      ...balance,
+      user
+    }
   }
 }

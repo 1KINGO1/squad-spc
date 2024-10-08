@@ -11,6 +11,7 @@ import ClansModal from "../modals/ClansModal/ClansModal";
 import UserRemoveModal from "../modals/UserRemoveModal/UserRemoveModal";
 import useUpdateUserPermission from "../../../hooks/users/useUpdateUserPermission";
 import useConfig from "../../../hooks/config/useConfig";
+import BalanceModal from "../modals/BalanceModal/BalanceModal";
 
 interface ManageUserProps {
   user: User;
@@ -19,6 +20,7 @@ interface ManageUserProps {
 const ManageUser: FC<ManageUserProps> = ({ user }) => {
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const [isClansModalOpen, setIsClanseModalOpen] = useState(false);
+  const [isBalanceModalOpen, setIsBalanceModalOpen] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -61,7 +63,7 @@ const ManageUser: FC<ManageUserProps> = ({ user }) => {
       label: "Balance",
       key: "balance",
       icon: <WalletOutlined />,
-      onClick: () => setIsClanseModalOpen(true)
+      onClick: () => setIsBalanceModalOpen(true)
     },
     {
       label: "Delete",
@@ -88,6 +90,7 @@ const ManageUser: FC<ManageUserProps> = ({ user }) => {
 
       <UserRemoveModal user={user} isOpen={isRemoveModalOpen} setOpen={setIsRemoveModalOpen} />
       <ClansModal user={user} isOpen={isClansModalOpen} setIsOpen={setIsClanseModalOpen} />
+      {config?.payment?.general?.enabled && <BalanceModal user={user} isOpen={isBalanceModalOpen} setIsOpen={setIsBalanceModalOpen} /> }
     </>
   );
 };

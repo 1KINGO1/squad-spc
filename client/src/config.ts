@@ -57,6 +57,8 @@ export default {
       update: "/payments/stripe/payment-intent",
       delete: (paymentIntentId: string) => `/payments/stripe/payment-intent/${paymentIntentId}`,
       balance: "/payments/balance",
+      userBalance: (steamId: string) => "/payments/balance/" + steamId,
+      updateUserBalance: (steamId: string) => "/payments/balance/" + steamId,
     },
     products: {
       index: "/products",

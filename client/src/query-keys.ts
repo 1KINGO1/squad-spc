@@ -35,6 +35,9 @@ const queryKeys: {
   balance(){
     return ["balance"];
   },
+  userBalance(steamId: string){
+    return ["balance", "steamId" + steamId];
+  },
   products(){
     return ["products"]
   },
