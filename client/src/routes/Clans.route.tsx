@@ -1,6 +1,7 @@
 import { Roles } from "../types/Roles";
 import WithAuth from "../utils/WithAuth";
 import { Suspense, lazy } from "react";
+import Loading from "../components/Loading";
 
 const Clans = lazy(() => import("../screens/Clans/Clans"));
 
@@ -10,7 +11,7 @@ export default {
     <WithAuth
       excludedRoles={[Roles.Guest]}
     >
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading/>}>
         <Clans />
       </Suspense>
     </WithAuth>

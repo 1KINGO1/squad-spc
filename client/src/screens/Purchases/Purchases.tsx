@@ -13,7 +13,6 @@ const Purchases = () => {
     return (
     <>
       <div>
-        Purhcases
       </div>
     </>
   );
