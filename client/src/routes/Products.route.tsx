@@ -1,8 +1,8 @@
-import Products from "../screens/Products/Products";
 import { Roles } from "../types/Roles";
 import WithAuth from "../utils/WithAuth";
-import { FC } from "react";
-import useConfig from "../hooks/config/useConfig";
+import { lazy, Suspense } from "react";
+
+const Products = lazy(() => import("../screens/Products/Products"));
 
 export default {
   path: "/products",
@@ -10,7 +10,9 @@ export default {
     <WithAuth
       allowedRoles={[Roles.Root]}
     >
-      <Products />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Products />
+      </Suspense>
     </WithAuth>
   )
 };

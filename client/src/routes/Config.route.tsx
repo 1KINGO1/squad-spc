@@ -1,6 +1,8 @@
+import { Suspense, lazy } from "react";
 import { Roles } from "../types/Roles";
 import WithAuth from "../utils/WithAuth";
-import Config from "../screens/Config/Config";
+
+const Config = lazy(() => import("../screens/Config/Config"));
 
 export default {
   path: "/config",
@@ -8,7 +10,9 @@ export default {
     <WithAuth
       allowedRoles={[Roles.Root]}
     >
-      <Config />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Config />
+      </Suspense>
     </WithAuth>
   )
 };

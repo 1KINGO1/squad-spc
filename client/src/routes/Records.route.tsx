@@ -1,10 +1,14 @@
-import Records from "../screens/Records/Records";
 import { Roles } from "../types/Roles";
 import WithAuth from "../utils/WithAuth";
+import { lazy, Suspense } from "react";
+
+const Records = lazy(() => import("../screens/Records/Records"));
 
 const RecordsRoute = (
   <WithAuth excludedRoles={[Roles.Guest]}>
-    <Records />
+    <Suspense fallback={<div>Loading...</div>}>
+      <Records />
+    </Suspense>
   </WithAuth>
 )
 

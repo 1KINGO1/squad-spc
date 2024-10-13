@@ -1,6 +1,8 @@
 import { Roles } from "../types/Roles";
 import WithAuth from "../utils/WithAuth";
-import Purchases from "../screens/Purchases/Purchases";
+import { lazy, Suspense } from "react";
+
+const Purchases = lazy(() => import("../screens/Purchases/Purchases"));
 
 export default {
   path: "/purchases",
@@ -8,7 +10,9 @@ export default {
     <WithAuth
       allowedRoles={[Roles.Admin, Roles.Root]}
     >
-      <Purchases />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Purchases />
+      </Suspense>
     </WithAuth>
   )
 }

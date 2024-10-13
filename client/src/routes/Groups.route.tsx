@@ -1,6 +1,8 @@
-import Groups from "../screens/Groups/Groups";
 import { Roles } from "../types/Roles";
 import WithAuth from "../utils/WithAuth";
+import { Suspense, lazy } from "react";
+
+const Groups = lazy(() => import("../screens/Groups/Groups"));
 
 export default {
   path: "/groups",
@@ -8,7 +10,9 @@ export default {
     <WithAuth
       allowedRoles={[Roles.Admin, Roles.Root]}
     >
-      <Groups />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Groups />
+      </Suspense>
     </WithAuth>
   )
 }
