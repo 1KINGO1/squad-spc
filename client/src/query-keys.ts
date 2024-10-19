@@ -1,5 +1,7 @@
+import { GetAllPurchasesParams } from "./services/purchases.service";
+
 const queryKeys: {
-  [key: string]: (...args: any[]) => (string | number)[];
+  [key: string]: (...args: any[]) => (any)[];
 } = {
   clans(){
     return ["clans"];
@@ -43,6 +45,9 @@ const queryKeys: {
   },
   activePurchases(){
     return ["activePurchases"];
+  },
+  allPurchases(params: GetAllPurchasesParams){
+    return ["allPurchases", params];
   }
 }
 

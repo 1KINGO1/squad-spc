@@ -1,3 +1,5 @@
+import { GetAllPurchasesParams } from "./services/purchases.service";
+
 export default {
   clientBaseUrl: `${process.env.NODE_ENV === "development" ? "http://localhost:3001" : window.location.origin}`,
   apiBaseUrl: `${process.env.NODE_ENV === "development" ? "http://localhost:3000" : window.location.origin}${process.env.API_PREFIX || "/api"}`,
@@ -69,6 +71,24 @@ export default {
     purchases: {
       active: "/purchases/me/active",
       create: (productId: number, desiredPrice: number) => "/purchases/products/" + productId + "?desiredPrice=" + desiredPrice,
+      all: (params: GetAllPurchasesParams) => {
+        let url = "/purchases/all";
+        let first = true;
+        for (const key in params) {
+          const value = params[key as keyof typeof params];
+
+          if (value !== undefined) {
+            if (first) {
+              url += "?";
+              first = false;
+            } else {
+              url += "&";
+            }
+            url += key + "=" + value;
+          }
+        }
+        return url;
+      }
     }
   }
 }
