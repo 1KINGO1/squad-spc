@@ -6,7 +6,9 @@ import { getDataSourceToken, getRepositoryToken } from "@nestjs/typeorm";
 import { EntityManager } from "typeorm";
 import { Purchase } from "./entity/Purchase.entity";
 import { User } from "../users/entity/User.entity";
-import { BadRequestException, NotFoundException } from "@nestjs/common";
+import { NotFoundException } from "@nestjs/common";
+import { UsersService } from "../users/users.service";
+import { ListsService } from "../lists/lists.service";
 
 describe("PurchasesService", () => {
   let service: PurchasesService;
@@ -15,6 +17,8 @@ describe("PurchasesService", () => {
   let mockProductsService;
   let mockDataSource;
   let mockPurchasesRepository;
+  let mockUserService;
+  let mockListService;
 
   const products = [
     {
@@ -48,6 +52,9 @@ describe("PurchasesService", () => {
     const productsService = {
       getById: jest.fn()
     };
+    const userService = {
+      findBySteamId: jest.fn()
+    };
     const dataSource = {
       transaction: jest.fn()
     };
@@ -56,6 +63,9 @@ describe("PurchasesService", () => {
       findBy: jest.fn(),
       create: jest.fn()
     };
+    const listsService = {
+      getById: jest.fn()
+    }
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -75,6 +85,14 @@ describe("PurchasesService", () => {
         {
           provide: getRepositoryToken(Purchase),
           useValue: purchasesRepository
+        },
+        {
+          provide: UsersService,
+          useValue: userService
+        },
+        {
+          provide: ListsService,
+          useValue: listsService
         }
       ]
     }).compile();
@@ -84,6 +102,8 @@ describe("PurchasesService", () => {
     mockProductsService = module.get(ProductsService);
     mockDataSource = module.get(getDataSourceToken());
     mockPurchasesRepository = module.get(getRepositoryToken(Purchase));
+    mockUserService = module.get(UsersService);
+    mockListService = module.get(ListsService);
   });
 
   it("should be defined", () => {

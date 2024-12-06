@@ -15,11 +15,13 @@ const Purchases = () => {
   const { data: config, isLoading } = useConfig();
   const navigate = useNavigate();
 
-  const { data } = useAllPurchases({
+  const params = {
     limit: 10,
     offset: (page - 1) * 10,
     ...filters
-  });
+  }
+
+  const { data } = useAllPurchases(params);
 
   useEffect(() => {
     window.scrollTo({top: 0, behavior: "smooth"});
@@ -38,7 +40,7 @@ const Purchases = () => {
     <>
       <PurchaseFilters filters={filters} setFilters={setFilters} setPage={setPage}/>
       <div className={styles.purchasesWrapper}>
-        {!isLoading && data?.purchases.map((purchase) => (<PurchaseItem key={purchase.id} purchase={purchase} />))}
+        {!isLoading && data?.purchases.map((purchase) => (<PurchaseItem key={purchase.id} purchase={purchase} params={params} />))}
       </div>
       <div className={styles.paginationWrapper}>
         {!isLoading &&

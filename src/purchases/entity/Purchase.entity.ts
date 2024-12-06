@@ -39,16 +39,17 @@ export class Purchase {
   @Column({ type: 'boolean', default: false, name: 'isCanceled' })
   isCanceled: boolean;
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  @Column({ type: "timestamp with time zone", default: () => "CURRENT_TIMESTAMP" })
   create_date: Date;
 
-  @Column({ type: 'timestamp', default: null, nullable: true })
+  @Column({ type: 'timestamp with time zone', default: null, nullable: true })
   expire_date: Date | null;
 
-  @Column({ type: 'timestamp', default: null, nullable: true })
+  @Column({ type: 'timestamp with time zone', default: null, nullable: true })
   cancel_date: Date | null;
 
   @ManyToOne(() => List, {onDelete: 'SET NULL'})
+  @JoinColumn({ name: 'listId' })
   list: List;
 
   @ManyToOne(() => Product, {onDelete: 'SET NULL'})
@@ -57,4 +58,7 @@ export class Purchase {
 
   @Column({ nullable: true })
   productId: number;
+
+  @Column({ nullable: true })
+  listId: number;
 }

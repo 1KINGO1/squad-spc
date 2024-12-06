@@ -6,7 +6,7 @@ export interface Purchase {
   id: number;
   steam_id: string;
   username: string;
-  permissions: Permission[];
+  permissions: string;
   product_name: string;
   product_duration: string;
   purchase_price: number;

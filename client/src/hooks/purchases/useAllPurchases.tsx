@@ -10,7 +10,7 @@ const useActivePurchases = (params: GetAllPurchasesParams) => {
       queryKey: queryKeys.allPurchases(params),
       queryFn: () => getAllPurchases(params),
       enabled: user !== null,
-      placeholderData: (prev) => prev
+      placeholderData: (prev) => prev,
     }
   );
 };

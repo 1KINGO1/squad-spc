@@ -88,7 +88,10 @@ export default {
           }
         }
         return url;
-      }
+      },
+      activate: (id: number) => "/purchases/activate/" + id,
+      deactivate: (id: number) => "/purchases/deactivate/" + id,
+      edit: (id: number) => "/purchases/" + id,
     }
   }
 }

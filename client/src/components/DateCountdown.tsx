@@ -5,34 +5,45 @@ import millisecondsToRelativeTimeString from "../utils/millisecondsToRelativeTim
 interface DateCountdownProps {
   date: Date;
   onEnd?: () => void;
+  frozen?: boolean;
 }
 
-const DateCountdown: FC<DateCountdownProps> = ({date, onEnd}) => {
+const DateCountdown: FC<DateCountdownProps> = ({ date, onEnd, frozen = false }) => {
 
   const timeLeft = date.getTime() - Date.now();
-  const [time, setTime] = useState(millisecondsToRelativeTimeString(timeLeft));
+  const [time, setTime] = useState<string>();
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const timeLeft = date.getTime() - Date.now();
+    setTime(millisecondsToRelativeTimeString(timeLeft));
+
+    if (frozen) {
+      return;
+    }
+
+    const intervalFunction = () => {
       const timeLeft = date.getTime() - Date.now();
       if (timeLeft <= 0) {
         clearInterval(interval);
         if (onEnd) {
           onEnd();
         }
-      }
-      else {
+      } else {
         setTime(millisecondsToRelativeTimeString(timeLeft));
       }
-    }, 4000)
+    };
+
+    intervalFunction();
+
+    const interval = setInterval(intervalFunction, 4000);
     return () => {
       clearInterval(interval);
-    }
-  }, [date, onEnd])
+    };
+  }, [date, onEnd, frozen]);
 
   return (
     <>{timeLeft <= 0 ? "Deleted" : time}</>
-  )
-}
+  );
+};
 
 export default DateCountdown;

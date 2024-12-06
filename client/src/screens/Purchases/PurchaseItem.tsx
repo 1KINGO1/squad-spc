@@ -1,19 +1,68 @@
 import { Purchase } from "../../types/models/Purchase";
-import { FC } from "react";
+import { FC, useState } from "react";
 import styles from "./Purchases.module.scss";
 import DateCountdown from "../../components/DateCountdown";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import classNames from "classnames";
 import Copyable from "../../components/Copyable";
 import { EditOutlined } from "@ant-design/icons";
+import useDeactivatePurchase from "../../hooks/purchases/useDeactivatePurchase";
+import { GetAllPurchasesParams } from "../../services/purchases.service";
+import useActivatePurchase from "../../hooks/purchases/useActivatePurchase";
+import EditPurchaseModal from "./modals/EditPurchaseModal";
+import PurchaseDateCountdown from "../../components/PurchaseDateCountdown";
+import useProducts from "../../hooks/products/useProducts";
 
 interface PurchaseItemProps {
   purchase: Purchase;
+  params: GetAllPurchasesParams;
 }
 
-const PurchaseItem: FC<PurchaseItemProps> = ({ purchase }) => {
+const PurchaseItem: FC<PurchaseItemProps> = ({ purchase, params }) => {
+  const [loading, setLoading] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const isExpired = purchase?.expire_date ? Date.now() > new Date(purchase?.expire_date).getTime() : false;
+  const { mutate: deactivate } = useDeactivatePurchase({
+    params,
+    onSuccess: () => {
+      setLoading(false);
+    },
+    onError: (errorMessage) => {
+      setLoading(false);
+      message.error(errorMessage);
+    }
+  });
+
+  const { mutate: activate } = useActivatePurchase({
+    params,
+    onSuccess: () => {
+      setLoading(false);
+    },
+    onError: (errorMessage) => {
+      setLoading(false);
+      message.error(errorMessage);
+    }
+  });
+
+  const { data: products } = useProducts();
+
+  const deactivateHandler = () => {
+    setLoading(true);
+    deactivate(purchase.id);
+  };
+
+  const activateHandler = () => {
+    setLoading(true);
+    activate(purchase.id);
+  };
+
+  let isExpired = purchase?.expire_date ? Date.now() > new Date(purchase?.expire_date).getTime() : false;
+  isExpired = isExpired && !purchase.isCanceled;
+
+  const purchaseStatus = !isExpired ? purchase.isCanceled ?
+      <span style={{ color: "var(--color-red)" }}>Deactivated</span> :
+      <span style={{ color: "var(--color-green)" }}>Active</span> :
+    <span style={{ color: "var(--color-smoke)" }}>Expired</span>;
 
   return (
     <div className={styles.purchaseItemWrapper}>
@@ -21,7 +70,7 @@ const PurchaseItem: FC<PurchaseItemProps> = ({ purchase }) => {
 
         <div className={styles.purchaseRow}>
           <p className={styles.purchaseProductName}>
-            {purchase.product_name}
+            {products?.find(product => product.id === purchase.productId)?.name ?? purchase.product_name}
           </p>
           <span
             className={classNames(styles.purchaseList, !purchase?.list?.name && !isExpired ? styles.warning : undefined)}>
@@ -33,29 +82,25 @@ const PurchaseItem: FC<PurchaseItemProps> = ({ purchase }) => {
 
       </div>
       <div className={styles.purchaseTimeLeft}>
-        {
-          purchase?.expire_date ?
-            isExpired ?
-              <span>Expired</span> :
-              <DateCountdown date={new Date(purchase.expire_date)} /> :
-            <span>No expire date</span>
-        }
+        <PurchaseDateCountdown purchase={purchase} />
       </div>
       <div className={styles.purchaseLeftSide}>
+        <p className={styles.purchaseStatus}>{purchaseStatus}</p>
         {!isExpired ? purchase.isCanceled ? (
-          <Button type="primary">
+          <Button type="primary" loading={loading} onClick={activateHandler}>
             Activate
           </Button>
         ) : (
-          <Button type="primary" danger>
+          <Button type="primary" danger onClick={deactivateHandler} loading={loading}>
             Deactivate
           </Button>
         ) : null}
         <Button
           icon={<EditOutlined />}
+          onClick={() => setIsEditModalOpen(true)}
         />
       </div>
-
+      <EditPurchaseModal isOpen={isEditModalOpen} setIsOpen={setIsEditModalOpen} purchase={purchase} params={params}/>
     </div>
   );
 };

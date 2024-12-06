@@ -76,3 +76,18 @@
     max-width: 300px;
   }
 }
+
+.purchaseStatus span{
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.modalLabelWithCommentWrapper {
+  & > p:last-child {
+    margin-bottom: 24px;
+  }
+}
+
+.modalDurationInputPart{
+  min-width: 33%;
+}

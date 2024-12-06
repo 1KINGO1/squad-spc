@@ -2,7 +2,7 @@ import axiosWithAuth from "../utils/axiosWithAuth";
 import config from "../config";
 import { Product } from "../types/models/Product";
 
-export async function getProducts() {
+export async function getProducts(): Promise<Product[]> {
   const { data } = await axiosWithAuth(config.paths.products.index);
   return data as Product[];
 }

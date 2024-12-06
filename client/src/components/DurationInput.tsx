@@ -7,9 +7,11 @@ interface DurationInputProps {
   handleUnitChange?: (unit: number) => void;
   inputDurationClassName?: string;
   inputUnitClassName?: string;
+  inputActionClassName?: string;
   placeholder?: string;
   label?: string;
   noStyle?: boolean;
+  withAction?: boolean;
 }
 
 const DurationInput: FC<DurationInputProps> = (
@@ -19,10 +21,25 @@ const DurationInput: FC<DurationInputProps> = (
     inputDurationClassName,
     inputUnitClassName,
     placeholder,
+    withAction,
+    inputActionClassName
   }
 ) => {
   return (
     <Space.Compact style={{ width: "100%" }}>
+      {withAction && (
+        <Form.Item
+          name={["duration", "action"]}
+          noStyle
+          className={inputActionClassName}
+        >
+          <Select>
+            <Select.Option value="add">ADD</Select.Option>
+            <Select.Option value="subtract">SUBTRACT</Select.Option>
+            <Select.Option value="set">SET</Select.Option>
+          </Select>
+        </Form.Item>
+      )}
       <Form.Item
         name={["duration", "value"]}
         noStyle

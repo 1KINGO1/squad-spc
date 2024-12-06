@@ -62,7 +62,7 @@ export class Setup1723306542359 implements MigrationInterface {
           },
           {
             name: "create_date",
-            type: "timestamp",
+            type: "timestamp with time zone",
             default: "CURRENT_TIMESTAMP"
           },
           {
@@ -99,7 +99,7 @@ export class Setup1723306542359 implements MigrationInterface {
           },
           {
             name: "create_date",
-            type: "timestamp",
+            type: "timestamp with time zone",
             default: "CURRENT_TIMESTAMP"
           }
         ]
@@ -229,12 +229,12 @@ export class Setup1723306542359 implements MigrationInterface {
           },
           {
             name: "create_date",
-            type: "timestamp",
+            type: "timestamp with time zone",
             default: "CURRENT_TIMESTAMP"
           },
           {
             name: "expire_date",
-            type: "timestamp",
+            type: "timestamp with time zone",
             isNullable: true,
             default: null
           }
@@ -358,7 +358,7 @@ export class Setup1723306542359 implements MigrationInterface {
           },
           {
             name: "create_date",
-            type: "timestamp",
+            type: "timestamp with time zone",
             default: "CURRENT_TIMESTAMP"
           }
         ]
