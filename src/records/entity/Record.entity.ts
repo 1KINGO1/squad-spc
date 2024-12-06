@@ -27,9 +27,9 @@ export class Record {
   @ManyToOne(() => List, list => list.records,{onDelete: 'CASCADE'})
   list: List;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp with time zone', default: () => 'CURRENT_TIMESTAMP' })
   create_date: Date;
 
-  @Column({ type: 'timestamp', default: null, nullable: true })
+  @Column({ type: 'timestamp with time zone', default: null, nullable: true })
   expire_date: Date | null;
 }

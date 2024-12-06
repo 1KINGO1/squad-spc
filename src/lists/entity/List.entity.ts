@@ -23,6 +23,6 @@ export class List {
   @OneToMany(() => Product, product => product.list)
   products: Product[];
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  @Column({ type: "timestamp with time zone", default: () => "CURRENT_TIMESTAMP" })
   create_date: Date;
 }

@@ -50,6 +50,6 @@ export class Product {
   @ManyToOne(() => List, list => list.products,{onDelete: 'CASCADE'})
   list: List;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ type: 'timestamp with time zone', default: () => 'CURRENT_TIMESTAMP' })
   create_date: Date;
 }

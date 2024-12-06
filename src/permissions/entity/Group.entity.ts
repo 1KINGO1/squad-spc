@@ -13,6 +13,6 @@ export class Group {
   @JoinTable()
   permissions: Permission[];
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  @Column({ type: "timestamp with time zone", default: () => "CURRENT_TIMESTAMP" })
   create_date: Date;
 }

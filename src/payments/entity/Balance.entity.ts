@@ -19,6 +19,6 @@ export class Balance {
   @Column({type: "int", default: 0})
   balance: number
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  @Column({ type: "timestamp with time zone", default: () => "CURRENT_TIMESTAMP" })
   create_date: Date;
 }
