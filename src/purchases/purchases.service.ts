@@ -42,17 +42,17 @@ export class PurchasesService {
       throw new NotFoundException("Product not found or not accessible");
     }
     if (product.price !== desiredPrice) {
-      throw new NotFoundException("Desired price does not match the product price");
+      throw new BadRequestException("Desired price does not match the product price");
     }
 
     const existingPurchases = await this.getActiveUserPurchasesByProductId(user, productId);
     if (existingPurchases.length > 0) {
-      throw new NotFoundException("You already have bought this product. Cancel it to buy again");
+      throw new BadRequestException("You already have bought this product. Cancel it to buy again");
     }
 
     const userBalance = await this.paymentsService.getOrCreateBalance(user);
     if (userBalance.balance < product.price) {
-      throw new NotFoundException("Insufficient funds");
+      throw new BadRequestException("Insufficient funds");
     }
 
     let purchase = new Purchase();
@@ -160,10 +160,10 @@ export class PurchasesService {
   async deactivatePurchase(purchaseId: number) {
     const purchase = await this.getPurchaseById(purchaseId);
     if (purchase.isCanceled) {
-      throw new NotFoundException("Purchase already canceled");
+      throw new BadRequestException("Purchase already canceled");
     }
     if (purchase.expire_date && purchase.expire_date < new Date()) {
-      throw new NotFoundException("Purchase already expired");
+      throw new BadRequestException("Purchase already expired");
     }
 
     purchase.isCanceled = true;
@@ -174,7 +174,7 @@ export class PurchasesService {
   async activatePurchase(purchaseId: number) {
     const purchase = await this.getPurchaseById(purchaseId);
     if (!purchase.isCanceled) {
-      throw new NotFoundException("Purchase already active");
+      throw new BadRequestException("Purchase already active");
     }
 
     const timeLeft =  purchase.expire_date ? purchase.expire_date.getTime() - purchase.cancel_date.getTime() : 0;
@@ -186,7 +186,7 @@ export class PurchasesService {
     const user = await this.usersService.findBySteamId(purchase.steam_id);
     const activePurchases = await this.getActivePurchases(user);
     if (activePurchases.find(p => p.productId === purchase.productId)) {
-      throw new NotFoundException("User already has active purchase for this product");
+      throw new BadRequestException("User already has active purchase for this product");
     }
 
     const newExpireDate = purchase.expire_date ? new Date(Date.now() + timeLeft) : null;

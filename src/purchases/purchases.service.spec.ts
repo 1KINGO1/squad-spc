@@ -6,7 +6,7 @@ import { getDataSourceToken, getRepositoryToken } from "@nestjs/typeorm";
 import { EntityManager } from "typeorm";
 import { Purchase } from "./entity/Purchase.entity";
 import { User } from "../users/entity/User.entity";
-import { NotFoundException } from "@nestjs/common";
+import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { UsersService } from "../users/users.service";
 import { ListsService } from "../lists/lists.service";
 
@@ -61,6 +61,7 @@ describe("PurchasesService", () => {
     const purchasesRepository = {
       find: jest.fn(),
       findBy: jest.fn(),
+      findOneBy: jest.fn(),
       create: jest.fn()
     };
     const listsService = {
@@ -156,7 +157,7 @@ describe("PurchasesService", () => {
 
     mockProductsService.getById.mockReturnValueOnce(product);
 
-    await expect(service.createPurchase(product.id, desiredPrice, user as any as User)).rejects.toThrowError(NotFoundException);
+    await expect(service.createPurchase(product.id, desiredPrice, user as any as User)).rejects.toThrowError(BadRequestException);
   });
   it("throw error if product is not for sale or dont exist", async () => {
     const user = {
@@ -231,7 +232,7 @@ describe("PurchasesService", () => {
     mockProductsService.getById.mockReturnValueOnce(product);
     mockPurchasesRepository.find.mockReturnValueOnce(userPurchases);
 
-    await expect(service.createPurchase(product.id, product.price, user as any as User)).rejects.toThrowError(NotFoundException);
+    await expect(service.createPurchase(product.id, product.price, user as any as User)).rejects.toThrowError(BadRequestException);
   });
   it("throw error if user already bought the product", async () => {
     const user = {
@@ -255,6 +256,36 @@ describe("PurchasesService", () => {
     mockProductsService.getById.mockReturnValueOnce(product);
     mockPurchasesRepository.find.mockReturnValueOnce(userPurchases);
 
-    await expect(service.createPurchase(product.id, product.price, user as any as User)).rejects.toThrowError(NotFoundException);
+    await expect(service.createPurchase(product.id, product.price, user as any as User)).rejects.toThrowError(BadRequestException);
   });
+  it('throw error if admin activates purchase, but user already has purchase with this product active', async () => {
+    const user = {
+      id: 1,
+      steam_id: 1,
+      username: 121212
+    };
+    const userPurchases = [
+      {
+        id: 1,
+        steam_id: user.steam_id,
+        expire_date: new Date(Date.now() + 1000 * 60),
+        isCanceled: true,
+        cancel_date: new Date(Date.now() - (1000 * 60)),
+        productId: products[0].id
+      },
+      {
+        id: 2,
+        steam_id: user.steam_id,
+        expire_date: new Date(Date.now() + 1000 * 60),
+        isCanceled: false,
+        productId: products[0].id
+      },
+    ];
+
+    mockPurchasesRepository.findOneBy.mockResolvedValue(userPurchases[0]);
+    mockPurchasesRepository.find.mockResolvedValue(userPurchases);
+    mockUserService.findBySteamId.mockResolvedValue(user);
+
+    await expect(service.activatePurchase(userPurchases[0].id)).rejects.toThrowError(new BadRequestException("User already has active purchase for this product"));
+  })
 });
