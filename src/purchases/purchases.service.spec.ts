@@ -62,7 +62,8 @@ describe("PurchasesService", () => {
       find: jest.fn(),
       findBy: jest.fn(),
       findOneBy: jest.fn(),
-      create: jest.fn()
+      create: jest.fn(),
+      save: jest.fn()
     };
     const listsService = {
       getById: jest.fn()
@@ -258,7 +259,7 @@ describe("PurchasesService", () => {
 
     await expect(service.createPurchase(product.id, product.price, user as any as User)).rejects.toThrowError(BadRequestException);
   });
-  it('throw error if admin activates purchase, but user already has purchase with this product active', async () => {
+  it("throw error if admin activates purchase, but user already has purchase with this product active", async () => {
     const user = {
       id: 1,
       steam_id: 1,
@@ -287,5 +288,30 @@ describe("PurchasesService", () => {
     mockUserService.findBySteamId.mockResolvedValue(user);
 
     await expect(service.activatePurchase(userPurchases[0].id)).rejects.toThrowError(new BadRequestException("User already has active purchase for this product"));
+  })
+
+  it("should edit purchase name, steam_id, expire_date", async () => {
+    const purchase = {
+      id: 1,
+      steam_id: 123,
+      username: "KINGO",
+      expire_date: Date.now() + 1000 * 10 * 60,
+      isCanceled: false,
+      cancel_date: null,
+    }
+
+    mockPurchasesRepository.findOneBy.mockResolvedValue(purchase);
+    mockPurchasesRepository.save.mockResolvedValue(undefined);
+
+    const newExpireDate = Date.now() + 1000 * 123 * 6;
+    await expect(service.editPurchaseById(purchase.id, {
+      steam_id: "999",
+      username: "Someone",
+      expire_date: new Date(newExpireDate)
+    })).resolves.toBeDefined()
+
+    expect(new Date(purchase.expire_date)).toEqual(new Date(newExpireDate));
+    expect(purchase.username).toBe("Someone");
+    expect(purchase.steam_id).toBe("999");
   })
 });

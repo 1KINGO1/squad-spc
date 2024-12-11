@@ -212,6 +212,7 @@ export class PurchasesService {
     }
     if (params?.listId) {
       purchase.list = await this.listsService.getById(params.listId);
+      purchase.listId = purchase.list.id;
       if (purchase.productId !== null) {
         try {
           const product = await this.productsService.getById(purchase.productId);

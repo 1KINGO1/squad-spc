@@ -95,7 +95,7 @@ const EditPurchaseModal: FC<EditPurchaseModalProps> = (props) => {
       steam_id: values.steam_id ?? undefined,
       listId: values.listId ?? undefined,
       productId: values.productId ?? undefined,
-      expire_date: calculateNewExpireDate(values, props.purchase) ?? undefined
+      expire_date: (!!values?.duration?.value && newExpireDate !== null) ? (calculateNewExpireDate(values, props.purchase) ?? undefined) : undefined
     })
   };
   const handleCancel = () => {
