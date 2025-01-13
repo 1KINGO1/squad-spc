@@ -10,6 +10,9 @@ export enum LoggerEntity {
   Output = "output",
   Permission = "permission",
   Record = "record",
+  Product = "product",
+  Purchase = "purchase",
+  PurchaseThanks = "purchaseThanks",
 }
 
 export interface LoggerRequestBody{

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { DataSource, MoreThan, Repository } from "typeorm";
+import { DataSource, FindOptionsRelations, MoreThan, Repository } from "typeorm";
 import { Purchase } from "./entity/Purchase.entity";
 import { User } from "../users/entity/User.entity";
 import { PaymentsService } from "../payments/payments.service";
@@ -11,6 +11,12 @@ import { UsersService } from "../users/users.service";
 import EditPurchaseDto from "./dto/edit-purchase.dto";
 import { ListsService } from "../lists/lists.service";
 import { Permission } from "src/permissions/entity/Permission.entity";
+import { LoggerService } from "../logger/logger.service";
+import { LoggerEntity } from "../logger/types/logger-request-body.interface";
+import { LoggerLevel } from "../logger/types/logger-level.enum";
+import replacePlaceholders from "../utils/replacePlaceholders";
+import extractHeadersFromString from "../utils/extractHeadersFromString";
+import { ConfigService } from "../config/config.service";
 
 @Injectable()
 export class PurchasesService {
@@ -20,12 +26,14 @@ export class PurchasesService {
     private productsService: ProductsService,
     private usersService: UsersService,
     private listsService: ListsService,
-    private dataSource: DataSource
+    private dataSource: DataSource,
+    private loggerService: LoggerService,
+    private configService: ConfigService
   ) {
   }
 
-  async getPurchaseById(purchaseId: number): Promise<Purchase> {
-    const purchase = await this.purchaseRepository.findOneBy({id: purchaseId});
+  async getPurchaseById(purchaseId: number, relations?: string[]): Promise<Purchase> {
+    const purchase = await this.purchaseRepository.findOne({ where: { id: purchaseId }, relations });
     if (!purchase) {
       throw new NotFoundException("Purchase not found");
     }
@@ -72,15 +80,47 @@ export class PurchasesService {
         purchase = await entityManager.save(Purchase, purchase);
         await entityManager.update(Balance, { user }, { balance: userBalance.balance - product.price });
       });
+      this.loggerService.log({
+        level: LoggerLevel.CREATED,
+        entity: LoggerEntity.Purchase,
+        title: "Purchase created",
+        fields: [
+          { name: "ID", value: purchase.id + "" },
+          { name: "Product Name", value: purchase.product_name },
+          { name: "List", value: purchase.list.name + ` [ID: ${purchase.list.id}]` },
+          { name: "Expire Date", value: purchase.expire_date === null ? "No expire" : purchase.expire_date + "" },
+          { name: "Price", value: purchase.purchase_price + "" },
+          { name: "Permissions", value: purchase.permissions }
+        ],
+        user
+      });
+      const purchaseLogBody = this.configService.get("logger.discord.webhook.purchasesThanksPurchaseBody");
+
+      if (purchaseLogBody) {
+        const serializedBody = replacePlaceholders(
+          purchaseLogBody, { user, currency: this.configService.get("payment.general.currency"), purchase });
+        const headers = extractHeadersFromString(serializedBody);
+
+        purchaseLogBody ?
+          this.loggerService.log({
+            level: LoggerLevel.INFO,
+            entity: LoggerEntity.PurchaseThanks,
+            title: headers.title ?? undefined,
+            message: headers.body
+          })
+          : undefined;
+      }
     } catch (e) {
       throw new InternalServerErrorException("Something went wrong. Try again");
     }
 
     return purchase;
   }
+
   async getUserPurchases(user: User): Promise<Purchase[]> {
     return this.purchaseRepository.find({ where: { steam_id: user.steam_id }, relations: ["list"] });
   }
+
   async getActivePurchases(user: User): Promise<Purchase[]> {
     const currentDate = new Date();
 
@@ -90,6 +130,7 @@ export class PurchasesService {
       purchase.isCanceled === false
     );
   }
+
   async getActiveUserPurchasesByProductId(user: User, productId: number): Promise<Purchase[]> {
     const currentDate = new Date();
 
@@ -100,6 +141,7 @@ export class PurchasesService {
       purchase.isCanceled === false
     );
   }
+
   async getActivePurchasesByListPath(listPath: string): Promise<Purchase[]> {
     const currentDate = new Date();
 
@@ -111,6 +153,7 @@ export class PurchasesService {
       }
     });
   }
+
   async getAllPurchasesWithFilters(params: GetAllPurchasesDto) {
     const limit = params.limit ?? 10;
     const offset = params.offset ?? 0;
@@ -120,18 +163,16 @@ export class PurchasesService {
 
     if (params.active !== undefined) {
       if (params.active) {
-        queryBuilder.where("(purchase.expire_date >= CURRENT_TIMESTAMP OR purchase.expire_date IS NULL) AND purchase.\"isCanceled\" = false")
-      }
-      else {
-        queryBuilder.where("purchase.expire_date <= CURRENT_TIMESTAMP OR purchase.\"isCanceled\" = true")
+        queryBuilder.where("(purchase.expire_date >= CURRENT_TIMESTAMP OR purchase.expire_date IS NULL) AND purchase.\"isCanceled\" = false");
+      } else {
+        queryBuilder.where("purchase.expire_date <= CURRENT_TIMESTAMP OR purchase.\"isCanceled\" = true");
       }
     }
 
     if (params.nolist !== undefined) {
       if (params.nolist) {
         queryBuilder.andWhere("list IS NULL");
-      }
-      else {
+      } else {
         queryBuilder.andWhere("list IS NOT NULL");
       }
     }
@@ -154,11 +195,12 @@ export class PurchasesService {
       total: totalCount,
       limit: params.limit ?? 10,
       pageCount: Math.ceil(totalCount / (params.limit ?? 10)),
-      page: Math.ceil(offset / (params.limit ?? 10)) + 1,
+      page: Math.ceil(offset / (params.limit ?? 10)) + 1
     };
   }
-  async deactivatePurchase(purchaseId: number) {
-    const purchase = await this.getPurchaseById(purchaseId);
+
+  async deactivatePurchase(purchaseId: number, user: User) {
+    const purchase = await this.getPurchaseById(purchaseId, ["list"]);
     if (purchase.isCanceled) {
       throw new BadRequestException("Purchase already canceled");
     }
@@ -169,15 +211,31 @@ export class PurchasesService {
     purchase.isCanceled = true;
     purchase.cancel_date = new Date();
     await this.purchaseRepository.save(purchase);
+    this.loggerService.log({
+      level: LoggerLevel.UPDATED,
+      entity: LoggerEntity.Purchase,
+      title: "Purchase Deactivated",
+      fields: [
+        { name: "ID", value: purchase.id + "" },
+        { name: "Owner", value: purchase.username + ` [SteamID: ${purchase.steam_id}]` },
+        { name: "Product Name", value: purchase.product_name },
+        { name: "List", value: purchase.list.name + ` [ID: ${purchase.list.id}]` },
+        { name: "Expire Date", value: purchase.expire_date === null ? "No expire" : purchase.expire_date + "" },
+        { name: "Price", value: purchase.purchase_price + "" },
+        { name: "Permissions", value: purchase.permissions }
+      ],
+      user
+    });
     return purchase;
   }
+
   async activatePurchase(purchaseId: number) {
-    const purchase = await this.getPurchaseById(purchaseId);
+    const purchase = await this.getPurchaseById(purchaseId, ["list"]);
     if (!purchase.isCanceled) {
       throw new BadRequestException("Purchase already active");
     }
 
-    const timeLeft =  purchase.expire_date ? purchase.expire_date.getTime() - purchase.cancel_date.getTime() : 0;
+    const timeLeft = purchase.expire_date ? purchase.expire_date.getTime() - purchase.cancel_date.getTime() : 0;
 
     if (timeLeft < 0) {
       throw new NotFoundException("Purchase already expired");
@@ -195,22 +253,48 @@ export class PurchasesService {
     purchase.cancel_date = null;
     purchase.expire_date = newExpireDate;
     await this.purchaseRepository.save(purchase);
+    this.loggerService.log({
+      level: LoggerLevel.UPDATED,
+      entity: LoggerEntity.Purchase,
+      title: "Purchase Activated",
+      fields: [
+        { name: "ID", value: purchase.id + "" },
+        { name: "Owner", value: purchase.username + ` [SteamID: ${purchase.steam_id}]` },
+        { name: "Product Name", value: purchase.product_name },
+        { name: "List", value: purchase.list.name + ` [ID: ${purchase.list.id}]` },
+        { name: "Expire Date", value: purchase.expire_date === null ? "No expire" : purchase.expire_date + "" },
+        { name: "Price", value: purchase.purchase_price + "" },
+        { name: "Permissions", value: purchase.permissions }
+      ],
+      user
+    });
     return purchase;
   }
 
-  async editPurchaseById(purchaseId: number, params: EditPurchaseDto) {
+  async editPurchaseById(purchaseId: number, params: EditPurchaseDto, user: User) {
     const purchase = await this.getPurchaseById(purchaseId);
 
-    if (params?.username) {
+    let edited = {
+      username: false,
+      steam_id: false,
+      expire_date: false,
+      listId: false,
+      productId: false
+    };
+
+    if (params?.username && params?.username !== purchase.username) {
       purchase.username = params.username;
+      edited.username = true;
     }
-    if (params?.steam_id) {
+    if (params?.steam_id && params?.steam_id !== purchase.steam_id) {
       purchase.steam_id = params.steam_id;
+      edited.steam_id = true;
     }
-    if (params?.expire_date) {
+    if (params?.expire_date && params?.expire_date !== purchase.expire_date) {
       purchase.expire_date = params.expire_date;
+      edited.expire_date = true;
     }
-    if (params?.listId) {
+    if (params?.listId && params?.listId !== purchase.listId) {
       purchase.list = await this.listsService.getById(params.listId);
       purchase.listId = purchase.list.id;
       if (purchase.productId !== null) {
@@ -218,22 +302,46 @@ export class PurchasesService {
           const product = await this.productsService.getById(purchase.productId);
           if (product.list.id !== params.listId) {
             purchase.productId = null;
+            edited.productId = true;
           }
         } catch (e) {
           purchase.productId = null;
+          edited.productId = true;
         }
       }
+      edited.listId = true;
     }
-    if (params?.productId) {
+    if (params?.productId && params?.productId !== purchase.productId) {
       const product = await this.productsService.getById(params.productId);
       if (product.list.id !== purchase.listId) throw new BadRequestException("Product doesn't exist on this list");
       purchase.product = product;
       purchase.product_name = product.name;
       purchase.product_duration = product.duration;
-      purchase.permissions = this.serializePermissions(product.permissions)
+      purchase.permissions = this.serializePermissions(product.permissions);
+      edited.productId = true;
     }
 
     await this.purchaseRepository.save(purchase);
+    this.loggerService.log({
+      level: LoggerLevel.UPDATED,
+      entity: LoggerEntity.Purchase,
+      title: "Purchase updated",
+      fields: [
+        { name: "ID", value: purchase.id + "" },
+        edited.username || edited.steam_id ? {
+          name: "Owner [EDITED]",
+          value: purchase.username + ` [SteamID: ${purchase.steam_id}]`
+        } : undefined,
+        edited.productId ? { name: "Product Name [EDITED]", value: purchase.product_name } : undefined,
+        edited.listId ? { name: "List [EDITED]", value: purchase.list.name + ` [ID: ${purchase.list.id}]` } : undefined,
+        edited.expire_date ? {
+          name: "Expire Date [EDITED]",
+          value: purchase.expire_date === null ? "No expire" : purchase.expire_date + ""
+        } : undefined,
+        edited.productId ? { name: "Permissions [EDITED]", value: purchase.permissions } : undefined
+      ],
+      user
+    });
     return purchase;
   }
 }

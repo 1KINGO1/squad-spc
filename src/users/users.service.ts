@@ -99,8 +99,6 @@ export class UsersService {
   }
 
   async update(id: number, user: User, updateObj: UpdateUserDto) {
-
-
     if (user.id === id) {
       throw new ForbiddenException("You cannot update yourself");
     }
@@ -112,6 +110,10 @@ export class UsersService {
 
     if (!userToUpdate) {
       throw new BadRequestException("User not found");
+    }
+
+    if (userToUpdate.permission >= user.permission) {
+      throw new ForbiddenException("You cannot update a user with a higher permission level than yourself");
     }
 
     if (updateObj?.permission !== undefined) {
@@ -158,8 +160,8 @@ export class UsersService {
       throw new ForbiddenException("You cannot delete yourself");
     }
 
-    if (userToDelete.permission === AuthRoles.Root) {
-      throw new ForbiddenException("You cannot delete root user");
+    if (userToDelete.permission >= user.permission) {
+      throw new ForbiddenException("You cannot delete a user with a higher or equal permission level than yourself");
     }
 
     this.loggerService.log({

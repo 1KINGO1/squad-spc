@@ -9,6 +9,8 @@ import { User } from "../users/entity/User.entity";
 import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { UsersService } from "../users/users.service";
 import { ListsService } from "../lists/lists.service";
+import { LoggerService } from "../logger/logger.service";
+import { ConfigService } from "@nestjs/config";
 
 describe("PurchasesService", () => {
   let service: PurchasesService;
@@ -19,6 +21,8 @@ describe("PurchasesService", () => {
   let mockPurchasesRepository;
   let mockUserService;
   let mockListService;
+  let mockLoggerService;
+  let mockConfigService;
 
   const products = [
     {
@@ -61,12 +65,19 @@ describe("PurchasesService", () => {
     const purchasesRepository = {
       find: jest.fn(),
       findBy: jest.fn(),
+      findOne: jest.fn(),
       findOneBy: jest.fn(),
       create: jest.fn(),
       save: jest.fn()
     };
     const listsService = {
       getById: jest.fn()
+    }
+    const loggerService = {
+      log: jest.fn()
+    };
+    const configService = {
+      get: jest.fn()
     }
 
     const module: TestingModule = await Test.createTestingModule({
@@ -95,6 +106,14 @@ describe("PurchasesService", () => {
         {
           provide: ListsService,
           useValue: listsService
+        },
+        {
+          provide: LoggerService,
+          useValue: loggerService
+        },
+        {
+          provide: ConfigService,
+          useValue: configService
         }
       ]
     }).compile();
@@ -127,6 +146,8 @@ describe("PurchasesService", () => {
 
     const saveMock = jest.fn().mockImplementation(async (entity, record) => {
       userPurchases.push(record);
+
+      return {...record, id: 1};
     });
     const updateMock = jest.fn().mockImplementation((_, _1, updateField) => {
       userBalance.balance = updateField?.balance;
@@ -283,7 +304,7 @@ describe("PurchasesService", () => {
       },
     ];
 
-    mockPurchasesRepository.findOneBy.mockResolvedValue(userPurchases[0]);
+    mockPurchasesRepository.findOne.mockResolvedValue(userPurchases[0]);
     mockPurchasesRepository.find.mockResolvedValue(userPurchases);
     mockUserService.findBySteamId.mockResolvedValue(user);
 
@@ -291,6 +312,11 @@ describe("PurchasesService", () => {
   })
 
   it("should edit purchase name, steam_id, expire_date", async () => {
+    const user: User = {
+      id: 1,
+      steam_id: 1,
+      username: 121212
+    } as any as User;
     const purchase = {
       id: 1,
       steam_id: 123,
@@ -300,7 +326,7 @@ describe("PurchasesService", () => {
       cancel_date: null,
     }
 
-    mockPurchasesRepository.findOneBy.mockResolvedValue(purchase);
+    mockPurchasesRepository.findOne.mockResolvedValue(purchase);
     mockPurchasesRepository.save.mockResolvedValue(undefined);
 
     const newExpireDate = Date.now() + 1000 * 123 * 6;
@@ -308,7 +334,7 @@ describe("PurchasesService", () => {
       steam_id: "999",
       username: "Someone",
       expire_date: new Date(newExpireDate)
-    })).resolves.toBeDefined()
+    }, user)).resolves.toBeDefined()
 
     expect(new Date(purchase.expire_date)).toEqual(new Date(newExpireDate));
     expect(purchase.username).toBe("Someone");

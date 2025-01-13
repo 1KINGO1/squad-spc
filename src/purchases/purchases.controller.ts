@@ -55,9 +55,10 @@ export class PurchasesController {
   @Auth([AuthRoles.Root, AuthRoles.Admin])
   @Patch("deactivate/:purchaseId")
   async cancelPurchase(
-    @Param("purchaseId", ParseIntPipe) purchaseId: number
+    @Param("purchaseId", ParseIntPipe) purchaseId: number,
+    @Req() req : Express.Request
   ) {
-    return this.purchasesService.deactivatePurchase(purchaseId);
+    return this.purchasesService.deactivatePurchase(purchaseId, req.user);
   }
 
   @Auth([AuthRoles.Root, AuthRoles.Admin])
@@ -72,8 +73,9 @@ export class PurchasesController {
   @Patch(":purchaseId")
   async editPurchase(
     @Param("purchaseId", ParseIntPipe) purchaseId: number,
-    @Body() body: EditPurchaseDto
+    @Body() body: EditPurchaseDto,
+    @Req() req: Express.Request
   ) {
-    return this.purchasesService.editPurchaseById(purchaseId, body);
+    return this.purchasesService.editPurchaseById(purchaseId, body, req.user);
   }
 }

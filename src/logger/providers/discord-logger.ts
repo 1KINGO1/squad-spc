@@ -1,4 +1,3 @@
-import config from "../../config";
 import { BaseLogger } from "./base-logger";
 import axios from "axios";
 import { LoggerRequestBody } from "../types/logger-request-body.interface";
@@ -51,6 +50,9 @@ class DiscordLogger extends BaseLogger {
       case LoggerLevel.DELETED:
         message = await this.serializeDeletedMessage(body);
         break;
+      case LoggerLevel.INFO:
+        message = await this.serializeInfoMessage(body);
+        break;
       default:
         throw new Error("Discord Webhook Logger: Invalid log level");
     }
@@ -73,11 +75,12 @@ class DiscordLogger extends BaseLogger {
 
     return message;
   }
-  private async serializeUpdatedMessage(body: LoggerRequestBody) {
+
+  private async serializeInfoMessage(body: LoggerRequestBody) {
     const message: DiscordMessageBody = {
       title: body.title || undefined,
       description: body.message || undefined,
-      color: "#bb9900",
+      color: "#198fe3",
       timestamp: new Date(),
       fields: body.fields?.map(field => ({ name: field.name, value: field.value, inline: false })),
       footer: {
@@ -88,6 +91,27 @@ class DiscordLogger extends BaseLogger {
 
     return message;
   }
+
+  private async serializeUpdatedMessage(body: LoggerRequestBody) {
+    const message: DiscordMessageBody = {
+      title: body.title || undefined,
+      description: body.message || undefined,
+      color: "#bb9900",
+      timestamp: new Date(),
+      fields: body.fields?.filter(field => field).map(field => ({
+        name: field.name,
+        value: field.value,
+        inline: false
+      })),
+      footer: {
+        text: body.user ? `${body.user.username} [${AuthRoles[body.user.permission]}] (ID: ${body.user.id})` : undefined,
+        icon_url: body.user?.avatar_url ?? undefined
+      }
+    };
+
+    return message;
+  }
+
   private async serializeDeletedMessage(body: LoggerRequestBody) {
     const message: DiscordMessageBody = {
       title: body.title || undefined,
@@ -117,7 +141,7 @@ class DiscordLogger extends BaseLogger {
               : undefined,
             color: parseInt(body.color.replaceAll("#", "0x")) || 0,
             footer: {
-              text: body.footer?.text ? body.footer.text.slice(0,292) + " © SPC" : "© SPC",
+              text: body.footer?.text ? body.footer.text.slice(0, 292) + " © SPC" : "© SPC",
               icon_url: body.footer?.icon_url
             }
           }
