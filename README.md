@@ -1,73 +1,89 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+  <img src="screenshots/logo.svg" alt="MagicGear Logo" width="300">
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<h1 align="center">SPC (Squad Permission Control)</h1>
+<h1 align="center">Navigation</h1>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+<p align="center">
+    <a href="#tech-stack">Tech Stack</a>
+    <a href="#features">Features</a>
+    <a href="#installation_&_startup">Installation & Startup</a>
+    <a href="#screenshots">Screenshots</a>
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Tech Stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+**Client:** React, Tanstack Query, Zustand, Axios
 
-## Installation
+**Server:** Node, Nest.js, TypeORM, PostgresSQL, Passport.js
+
+
+## Features
+
+- **Steam authentication**.
+- Role-based access control.
+- **Clan role limits.** Specify the maximum number of each role that a clan can have!
+- ClanLeader management. Assign one or more ClanLeaders to a clan.
+- **Logging.** Log only what you need and where you need it using one of the available loggers. (only Discord Webhook Logger available now)
+- **Purchase system**. Allows you to create a list of products that can be purchased by users.
+- **Product customization**. Customize the product as you like. (Name, Description, Price, Color and Tag! etc.)
+- **Stripe integration**. Set up your Stripe account and start receiving payments from top-ups.
+- **Purchase management**. Deactivate, activate, edit purchases.
+- Permission management. Create, edit, delete permissions.
+- List management. Create, edit, delete lists.
+- Clan management. Create, edit, delete clans.
+
+
+## Installation & Startup
+The installation with <a href="https://www.docker.com/get-started/">Docker</a> and <a href="https://docs.docker.com/compose/">Docker Compose</a> is only shown here, as this is the fastest and most optimal method
+
+
+### Prerequisites
+
+Ensure the following tools are installed on your machine:
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+Verify installations:
+```bash
+docker --version
+docker-compose --version
+```
+### Step 1: Download latest release archive
+
+Download the latest release archive from the [releases page](https://github.com/1KINGO1/squad-spc/releases/latest)
+
+### Step 2: Unpack the archive
+
+If you are using Linux, you can use the following command to unpack the archive:
 
 ```bash
-$ npm install
+unzip release.zip
 ```
 
-## Running the app
+### Step 3: Specify ENV variables
+There is some environment variables that you need to specify in the `.env` file.
 
+- `HOST` - Enter the IP address of the server where the application will be hosted or domain (Without http://)
+- `STEAM_API_KEY` - Enter your Steam API key (You can get it [here](https://steamcommunity.com/dev/apikey))
+- `JWT_SECRET` - Generate a random string and enter it here 
+(**Important!** This key is used to sign the JWT tokens, attackers can easily gain uncontrolled access if you do not specify a different value here)
+- `PORT` & `DB_PORT` (Optional)
+
+### Step 4: Build and run the application
+Use the following command to build and run the application:
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+docker compose up -d
 ```
 
-## Test
+## Screenshots
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+<img src="screenshots/Screenshot_1.png" alt="Screenshot_1">
+<img src="screenshots/Screenshot_2.png" alt="Screenshot_2">
+<img src="screenshots/Screenshot_3.png" alt="Screenshot_3">
+<img src="screenshots/Screenshot_4.png" alt="Screenshot_4">
+<img src="screenshots/Screenshot_5.png" alt="Screenshot_5">
+<img src="screenshots/Screenshot_6.png" alt="Screenshot_6">
+<img src="screenshots/Screenshot_7.png" alt="Screenshot_7">

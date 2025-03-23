@@ -97,6 +97,9 @@ export class UsersService {
     }
     return user;
   }
+  findBySteamIdSafe(steam_id: string) {
+    return this.usersRepository.findOneBy({ steam_id });
+  }
 
   async update(id: number, user: User, updateObj: UpdateUserDto) {
     if (user.id === id) {

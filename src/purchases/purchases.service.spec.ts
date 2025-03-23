@@ -10,7 +10,7 @@ import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { UsersService } from "../users/users.service";
 import { ListsService } from "../lists/lists.service";
 import { LoggerService } from "../logger/logger.service";
-import { ConfigService } from "@nestjs/config";
+import { ConfigService } from "../config/config.service";
 
 describe("PurchasesService", () => {
   let service: PurchasesService;

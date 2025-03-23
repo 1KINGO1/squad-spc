@@ -18,7 +18,7 @@ export class AuthService {
   }
 
   async signin(steam_id: string, avatar: string, name: string) {
-    let user = await this.usersService.findBySteamId(steam_id);
+    let user = await this.usersService.findBySteamIdSafe(steam_id);
     if (!user) {
       user = await this.signup(steam_id, avatar, name);
     }
