@@ -8,9 +8,10 @@ import UserTag from "../../components/UserTag";
 import useConfig from "../../hooks/config/useConfig";
 import useCurrentUser from "../../store/useCurrentUser";
 import { Roles } from "../../types/Roles";
+import config from "../../config";
 
 const NavBar: FC = () => {
-  const { data: config } = useConfig();
+  const { data: userConfig } = useConfig();
   const { user } = useCurrentUser();
 
   const isLoading = user == null;
@@ -57,10 +58,10 @@ const NavBar: FC = () => {
               <NavLink to="/users" canAccess={[Roles.Root, Roles.Admin]}>
                 Users
               </NavLink>
-              {config?.payment?.general?.enabled && <NavLink to="/products" canAccess={[Roles.Root, Roles.Admin]}>
+              {userConfig?.payment?.general?.enabled && <NavLink to="/products" canAccess={[Roles.Root, Roles.Admin]}>
                 Products
               </NavLink>}
-              {config?.payment?.general?.enabled && <NavLink to="/purchases" canAccess={[Roles.Root, Roles.Admin]}>
+              {userConfig?.payment?.general?.enabled && <NavLink to="/purchases" canAccess={[Roles.Root, Roles.Admin]}>
                 Purchases
               </NavLink>}
               <NavLink to="/config" canAccess={[Roles.Root]}>
